@@ -76,6 +76,7 @@
       <DependentUpon>LightIntergerSpinner.xaml</DependentUpon>
     </Compile>
     <Compile Include="MethodExtension\BitmapExtention.cs" />
+    <Compile Include="MethodExtension\ButtonExtention.cs" />
     <Compile Include="MethodExtension\DoubleExtension.cs" />
     <Compile Include="MethodExtension\ImageExtention.cs" />
     <Compile Include="MethodExtension\KeyEventExtension.cs" />

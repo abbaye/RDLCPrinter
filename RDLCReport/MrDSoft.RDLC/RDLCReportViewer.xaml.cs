@@ -8,6 +8,7 @@ using System.Linq;
 using System.Windows.Media.Effects;
 using System;
 using DSoft.RDLCReport;
+using DSoft.MethodExtension;
 
 
 namespace DSoft.RDLC
@@ -21,8 +22,7 @@ namespace DSoft.RDLC
         private byte[] _BitmapArray;
         private int _pos = 0;
         private BitmapDecoder _dec = null;
-        private bool _isShowToolBar = true;
-        private bool _firstRun = true;
+        private bool _isShowToolBar = true;        
         private Point _origin;
         private Point _start;
         private TranslateTransform tt = new TranslateTransform();
@@ -115,28 +115,8 @@ namespace DSoft.RDLC
             
         }
 
-        ///// <summary>
-        ///// Renvoie le fichier PDF demandé
-        ///// </summary>
-        //public byte[] PDFFile
-        //{
-        //    get
-        //    {
-        //        return this._PDFFile;
-        //    }
-        //    set
-        //    {
-        //        this._PDFFile = value;
-
-        //        //Logique...
-        //        this.isMode = Mode.PDF;
-        //        RefreshControl();
-        //    }
-        //}
-
-
         /// <summary>
-        /// Renvoie le rpport demandé
+        /// Get or Set the RDLC report
         /// </summary>
         public RDLCPrinter Report
         {
@@ -210,10 +190,8 @@ namespace DSoft.RDLC
                     }
                     _pos = 0;
 
-                    if(_dec != null)
-                        NumPager.Text = "1 / " + _dec.Frames.Count;
-
-                    _firstRun = false;
+                    PageSpinner.Maximum = _dec.Frames.Count;
+                    PageSpinner.Value = _pos + 1;
 
                     CreateTransformGroup();
                     break;
@@ -228,16 +206,12 @@ namespace DSoft.RDLC
         {
             if (_report != null)
             {
-                TBBRefresh.IsEnabled = true;
-                TBBRefresh.Opacity = 1;
-                TBBPrint.IsEnabled = true;
-                TBBPrint.Opacity = 1;
-                ExportDefault.IsEnabled = true;
-                ExportDefault.Opacity = 1;
+                TBBRefresh.EnableButton();
+                TBBPrint.EnableButton();
+                ExportDefault.EnableButton();
                 ExportMenu.IsEnabled = true;
                 ExportMenu.Opacity = 1;
-                TBBPrintWithProperties.IsEnabled = true;
-                TBBPrintWithProperties.Opacity = 1;
+                TBBPrintWithProperties.EnableButton();
                 ZoomInfoStackPanel.Visibility = Visibility.Visible;
                 ZoomPopupButton.Visibility = Visibility.Visible;
                 ZoomPopupButton.IsEnabled = true;
@@ -245,16 +219,12 @@ namespace DSoft.RDLC
             }
             else
             {
-                TBBRefresh.IsEnabled = false;
-                TBBRefresh.Opacity = 0.5;
-                TBBPrint.IsEnabled = false;
-                TBBPrint.Opacity = 0.5;
-                ExportDefault.IsEnabled = false;
-                ExportDefault.Opacity = 0.5;
+                TBBRefresh.DisableButton();
+                TBBPrint.DisableButton();
+                ExportDefault.DisableButton();
                 ExportMenu.IsEnabled = true;
                 ExportMenu.Opacity = 1;
-                TBBPrintWithProperties.IsEnabled = false;
-                TBBPrintWithProperties.Opacity = 0.5;
+                TBBPrintWithProperties.DisableButton();
                 ZoomInfoStackPanel.Visibility = Visibility.Hidden;
                 ZoomPopupButton.Visibility = Visibility.Hidden;
                 ZoomPopupButton.IsEnabled = false;
@@ -265,73 +235,46 @@ namespace DSoft.RDLC
             if (_pos == 0)
             {
                 PagerSeparator.Visibility = Visibility.Visible;
-                PreviousImage.IsEnabled = false;
-                PreviousImage.Opacity = 0.5;
-                FirstImage.IsEnabled = false;
-                FirstImage.Opacity = 0.5;
-                SpinnerDown.IsEnabled = false;
-                SpinnerDown.Opacity = 0.5;
-                NextImage.IsEnabled = true;
-                NextImage.Opacity = 1;
-                LastImage.IsEnabled = true;
-                LastImage.Opacity = 1;
-                SpinnerUp.IsEnabled = true;
-                SpinnerUp.Opacity = 1;
+                PreviousImage.DisableButton();
+                FirstImage.DisableButton(); 
+                NextImage.EnableButton();
+                LastImage.EnableButton();
             }
             else
             {
                 if (_pos + 1 == _dec.Frames.Count)
                 {
-                    NextImage.IsEnabled = false;
-                    NextImage.Opacity = 0.5;
-                    LastImage.IsEnabled = false;
-                    LastImage.Opacity = 0.5;
-                    SpinnerUp.IsEnabled = false;
-                    SpinnerUp.Opacity = 0.5;
-                    PreviousImage.IsEnabled = true;
-                    PreviousImage.Opacity = 1;
-                    FirstImage.IsEnabled = true;
-                    FirstImage.Opacity = 1;
-                    SpinnerDown.IsEnabled = true;
-                    SpinnerDown.Opacity = 1;
+                    NextImage.DisableButton();
+                    LastImage.DisableButton();
+                    PreviousImage.EnableButton();
+                    FirstImage.EnableButton();
                 }
                 else
                 {
-                    PreviousImage.IsEnabled = true;
-                    PreviousImage.Opacity = 1;
-                    NextImage.IsEnabled = true;
-                    NextImage.Opacity = 1;
-                    FirstImage.IsEnabled = true;
-                    FirstImage.Opacity = 1;
-                    LastImage.IsEnabled = true;
-                    LastImage.Opacity = 1;
-                    SpinnerUp.IsEnabled = true;
-                    SpinnerUp.Opacity = 1;
-                    SpinnerDown.IsEnabled = true;
-                    SpinnerDown.Opacity = 1;
+                    PreviousImage.EnableButton();
+                    NextImage.EnableButton();
+                    FirstImage.EnableButton();
+                    LastImage.EnableButton();
                 }
             }
-
 
             if (_dec.Frames.Count > 1)
             {
                 PagerSeparator.Visibility = Visibility.Visible;
                 PreviousImage.Visibility = Visibility.Visible;
                 NextImage.Visibility = Visibility.Visible;
-                NumPager.Visibility = Visibility.Visible;
                 FirstImage.Visibility = Visibility.Visible;
                 LastImage.Visibility = Visibility.Visible;
-                SpinnerGrid.Visibility = Visibility.Visible;
+                PageSpinner.Visibility = System.Windows.Visibility.Visible;
             }
             else
             {
                 PagerSeparator.Visibility = Visibility.Hidden;
                 PreviousImage.Visibility = Visibility.Hidden;
                 NextImage.Visibility = Visibility.Hidden;
-                NumPager.Visibility = Visibility.Hidden;
                 FirstImage.Visibility = Visibility.Hidden;
                 LastImage.Visibility = Visibility.Hidden;
-                SpinnerGrid.Visibility = Visibility.Hidden;
+                PageSpinner.Visibility = System.Windows.Visibility.Hidden;
             } 
         }
         #endregion
@@ -371,6 +314,8 @@ namespace DSoft.RDLC
             CreateTransformGroup();
 
             this.PreviewImage.Source = _dec.Frames[position];
+
+            UpdateToolBarButton();
             
         }
 
@@ -387,7 +332,7 @@ namespace DSoft.RDLC
             if (_pos > 0)
             {
                 _pos--;
-                NumPager.Text = (_pos + 1).ToString() + " / " + _dec.Frames.Count;
+                PageSpinner.Value = _pos + 1;
                 ChangeImage(_pos);
             }
 
@@ -408,59 +353,25 @@ namespace DSoft.RDLC
             if (_pos + 1 < _dec.Frames.Count)
             {
                 _pos++;
-                NumPager.Text = (_pos + 1).ToString() + " / " + _dec.Frames.Count;
+                PageSpinner.Value = _pos + 1;
                 ChangeImage(_pos);
             }
             Application.Current.MainWindow.Cursor = null;
         }
 
-        /// <summary>
-        /// gère les entrées au clavier pour le Integer Up Down (num up down)
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void NumPager_KeyDown(object sender, KeyEventArgs e)
-        {
-            e.Handled = true;
-        }
-
-
-
-        private void NumPager_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (_firstRun != true)
-            {
-                //_pos = Convert.ToInt32(NumPager.Text) - 1;
-                ChangeImage(_pos);
-                UpdateToolBarButton();
-            }  
-        }
-
-
         private void FirstImage_Click(object sender, RoutedEventArgs e)
         {
             _pos = 0;
             ChangeImage(_pos);
-            NumPager.Text = (_pos + 1).ToString() + " / " + _dec.Frames.Count;
+            PageSpinner.Value = _pos + 1;;
         }
 
         private void LastImage_Click(object sender, RoutedEventArgs e)
         {
             _pos = _dec.Frames.Count - 1;
-            NumPager.Text = (_pos + 1).ToString() + " / " + _dec.Frames.Count;
+            PageSpinner.Value = _pos + 1; 
             ChangeImage(_pos);
         }
-
-        private void SpinnerUp_Click(object sender, RoutedEventArgs e)
-        {
-            NextImage.PerformClick();
-        }
-
-        private void SpinnerDown_Click(object sender, RoutedEventArgs e)
-        {
-            PreviousImage.PerformClick();
-        }
-
 
         // Différente logique pour l'importation des différent type de fichier
 
@@ -667,9 +578,7 @@ namespace DSoft.RDLC
             if(this._report != null)
             {
                 _fixedToWindowMode = true;
-
                 
-
                 ImageScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
 
                 PreviewImage.Stretch = Stretch.UniformToFill;
@@ -695,6 +604,11 @@ namespace DSoft.RDLC
                     break;
             }
             printerDialog.ShowDialog();
+        }
+
+        private void PageSpinner_ValueChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 
