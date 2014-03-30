@@ -106,7 +106,7 @@ namespace DSoft
         }
 
         /// <summary>
-        /// Obtient l'orientation par defaut du rapport
+        /// Get the default orientation of report
         /// </summary>
         public bool? isDefaultLandscape
         {
@@ -167,9 +167,9 @@ namespace DSoft
         }
         #endregion
 
-        #region Création des stream  et exportation du raport en format EMF (Enhanced Metafile)pour l'impression
+        #region Export to EMF (Enhanced Metafile) and stream creation
         /// <summary>
-        /// Routine de fournir au convertisseur de rapport, afin d'enregistrer une image pour chaque page du rapport.
+        /// Create a stream user for each raport page...
         /// </summary>
         private Stream CreateStream(string name, string fileNameExtension, Encoding encoding, string mimeType, bool willSeek)
         {
@@ -179,7 +179,7 @@ namespace DSoft
         }
 
 
-        // Exporter le raport vers le format EMF (Enhanced Metafile).
+        // Export to EMF (Enhanced Metafile) format.
         private void Export(LocalReport report)
         {
             if (_printDoc == null)
@@ -198,7 +198,7 @@ namespace DSoft
         }
 
         /// <summary>
-        /// 
+        /// the device information
         /// </summary>
         /// <returns></returns>
         private string GetDeviceInfo(){           
@@ -301,7 +301,7 @@ namespace DSoft
         }
 
         /// <summary>
-        /// Retourne l'imprimante par défaut
+        /// Get the default printer
         /// </summary>
         /// <returns></returns>
         public PrintDocument GetDefaultPrinter()
