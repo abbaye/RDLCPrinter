@@ -1,0 +1,219 @@
+﻿<UserControl x:Class="DSoft.RDLC.RDLCReportViewer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"             
+             Background="White" BorderThickness="1" BorderBrush="DarkGray"
+             mc:Ignorable="d" Height="500" Width="566.482" >
+
+       
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="./Style/BrushDictionary.xaml"/>
+                <ResourceDictionary Source="./Style/ButtonDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <RoutedUICommand x:Key="OpenPrintDialog" />
+        </ResourceDictionary>          
+        
+    </UserControl.Resources>
+    
+    
+    <UserControl.CommandBindings>
+        <CommandBinding Command="{StaticResource OpenPrintDialog}" Executed="CommandBinding_Executed" />
+
+    </UserControl.CommandBindings>
+    <UserControl.InputBindings>
+        <KeyBinding Key="P" Modifiers="Control"  Command="{StaticResource OpenPrintDialog}" />
+    </UserControl.InputBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Border BorderThickness="0,0,0,1" BorderBrush="Black">
+            <ToolBar x:Name="ToolBarRow" Grid.Row="0" Height="36" Loaded="ToolBarRow_Loaded">
+                <Button x:Name="TBBRefresh" Click="cmdRefresh_Click" IsEnabled="False" Opacity="0.5">
+                    <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/Refresh.ico" ToolTip="Refresh" RenderOptions.BitmapScalingMode="HighQuality"/>
+                </Button>
+                <Separator Margin="5"/>
+                <Button x:Name="TBBPrint" Click="cmdPrint_Click" IsEnabled="False" Opacity="0.5">
+                    <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/Print.ico" ToolTip="Direct print with default printer" RenderOptions.BitmapScalingMode="HighQuality"/>
+                </Button>
+                <Button x:Name="TBBPrintWithProperties" Click="TBBPrintWithProperties_Click"  IsEnabled="False" Opacity="0.5" ToolTip="Open print properties dialog.">
+                    <Grid>
+                        <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/Print.ico" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,0,7,10"/>
+                        <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/Basic-Settings.ico" RenderOptions.BitmapScalingMode="HighQuality" Margin="10,10,0,0"/>
+                    </Grid>
+                </Button>
+                <Separator Margin="5"/>
+
+
+                <Button  x:Name="ExportDefault"   Click="ExportDefault_Click"  IsEnabled="False" Opacity="0.5" Height="31" Width="29" ToolTip="Export report to PDF file">
+                    <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/ExportPDF.ico" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality"/>
+                </Button>
+                <Menu x:Name="ExportMenu" Width="26" IsEnabled="False" Opacity="0.5" Background="Transparent" ToolTip="Chose export format.">
+                    <MenuItem Height="31" Width="26" Margin="0" >
+                        <MenuItem.Icon>
+                            <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/DownArrow.ico"  RenderOptions.BitmapScalingMode="HighQuality"  />
+                        </MenuItem.Icon>
+                        <MenuItem Header="Microsoft Word" Click="MenuItemWord_Click" HorizontalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center" Width="200">
+                            <MenuItem.Icon>
+                                <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/WordExport.ico" Height="23" Margin="3,2,0,0"  RenderOptions.BitmapScalingMode="HighQuality"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Microsoft Excel" Click="MenuItemExcel_Click" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Width="200">
+                            <MenuItem.Icon>
+                                <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/ExcelExport.ico" Height="23" Margin="3,0,0,0" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Image PNG" Click="MenuItemPNG_Click" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Width="200">
+                            <MenuItem.Icon>
+                                <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/ImageExport.ico" Height="23" Margin="3,0,0,0" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Adobe PDF" Click="ExportDefault_Click" HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalAlignment="Top" Width="200">
+                            <MenuItem.Icon>
+                                <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/ExportPDF.ico"  Height="23" Margin="3,0,0,2" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </MenuItem>
+                </Menu>
+                <Separator/>
+                <StackPanel x:Name="ZoomInfoStackPanel" Orientation="Horizontal" Margin="0,2,0,0" Visibility="Visible">
+                    <TextBlock Margin="5,5,3,5">Zoom:</TextBlock>
+                    <TextBlock x:Name="ZoomValueTextBloc" Margin="5,5,0,5" Width="20" Text="{Binding Path=Value, ElementName=ZoomSlider, Mode=OneWay, StringFormat=##0}" />
+                    <TextBlock Margin="0,5,10,5">%</TextBlock>
+                </StackPanel>
+                <ToggleButton x:Name="ZoomPopupButton" Margin="5,1,0,0" Click="ZoomPopupButton_Click" IsEnabled="False" Opacity="0.5" ToolTip="Zoom" >
+                    <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/Search.ico" RenderOptions.BitmapScalingMode="HighQuality" />
+                </ToggleButton>
+                <Button x:Name="ActualSizeButton" Margin="5,1,0,0" Click="ActualSizeButton_Click" ToolTip="Actual size" IsEnabled="False" Opacity="0.5">
+                    <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/TailleNormal.ico" RenderOptions.BitmapScalingMode="HighQuality" />
+                </Button>
+
+                <Separator x:Name="PagerSeparator" Margin="5" Visibility="Hidden"/>
+                <Button x:Name="FirstImage" Click="FirstImage_Click" IsEnabled="true" Visibility="Hidden" >
+                    <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/move-first.ico" ToolTip="First" RenderOptions.BitmapScalingMode="HighQuality"/>
+                </Button>
+                <Button x:Name="PreviousImage" Click="PreviousImage_Click" IsEnabled="true" Visibility="Hidden" >
+                    <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/move-previous.ico" ToolTip="Previous" RenderOptions.BitmapScalingMode="HighQuality"/>
+                </Button>
+
+                <Grid x:Name="SpinnerGrid" Visibility="Hidden">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="20"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <TextBox Grid.Column="0" Grid.RowSpan="2" x:Name="NumPager" Text="1" TextAlignment="Center" VerticalContentAlignment="Center" BorderBrush="#FF8BA5EC" 
+                             KeyDown="NumPager_KeyDown" TextChanged="NumPager_TextChanged" IsReadOnly="True" />
+                    <Button x:Name="SpinnerUp" Grid.Column="2" Style="{StaticResource FlatButtonStyle}" Click="SpinnerUp_Click">
+                        <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/UpArrow.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    </Button>
+                    <Button x:Name="SpinnerDown" Grid.Column="2" Grid.Row="1" Style="{StaticResource FlatButtonStyle}" Click="SpinnerDown_Click">
+                        <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/DownArrow.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    </Button>
+                </Grid>
+
+                <Button x:Name="NextImage" Click="NextImage_Click" IsEnabled="true" Visibility="Hidden" >
+                    <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/move-next.ico" ToolTip="Suivant" RenderOptions.BitmapScalingMode="HighQuality"/>
+                </Button>
+                <Button x:Name="LastImage" Click="LastImage_Click" IsEnabled="true" Visibility="Hidden" >
+                    <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/move-last.ico" ToolTip="Suivant" RenderOptions.BitmapScalingMode="HighQuality"/>
+                </Button>
+
+            </ToolBar>
+        </Border>
+        <Popup x:Name="ZoomPopup" Grid.Row="1" Width="140" PlacementTarget="{Binding ElementName=ZoomPopupButton}" StaysOpen="False" Closed="ZoomPopup_Closed" Margin="-255,39,679,76">
+            <Grid HorizontalAlignment="Left" Width="140" Height="346" Background="White">
+                <Border BorderBrush="LightBlue" BorderThickness="3">
+
+                    <Slider x:Name="ZoomSlider" TickPlacement="BottomRight" TickFrequency="5" Ticks=""  Orientation="Vertical" Height="200" Interval="1" 
+                            Minimum="48" 
+                            Maximum="248" 
+                            Value="100" 
+                            HorizontalAlignment="Center" 
+                            HorizontalContentAlignment="Center" 
+                            VerticalAlignment="Bottom" 
+                            VerticalContentAlignment="Center" 
+                            Background="White" ValueChanged="ZoomSlider_ValueChanged" Margin="16,0,94,17" BorderBrush="LightBlue" BorderThickness="1"
+                            
+                            MouseWheel="ZoomSlider_MouseWheel">
+                    </Slider>
+                </Border>
+                <Border BorderThickness="0,0,0,1" BorderBrush="LightBlue" Margin="0,0,0,266">
+                    <Grid>
+                        <Label x:Name="fixToWindowLabel" Content="Fit to window" Height="26" VerticalAlignment="Top" Background="LightBlue" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                        <Button x:Name="FitToWindowButton"  Click="FitToWindowButton_Click" ToolTip="Automatic fit to window width" Height="30" Style="{StaticResource FlatButtonStyle}" Margin="20,37,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="100" BorderBrush="LightBlue">
+                            <Grid Width="37">
+                                <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/move-first.ico" RenderOptions.BitmapScalingMode="HighQuality" Margin="-1,0,14,0"  />
+                                <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/move-last.ico" RenderOptions.BitmapScalingMode="HighQuality" Margin="15,0,-2,0" HorizontalAlignment="Left" Width="24" />
+                            </Grid>
+                        </Button>
+                    </Grid>
+                </Border>
+                <Label x:Name="ZoomReglageLabel" Content="Zoom" Height="26" VerticalAlignment="Top" Background="LightBlue" Margin="0,80,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                <Button x:Name="PerCent50Button" Margin="54,307,0,0"  Style="{StaticResource FlatButtonStyle}" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Width="67" Height="27" VerticalAlignment="Top" VerticalContentAlignment="Center" Click="PerCent50Button_Click" BorderBrush="LightBlue">
+                    <StackPanel Orientation="Horizontal" Height="27" VerticalAlignment="Top" HorizontalAlignment="Left" Width="67" Margin="0,-1,-2,-1" >
+                        <Label Content="50%" Margin="7,0,0,0"/>
+                        <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/ZoomMoin.ico" Height="20" Width="20" Margin="4,0,0,0" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="PerCent100Button" Margin="54,260,0,0"  Style="{StaticResource FlatButtonStyle}" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Width="67" Height="27" VerticalAlignment="Top" VerticalContentAlignment="Center" Click="PerCent100Button_Click" BorderBrush="LightBlue">
+                    <StackPanel Orientation="Horizontal" Height="27" VerticalAlignment="Top" HorizontalAlignment="Left" Width="67" Margin="0,-1,-2,-1">
+                        <Label Content="100%"/>
+                        <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/TailleNormal.ico" Height="20" Width="20" Margin="4,0,0,0" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="PerCent150Button" Margin="54,213,0,0"  Style="{StaticResource FlatButtonStyle}" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Width="67" Height="27" VerticalAlignment="Top" VerticalContentAlignment="Center" Click="PerCent150Button_Click" BorderBrush="LightBlue">
+                    <StackPanel Orientation="Horizontal" Height="27" VerticalAlignment="Top" HorizontalAlignment="Left" Width="67" Margin="0,-1,-2,-1">
+                        <Label Content="150%"/>
+                        <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/ZoomPlus.ico" Height="20" Width="20" Margin="4,0,0,0" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="PerCent200Button" Margin="54,166,0,0"  Style="{StaticResource FlatButtonStyle}" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Width="67" Height="27" VerticalAlignment="Top" VerticalContentAlignment="Center" Click="PerCent200Button_Click" BorderBrush="LightBlue">
+                    <StackPanel Orientation="Horizontal" Height="27" VerticalAlignment="Top" HorizontalAlignment="Left" Width="67" Margin="0,-1,-2,-1">
+                        <Label Content="200%"/>
+                        <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/ZoomPlus.ico" Height="20" Width="20" Margin="4,0,0,0" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="PerCent250Button" Margin="54,119,0,0"  Style="{StaticResource FlatButtonStyle}" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Width="67" Height="27" VerticalAlignment="Top" VerticalContentAlignment="Center" Click="PerCent250Button_Click" BorderBrush="LightBlue">
+                    <StackPanel Orientation="Horizontal" Height="27" VerticalAlignment="Top" HorizontalAlignment="Left" Width="67" Margin="0,-1,-2,-1">
+                        <Label Content="250%"/>
+                        <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/ZoomPlus.ico" Height="20" Width="20" Margin="4,0,0,0"  RenderOptions.BitmapScalingMode="HighQuality"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Popup>
+
+        <ScrollViewer x:Name="ImageScrollViewer" Grid.Row="1" HorizontalScrollBarVisibility="Disabled"  VerticalScrollBarVisibility="Disabled" Background="#FFEAEAEA">
+            <Border x:Name="ImgBorber" AllowDrop="True" BorderBrush="Black" BorderThickness="0,0,0,0">
+                <Image x:Name="PreviewImage"  RenderTransformOrigin="0.5,0.5"  RenderOptions.BitmapScalingMode="HighQuality" Focusable="True">
+                    <Image.Effect>
+                        <DropShadowEffect Direction="320" BlurRadius="5" ShadowDepth="5"/>
+                    </Image.Effect>
+                    <Image.RenderTransform>
+                        <TransformGroup x:Name="ZoomGroup">
+                            <ScaleTransform  ScaleX="0.01" ScaleY="0.01"/>
+                            <ScaleTransform>
+                                <ScaleTransform.ScaleX>
+                                    <Binding ElementName="ZoomSlider" Path="Value" Mode="OneWay"/>
+                                </ScaleTransform.ScaleX>
+                                <ScaleTransform.ScaleY>
+                                    <Binding ElementName="ZoomSlider" Path="Value" Mode="OneWay"/>
+                                </ScaleTransform.ScaleY>
+                            </ScaleTransform>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+            </Border>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
