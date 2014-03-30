@@ -336,7 +336,7 @@ namespace DSoft
 
         #region method Print pour les différent Type de Format
         /// <summary>
-        /// Lance l'impression vers l'imprimante par défaut
+        /// Launch printing
         /// </summary>
         public void Print()
         {
@@ -362,9 +362,13 @@ namespace DSoft
         }
         #endregion
 
-        #region Bloc comprenant les différentes méthodes pour Sauvargarder les différents type de rapports
+        #region Some export method
 
-        private bool SaveAsImage()
+        /// <summary>
+        /// Save as PNG image to the specified path
+        /// </summary>    
+        /// <returns>Return true if the export as completed successfuly</returns>
+        public bool SaveAsImage()
         {
             byte[] byteViewer = GetImageArray();
 
@@ -394,7 +398,7 @@ namespace DSoft
 
 
         /// <summary>
-        /// Return bitmapimage bytes array
+        /// Get bitmap image bytes array
         /// </summary>
         /// <returns></returns>
         public byte[] GetImageArray()
@@ -414,7 +418,7 @@ namespace DSoft
 
 
         /// <summary>
-        /// Retourne le rapport en BitmapImage
+        /// Return a BitmapImage that contains report
         /// </summary>
         /// <returns></returns>
         public BitmapImage GetBitmapImage()
@@ -434,10 +438,10 @@ namespace DSoft
                
 
         /// <summary>
-        /// Enregistre le rapport en Format PDF
+        /// Save as PDF file to the specified path
         /// </summary>
-        /// <returns>Retourne true si l'opération est un succès</returns>
-        private bool SaveAsPDF()
+        /// <returns>Return true if the export as completed successfuly</returns>
+        public bool SaveAsPDF()
         {
             byte[] byteViewer = GetPDFArray();
 
@@ -465,7 +469,7 @@ namespace DSoft
         }
 
         /// <summary>
-        /// Renvoie un tableau de byte représentant le rapport en format PDF
+        /// Get the pdf bytes array
         /// </summary>
         /// <returns></returns>
         public byte[] GetPDFArray()
@@ -477,9 +481,10 @@ namespace DSoft
         }
 
         /// <summary>
-        /// Enregistre le rapport en format Excel
+        /// Save as Microsoft Excel file format to the specified path
         /// </summary>
-        private bool SaveAsExcel()
+        /// <returns>Return true if the export as completed successfuly</returns>
+        public bool SaveAsExcel()
         {
             byte[] bytesViewer = GetExcelArray();
             
@@ -507,9 +512,8 @@ namespace DSoft
         }
 
         /// <summary>
-        /// Renvoie un tableau de byte représentant le rapport en format Excel (.xsl)
-        /// </summary>
-        /// <returns></returns>
+        /// Get the Microsoft Excel byte Array
+        /// </summary>        
         public byte[] GetExcelArray()
         {
             if (_report != null)
@@ -519,9 +523,10 @@ namespace DSoft
         }
 
         /// <summary>
-        /// Enregistre le rapport en format Word Document
+        /// Save as Microsoft Word file format to the specified path
         /// </summary>
-        private bool SaveAsWord()
+        /// <returns>Return true if the export as completed successfuly</returns>
+        public bool SaveAsWord()
         {
             byte[] bytesViewer = GetWordArray();
 
@@ -549,9 +554,8 @@ namespace DSoft
         }
 
         /// <summary>
-        /// Renvoie un tableau de byte représentant le rapport en format Excel (.doc)
-        /// </summary>
-        /// <returns></returns>
+        /// Get the Microsoft Word byte Array
+        /// </summary>        
         public byte[] GetWordArray()
         {
             if (_report != null)
