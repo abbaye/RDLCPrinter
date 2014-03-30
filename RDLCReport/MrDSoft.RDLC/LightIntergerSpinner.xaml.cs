@@ -23,6 +23,10 @@ namespace DSoft.RDLCReport
         private int _minimum = 0;
         private int _maximum = 50;
 
+        public event EventHandler ValueChanged;
+        public event EventHandler UpButtonClick;
+        public event EventHandler DownButtonClick;
+
 
         public LightIntergerSpinner()
         {
@@ -45,6 +49,9 @@ namespace DSoft.RDLCReport
             set
             {                
                 NumPager.Text = value.ToString();
+
+                if (ValueChanged != null)
+                    ValueChanged(this, new EventArgs());
             }
         }
 
@@ -79,22 +86,35 @@ namespace DSoft.RDLCReport
         private void CheckRange()
         {
             if (this.Value > this._maximum)
+            {
                 this.Value = this._maximum;
 
+                if (ValueChanged != null)
+                    ValueChanged(this, new EventArgs());
+            }
+
             if (this.Value < this._minimum)
+            {
                 this.Value = this._minimum;
+
+                if (ValueChanged != null)
+                    ValueChanged(this, new EventArgs());
+            }
         }
 
         private void SpinnerUp_Click(object sender, RoutedEventArgs e)
         {
             if (this.Value < this._maximum)
                 this.Value += 1;
+
+            if (UpButtonClick != null)
+                UpButtonClick(this, new EventArgs());
         }
 
         private void SpinnerDown_Click(object sender, RoutedEventArgs e)
         {
-            if (this.Value > this._minimum)
-                this.Value -= 1;
+            if (DownButtonClick != null)
+                DownButtonClick(this, new EventArgs());
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
