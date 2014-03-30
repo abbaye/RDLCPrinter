@@ -27,21 +27,12 @@ namespace DSoft.RDLC
         private Point _start;
         private TranslateTransform tt = new TranslateTransform();
         private bool _fixedToWindowMode = false;
-        //private byte[] _PDFFile;
-        private Mode _isMode = Mode.RDLC;
-
-        public enum Mode
-        { 
-            RDLC
-            //PDF
-        }
 
         public RDLCReportViewer()
         {
             InitializeComponent();
 
-
-            // Ajoute les éléments qui permet le zoom et le drag de l,image
+            // zoom initialization
             CreateTransformGroup();
             ZoomSlider.Value = 98;
             ZoomValueTextBloc.Text = (ZoomSlider.Value + 2).ToString("##0");
@@ -127,7 +118,7 @@ namespace DSoft.RDLC
             set
             {
                 this._report = value;
-                this.isMode = Mode.RDLC;
+                
                 RefreshControl();
 
                 GiveFocus();
@@ -141,22 +132,8 @@ namespace DSoft.RDLC
         }
 
 
-        public Mode isMode
-        {
-            get
-            {
-                return this._isMode;
-            }
-            set
-            {
-                this._isMode = value;
-
-                RefreshControl();
-            }
-        }
-        
         /// <summary>
-        /// Propriété pour la visibilitée de la toolbar
+        /// Display toolbar
         /// </summary>
         public bool isShowToolBar
         {
@@ -180,22 +157,18 @@ namespace DSoft.RDLC
         /// </summary>
         public void RefreshControl()
         {
-            //Logic de refresh
-            switch(this._isMode)
+
+            if (this._report != null)
             {
-                case Mode.RDLC:
-                    if (this._report != null)
-                    {
-                        LoadImage();
-                    }
-                    _pos = 0;
-
-                    PageSpinner.Maximum = _dec.Frames.Count;
-                    PageSpinner.Value = _pos + 1;
-
-                    CreateTransformGroup();
-                    break;
+                LoadImage();
             }
+            _pos = 0;
+
+            PageSpinner.Maximum = _dec.Frames.Count;
+            PageSpinner.Value = _pos + 1;
+
+            CreateTransformGroup();         
+
         }
 
         #region Update des propriétées pour les différents bouton et controles de la toolbar
@@ -284,23 +257,20 @@ namespace DSoft.RDLC
         /// </summary>
         private void LoadImage()
         {
-            switch(this.isMode)
+
+            if (_pos == 0)
             {
-                case Mode.RDLC:
-                    if(_pos ==0)
-                    {
-                        this._BitmapArray = _report.GetImageArray();
-                        Stream mStream = new MemoryStream(_BitmapArray);
-            
-                        _dec = BitmapDecoder.Create(mStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
-                                
-                        UpdateToolBarButton();
-                        PreviousImage.IsEnabled = false;
-                        PreviousImage.Opacity = 0.5;
-                    }
-                    ChangeImage(_pos);
-                    break;
+                this._BitmapArray = _report.GetImageArray();
+                Stream mStream = new MemoryStream(_BitmapArray);
+
+                _dec = BitmapDecoder.Create(mStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+
+                UpdateToolBarButton();
+                PreviousImage.IsEnabled = false;
+                PreviousImage.Opacity = 0.5;
             }
+            ChangeImage(_pos);            
+
         }
 
 
@@ -336,7 +306,6 @@ namespace DSoft.RDLC
                 ChangeImage(_pos);
             }
 
-
             Application.Current.MainWindow.Cursor = null;
         }
 
@@ -356,6 +325,7 @@ namespace DSoft.RDLC
                 PageSpinner.Value = _pos + 1;
                 ChangeImage(_pos);
             }
+
             Application.Current.MainWindow.Cursor = null;
         }
 
@@ -460,18 +430,14 @@ namespace DSoft.RDLC
         {
             RDLCPrinterDialog printerDialog = new RDLCPrinterDialog();
 
-            switch(this._isMode)
+            if (this._report != null)
             {
-                case Mode.RDLC:
-                    if (this._report != null)
-                    {
-                        printerDialog.NbrPageRapport = _dec.Frames.Count;
-                        printerDialog.CurrentReport = this._report;
-                    }
-                    else
-                        return;
-                    break;
+                printerDialog.NbrPageRapport = _dec.Frames.Count;
+                printerDialog.CurrentReport = this._report;
             }
+            else
+                return;
+
             printerDialog.ShowDialog();
         }
 
@@ -591,18 +557,14 @@ namespace DSoft.RDLC
         {
             RDLCPrinterDialog printerDialog = new RDLCPrinterDialog();
 
-            switch (this._isMode)
+            if (this._report != null)
             {
-                case Mode.RDLC:
-                    if (this._report != null)
-                    {
-                        printerDialog.NbrPageRapport = _dec.Frames.Count;
-                        printerDialog.CurrentReport = this._report;
-                    }
-                    else
-                        return;
-                    break;
+                printerDialog.NbrPageRapport = _dec.Frames.Count;
+                printerDialog.CurrentReport = this._report;
             }
+            else
+                return;
+
             printerDialog.ShowDialog();
         }
 
@@ -610,16 +572,5 @@ namespace DSoft.RDLC
         {
             
         }
-    }
-
-    /// <summary>
-    /// Classe d'extention
-    /// </summary>
-    public static class BoutonClick
-    {
-        public static void PerformClick(this System.Windows.Controls.Button btn)
-        {
-            btn.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Button.ClickEvent));
-        }
-    }
+    }    
 }

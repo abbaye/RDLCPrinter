@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace DSoft.MethodExtension
@@ -28,5 +29,12 @@ namespace DSoft.MethodExtension
             button.Opacity = 1;
             button.IsEnabled = true;
         }
+
+
+        public static void PerformClick(this System.Windows.Controls.Button btn)
+        {
+            btn.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Button.ClickEvent));
+        }
+        
     }
 }
