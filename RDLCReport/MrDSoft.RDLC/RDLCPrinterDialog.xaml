@@ -43,7 +43,7 @@
             <Label Content="Copy settings" FontWeight="Bold" Height="26" Style="{StaticResource TitleLabelStyle}" Margin="1,0,0,0" VerticalAlignment="Top"/>
             <Label  Content="Number of copy" FontSize="12" Margin="10,42,0,0" HorizontalAlignment="Left"  VerticalAlignment="Top" />
             
-            <RDLCReport:LightIntergerSpinner x:Name="NumberOfCopySpinner" HorizontalAlignment="Left" Margin="125,38,0,0" VerticalAlignment="Top" Width="54" Height="37"/>
+            <RDLCReport:LightIntergerSpinner x:Name="NumberOfCopySpinner" HorizontalAlignment="Left" Margin="125,38,0,0" VerticalAlignment="Top" Width="54" Height="37" Minimum="1" Maximum="500" Value="1"/>
         </Grid>
         <Grid Margin="11,244,9,0" Background="{StaticResource LightGradientPanelBrush}" Height="120" VerticalAlignment="Top">
             <Label Content="Page range settings" FontWeight="Bold" Height="26" Style="{StaticResource TitleLabelStyle}" VerticalAlignment="Top"/>

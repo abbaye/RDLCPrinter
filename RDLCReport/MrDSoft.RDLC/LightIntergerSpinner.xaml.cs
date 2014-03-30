@@ -26,6 +26,7 @@ namespace DSoft.RDLCReport
         public event EventHandler ValueChanged;
         public event EventHandler UpButtonClick;
         public event EventHandler DownButtonClick;
+        private bool _IsShowCurrentToMaximumValue;
 
 
         public LightIntergerSpinner()
@@ -39,7 +40,10 @@ namespace DSoft.RDLCReport
             {
                 try
                 {
-                    return Convert.ToInt32(NumPager.Text);
+                    if (this._IsShowCurrentToMaximumValue)                    
+                        return Convert.ToInt32(NumPager.Text.Split('/')[0].Trim());                    
+                    else                    
+                        return Convert.ToInt32(NumPager.Text);                    
                 }
                 catch
                 {
@@ -47,8 +51,12 @@ namespace DSoft.RDLCReport
                 }
             }
             set
-            {                
-                NumPager.Text = value.ToString();
+            {
+                if (this._IsShowCurrentToMaximumValue)
+                {
+                    NumPager.Text = value.ToString() + " / " + this._maximum.ToString();
+                }else
+                    NumPager.Text = value.ToString();
 
                 if (ValueChanged != null)
                     ValueChanged(this, new EventArgs());
@@ -83,6 +91,21 @@ namespace DSoft.RDLCReport
             }
         }
 
+        public bool IsShowCurrentToMaximumValue
+        {
+            get
+            {
+                return this._IsShowCurrentToMaximumValue;
+            }
+            set
+            {
+                this._IsShowCurrentToMaximumValue = value;
+
+                this.Value = this.Value;
+            }
+        }
+        
+
         private void CheckRange()
         {
             if (this.Value > this._maximum)
@@ -113,6 +136,9 @@ namespace DSoft.RDLCReport
 
         private void SpinnerDown_Click(object sender, RoutedEventArgs e)
         {
+            if (this.Value > this._minimum)
+                this.Value -= 1;
+
             if (DownButtonClick != null)
                 DownButtonClick(this, new EventArgs());
         }
