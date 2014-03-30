@@ -20,8 +20,8 @@ namespace DSoft.RDLCReport
     /// </summary>
     public partial class LightIntergerSpinner : UserControl
     {
-        private int? _minimum = null;
-        private int? _maximum = null;
+        private int _minimum = 0;
+        private int _maximum = 50;
 
 
         public LightIntergerSpinner()
@@ -48,7 +48,7 @@ namespace DSoft.RDLCReport
             }
         }
 
-        public int? Minimum
+        public int Minimum
         {
             get
             {
@@ -56,11 +56,13 @@ namespace DSoft.RDLCReport
             }
             set
             {
-                this._minimum = value;                                
+                this._minimum = value;
+
+                CheckRange();
             }
         }
 
-        public int? Maximum
+        public int Maximum
         {
             get
             {
@@ -70,17 +72,34 @@ namespace DSoft.RDLCReport
             {
                 this._maximum = value;
 
+                CheckRange();
             }
+        }
+
+        private void CheckRange()
+        {
+            if (this.Value > this._maximum)
+                this.Value = this._maximum;
+
+            if (this.Value < this._minimum)
+                this.Value = this._minimum;
         }
 
         private void SpinnerUp_Click(object sender, RoutedEventArgs e)
         {
-            this.Value += 1;            
+            if (this.Value < this._maximum)
+                this.Value += 1;
         }
 
         private void SpinnerDown_Click(object sender, RoutedEventArgs e)
         {
-            this.Value -= 1;
+            if (this.Value > this._minimum)
+                this.Value -= 1;
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            CheckRange();
         }
     }
 }

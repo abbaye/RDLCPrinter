@@ -29,7 +29,6 @@ namespace DSoft.RDLC
     {
         private PrintDocument _printer = new PrintDocument();
         private RDLCPrinter _report = null;
-        private int _nbrCopies = 1;
         private int _nbrPageRapport = 1;
         private PrintQueue _currentPrinter = null;
         private LocalPrintServer _printServer = new LocalPrintServer();
@@ -91,8 +90,7 @@ namespace DSoft.RDLC
             
             if (this._report.CopyNumber >= 1)
             {
-                NumPager.Text = this._report.CopyNumber.ToString();
-                this._nbrCopies = this._report.CopyNumber;
+                NumberOfCopySpinner.Value = this._report.CopyNumber;                
             }
             FirstPage.Text = "1";
 
@@ -169,7 +167,12 @@ namespace DSoft.RDLC
         {            
             PreparePrint();
             CurrentReport.PrintDoc = this._printer;
-            CurrentReport.CopyNumber = this._nbrCopies;
+
+            if (NumberOfCopySpinner.Value.HasValue)
+                CurrentReport.CopyNumber = NumberOfCopySpinner.Value.Value;
+            else
+                CurrentReport.CopyNumber = 1;
+
             CurrentReport.Print();
             this.Close();
         }
@@ -194,21 +197,6 @@ namespace DSoft.RDLC
         private void Annuler_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
-        }
-
-
-        private void SpinnerUp_Click(object sender, RoutedEventArgs e)
-        {
-            _nbrCopies += 1;
-            NumPager.Text = _nbrCopies.ToString();
-        }
-
-        private void SpinnerDown_Click(object sender, RoutedEventArgs e)
-        {
-            if (_nbrCopies > 1)
-                _nbrCopies -= 1;
-
-            NumPager.Text = _nbrCopies.ToString();
         }
 
         private void FirstPage_KeyDown(object sender, KeyEventArgs e)
