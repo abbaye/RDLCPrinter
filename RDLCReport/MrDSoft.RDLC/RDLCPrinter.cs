@@ -567,7 +567,7 @@ namespace DSoft
 
         #region Dipose des Streams
         /// <summary>
-        /// Dispose des streams
+        /// Dispose all stream
         /// </summary>
         public void Dispose()
         {

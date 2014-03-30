@@ -30,12 +30,13 @@ namespace RDLCDemo
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {            
+            
             //Create the local report
             LocalReport report = new LocalReport();
             report.ReportEmbeddedResource = "RDLCDemo.ReportTest.rdlc";
             
 
-            //Load data in the dataset            
+            //Create the dataset            
             NorthwindDataSet northWindDataSet = new NorthwindDataSet();
             NorthwindDataSetTableAdapters.ProductsByCategoriesTableAdapter dataAdapter = new NorthwindDataSetTableAdapters.ProductsByCategoriesTableAdapter();
 
@@ -54,7 +55,7 @@ namespace RDLCDemo
             report.DataSources.Add(dataSource);
 
 
-            //Fill Data
+            //Fill Data in the dataset
             dataAdapter.Fill(northWindDataSet.ProductsByCategories);
             
             //Create the printer/export rdlc printer

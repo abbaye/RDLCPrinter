@@ -29,7 +29,7 @@
             </StackPanel>
         </Button>
         <Grid Margin="10,10,10,0" Height="138" VerticalAlignment="Top" Background="{StaticResource LightGradientPanelBrush}">
-            <Label Content="Printer settings" FontWeight="Bold" Height="26" Style="{StaticResource TitleLabelStyle_Green}" VerticalAlignment="Top"/>
+            <Label Content="Printer settings" FontWeight="Bold" Height="26" Style="{StaticResource TitleLabelStyle}" VerticalAlignment="Top"/>
             <Label x:Name="lblImprimanteNom" Content="Printer name" FontSize="12" Margin="10,41,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <ComboBox x:Name="cboImprimanteNom"  SelectionChanged="cboImprimanetNom_SelectionChanged" Margin="108,41,10,0" Height="26" VerticalAlignment="Top" />
             <Label  Content="Status" Margin="10,72,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -39,7 +39,7 @@
             <Label x:Name="lblEmplacementImprimante" Content="" FontSize="12" Margin="108,103,0,0" Height="26" VerticalAlignment="Top" HorizontalAlignment="Left" Width="259"/>
         </Grid>
         <Grid Margin="10,153,10,0" Background="{StaticResource LightGradientPanelBrush}" Height="86" VerticalAlignment="Top">
-            <Label Content="Copy settings" FontWeight="Bold" Height="26" Style="{StaticResource TitleLabelStyle_Green}" Margin="1,0,0,0" VerticalAlignment="Top"/>
+            <Label Content="Copy settings" FontWeight="Bold" Height="26" Style="{StaticResource TitleLabelStyle}" Margin="1,0,0,0" VerticalAlignment="Top"/>
             <Label  Content="Number of copy" FontSize="12" Margin="10,42,0,0" HorizontalAlignment="Left"  VerticalAlignment="Top" />
             <Grid x:Name="SpinnerGrid" HorizontalAlignment="Left" Width="53" Margin="108,38,0,11" Height="37" >
                 <Grid.ColumnDefinitions>
@@ -61,7 +61,7 @@
             </Grid>
         </Grid>
         <Grid Margin="11,244,9,0" Background="{StaticResource LightGradientPanelBrush}" Height="120" VerticalAlignment="Top">
-            <Label Content="Page range settings" FontWeight="Bold" Height="26" Style="{StaticResource TitleLabelStyle_Green}" VerticalAlignment="Top"/>
+            <Label Content="Page range settings" FontWeight="Bold" Height="26" Style="{StaticResource TitleLabelStyle}" VerticalAlignment="Top"/>
             <Label  Content="Page range}" FontSize="12" Margin="10,82,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
             <Label Content="All page" Margin="10,38,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
             <StackPanel x:Name="PageChoiceStackPanel" Margin="108,79,0,0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" IsEnabled="False">
