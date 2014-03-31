@@ -100,28 +100,6 @@
                 <Button x:Name="PreviousImage" Click="PreviousImage_Click" IsEnabled="true" Visibility="Hidden" >
                     <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/move-previous.ico" ToolTip="Previous" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Button>
-
-
-                <!--<Grid x:Name="SpinnerGrid" Visibility="Hidden">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="20"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-
-                    <TextBox Grid.Column="0" Grid.RowSpan="2" x:Name="NumPager" Text="1" TextAlignment="Center" VerticalContentAlignment="Center" BorderBrush="#FF8BA5EC" 
-                             KeyDown="NumPager_KeyDown" TextChanged="NumPager_TextChanged" IsReadOnly="True" />
-                    <Button x:Name="SpinnerUp" Grid.Column="2" Style="{StaticResource FlatButtonStyle}" Click="SpinnerUp_Click">
-                        <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/UpArrow.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                    </Button>
-                    <Button x:Name="SpinnerDown" Grid.Column="2" Grid.Row="1" Style="{StaticResource FlatButtonStyle}" Click="SpinnerDown_Click">
-                        <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/DownArrow.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                    </Button>
-                </Grid>--> 
                 
                 <RDLCReport:LightIntergerSpinner x:Name="PageSpinner" Width="67" IsShowCurrentToMaximumValue="True" Visibility="Hidden" ValueChanged="PageSpinner_ValueChanged"/>
                 

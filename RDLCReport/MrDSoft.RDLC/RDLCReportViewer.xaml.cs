@@ -283,6 +283,25 @@ namespace DSoft.RDLC
         }
 
         /// <summary>
+        /// Set the zoom to "Fit to Window" mode
+        /// </summary>
+        public void SetFitToWindowMode()
+        {
+            CreateTransformGroup();
+
+            if (this._report != null)
+            {
+                _fixedToWindowMode = true;
+
+                ImageScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+
+                PreviewImage.Stretch = Stretch.UniformToFill;
+
+                this.ZoomSlider.Value = 99;
+            }
+        }
+
+        /// <summary>
         /// Clic du bouton PreviousImage (page précédente)
         /// </summary>
         /// <param name="sender"></param>
@@ -528,20 +547,9 @@ namespace DSoft.RDLC
         /// <param name="e"></param>
         private void FitToWindowButton_Click(object sender, RoutedEventArgs e)
         {
-            
-            CreateTransformGroup();
-
-            if(this._report != null)
-            {
-                _fixedToWindowMode = true;
-                
-                ImageScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
-
-                PreviewImage.Stretch = Stretch.UniformToFill;
-
-                this.ZoomSlider.Value = 99;
-            }            
+            SetFitToWindowMode();        
         }
+
 
         private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {

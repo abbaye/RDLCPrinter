@@ -22,8 +22,8 @@ namespace DSoft
         private IList<Stream> _streams;
         private LocalReport _report;
         private int _Copies;
-        Metafile _pageImage = null;
-        Rectangle _adjustedRect = new Rectangle();
+        private Metafile _pageImage = null;
+        private Rectangle _adjustedRect = new Rectangle();
         private ReportType _ReportType;
         private string _path;
         private Warning[] _warnings = null;
@@ -34,6 +34,8 @@ namespace DSoft
         private string _filename = "";
         private PrintDocument _printDoc = null;
         private BitmapDecoder _dec = null;
+
+        //Event
         public EventHandler FileSaving;
         public EventHandler FileSaved;
         
