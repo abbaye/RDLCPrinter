@@ -33,6 +33,7 @@ namespace DSoft
         private string _extension = String.Empty;
         private string _filename = "";
         private PrintDocument _printDoc = null;
+        private BitmapDecoder _dec = null;
         public EventHandler FileSaving;
         public EventHandler FileSaved;
         
@@ -127,14 +128,36 @@ namespace DSoft
             {
                 try
                 {
-                    Stream mStream = new MemoryStream(this.GetImageArray());
-                    return  BitmapDecoder.Create(mStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default).Frames.Count;
+                    return GetBitmapDecoder().Frames.Count;
                 }
                 catch
                 {
                     return -1;
                 }
             
+            }
+        }
+
+        /// <summary>
+        /// Get a BitmapDecoder of this report 
+        /// </summary>
+        /// <returns>Return a BitmapDecoder of this current report. Return null on error</returns>
+        public BitmapDecoder GetBitmapDecoder()
+        {
+            try
+            {
+                if (this._dec == null)
+                {
+                    Stream mStream = new MemoryStream(this.GetImageArray());
+                    this._dec = BitmapDecoder.Create(mStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+                    return this._dec;
+                }
+                else
+                    return this._dec;
+            }
+            catch
+            {
+                return null;
             }
         }
 

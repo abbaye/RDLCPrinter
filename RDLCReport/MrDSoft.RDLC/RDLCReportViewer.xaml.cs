@@ -19,9 +19,7 @@ namespace DSoft.RDLC
     public partial class RDLCReportViewer : UserControl
     {
         private RDLCPrinter _report = null;        
-        private byte[] _BitmapArray;
         private int _pos = 0;
-        private BitmapDecoder _dec = null;
         private bool _isShowToolBar = true;        
         private Point _origin;
         private Point _start;
@@ -157,18 +155,18 @@ namespace DSoft.RDLC
         /// </summary>
         public void RefreshControl()
         {
-
             if (this._report != null)
             {
                 LoadImage();
-            }
-            _pos = 0;
 
-            PageSpinner.Maximum = _dec.Frames.Count;
-            PageSpinner.Value = _pos + 1;
 
-            CreateTransformGroup();         
+                _pos = 0;
 
+                PageSpinner.Maximum = this._report.PagesCount;
+                PageSpinner.Value = _pos + 1;
+
+                CreateTransformGroup();
+            }            
         }
 
         #region Update des propriétées pour les différents bouton et controles de la toolbar
@@ -215,7 +213,7 @@ namespace DSoft.RDLC
             }
             else
             {
-                if (_pos + 1 == _dec.Frames.Count)
+                if (_pos + 1 == this._report.PagesCount)
                 {
                     NextImage.DisableButton();
                     LastImage.DisableButton();
@@ -231,7 +229,7 @@ namespace DSoft.RDLC
                 }
             }
 
-            if (_dec.Frames.Count > 1)
+            if (this._report.PagesCount > 1)
             {
                 PagerSeparator.Visibility = Visibility.Visible;
                 PreviousImage.Visibility = Visibility.Visible;
@@ -260,11 +258,6 @@ namespace DSoft.RDLC
 
             if (_pos == 0)
             {
-                this._BitmapArray = _report.GetImageArray();
-                Stream mStream = new MemoryStream(_BitmapArray);
-
-                _dec = BitmapDecoder.Create(mStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
-
                 UpdateToolBarButton();
                 PreviousImage.IsEnabled = false;
                 PreviousImage.Opacity = 0.5;
@@ -283,7 +276,7 @@ namespace DSoft.RDLC
             
             CreateTransformGroup();
 
-            this.PreviewImage.Source = _dec.Frames[position];
+            this.PreviewImage.Source = this._report.GetBitmapDecoder().Frames[position];
 
             UpdateToolBarButton();
             
@@ -319,7 +312,7 @@ namespace DSoft.RDLC
         {
             Application.Current.MainWindow.Cursor = Cursors.Wait;
 
-            if (_pos + 1 < _dec.Frames.Count)
+            if (_pos + 1 < this._report.PagesCount)
             {
                 _pos++;
                 PageSpinner.Value = _pos + 1;
@@ -338,7 +331,7 @@ namespace DSoft.RDLC
 
         private void LastImage_Click(object sender, RoutedEventArgs e)
         {
-            _pos = _dec.Frames.Count - 1;
+            _pos = this._report.PagesCount - 1;
             PageSpinner.Value = _pos + 1; 
             ChangeImage(_pos);
         }
