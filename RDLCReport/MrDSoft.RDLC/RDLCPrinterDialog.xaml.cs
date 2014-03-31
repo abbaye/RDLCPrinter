@@ -29,24 +29,10 @@ namespace DSoft.RDLC
     {
         private PrintDocument _printer = new PrintDocument();
         private RDLCPrinter _report = null;
-        private int _nbrPageRapport = 1;
         private PrintQueue _currentPrinter = null;
         private LocalPrintServer _printServer = new LocalPrintServer();
         private List<PrintQueue> _printerList = new List<PrintQueue>();
         private string ImgSource; 
-
-        public int NbrPageRapport
-        {
-            get
-            {
-                return this._nbrPageRapport;
-            }
-            set 
-            {
-                _nbrPageRapport = value;
-            }
-            
-        }
 
         public RDLCPrinter CurrentReport
         {
@@ -95,7 +81,7 @@ namespace DSoft.RDLC
             FirstPage.Text = "1";
 
             //obtien le nombre de page du rapport
-            LastPage.Text = _nbrPageRapport.ToString();
+            LastPage.Text = this._report.PagesCount.ToString();
 
             //Get all printer
             cboImprimanteNom.ItemsSource = _printServer.GetPrintQueues(new[] { EnumeratedPrintQueueTypes.Local, EnumeratedPrintQueueTypes.Connections }).Cast<PrintQueue>();
@@ -229,7 +215,8 @@ namespace DSoft.RDLC
             {
                 PageChoiceStackPanel.IsEnabled = false;
                 FirstPage.Text = "1";
-                LastPage.Text = _nbrPageRapport.ToString();
+                LastPage.Text = this._report.PagesCount.ToString();
+;
             }
             else
                 PageChoiceStackPanel.IsEnabled = true;
@@ -240,17 +227,17 @@ namespace DSoft.RDLC
             if(FirstPage.Text.Trim() == "")
                 FirstPage.Text = "1";
 
-            if (Convert.ToInt32(FirstPage.Text) < 1 || Convert.ToInt32(FirstPage.Text) > _nbrPageRapport)
+            if (Convert.ToInt32(FirstPage.Text) < 1 || Convert.ToInt32(FirstPage.Text) > this._report.PagesCount)
                 FirstPage.Text = "1";
         }
 
         private void LastPage_LostFocus(object sender, RoutedEventArgs e)
         {
             if(LastPage.Text.Trim() == "")
-                LastPage.Text = _nbrPageRapport.ToString();
+                LastPage.Text = this._report.PagesCount.ToString();
 
-            if (Convert.ToInt32(LastPage.Text) < 1 || Convert.ToInt32(LastPage.Text) > _nbrPageRapport)
-                LastPage.Text = _nbrPageRapport.ToString();
+            if (Convert.ToInt32(LastPage.Text) < 1 || Convert.ToInt32(LastPage.Text) > this._report.PagesCount)
+                LastPage.Text = this._report.PagesCount.ToString();
         }
 
     }

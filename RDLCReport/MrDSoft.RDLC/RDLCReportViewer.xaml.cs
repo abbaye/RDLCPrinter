@@ -430,11 +430,8 @@ namespace DSoft.RDLC
         {
             RDLCPrinterDialog printerDialog = new RDLCPrinterDialog();
 
-            if (this._report != null)
-            {
-                printerDialog.NbrPageRapport = _dec.Frames.Count;
-                printerDialog.CurrentReport = this._report;
-            }
+            if (this._report != null)                            
+                printerDialog.CurrentReport = this._report;            
             else
                 return;
 
@@ -557,11 +554,8 @@ namespace DSoft.RDLC
         {
             RDLCPrinterDialog printerDialog = new RDLCPrinterDialog();
 
-            if (this._report != null)
-            {
-                printerDialog.NbrPageRapport = _dec.Frames.Count;
-                printerDialog.CurrentReport = this._report;
-            }
+            if (this._report != null)                            
+                printerDialog.CurrentReport = this._report;            
             else
                 return;
 

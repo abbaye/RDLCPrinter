@@ -68,9 +68,7 @@ namespace DSoft
             this._ReportType = ReportType.Printer;
             this._path = "";
         }
-
-
-
+        
         #region Les différente Propriétée de l'objet
         
         /// <summary>
@@ -117,6 +115,27 @@ namespace DSoft
                 else
                     return null;
             }            
+        }
+
+        /// <summary>
+        /// Get the number of pages in the report
+        /// Return -1 if an error occurs
+        /// </summary>
+        public int PagesCount
+        {
+            get
+            {
+                try
+                {
+                    Stream mStream = new MemoryStream(this.GetImageArray());
+                    return  BitmapDecoder.Create(mStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default).Frames.Count;
+                }
+                catch
+                {
+                    return -1;
+                }
+            
+            }
         }
 
         /// <summary>
