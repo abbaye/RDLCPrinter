@@ -72,7 +72,7 @@ namespace DSoft
             this._path = "";
         }
         
-        #region Les différente Propriétée de l'objet
+        #region Properties
         
         /// <summary>
         ///Get or set the printer for print report (if null, get default printer)
