@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 namespace DSoft
 {
     /// <summary>
-    /// Cette classe permet d'imprimer directement un fichier RDLC en lui fournissant une source de donnée
+    /// This class allow to Print and export RDLC Report. 
     /// </summary>
     public class RDLCPrinter : IDisposable
     {
