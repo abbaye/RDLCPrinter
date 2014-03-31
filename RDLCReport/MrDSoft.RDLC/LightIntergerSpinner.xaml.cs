@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using DSoft.MethodExtension;
+
 namespace DSoft.RDLCReport
 {
     /// <summary>
@@ -22,6 +24,7 @@ namespace DSoft.RDLCReport
     {
         private int _minimum = 0;
         private int _maximum = 50;
+        private bool _isShowSpinnerButton = true;
 
         public event EventHandler ValueChanged;
         public event EventHandler UpButtonClick;
@@ -58,9 +61,41 @@ namespace DSoft.RDLCReport
                 }else
                     NumPager.Text = value.ToString();
 
+                CheckRange();
+                UpdateButton();
+
                 if (ValueChanged != null)
                     ValueChanged(this, new EventArgs());
             }
+        }
+
+        public bool IsShowSpinnerButton
+        {
+            get
+            {
+                return this._isShowSpinnerButton;
+            }
+            set
+            {
+                this._isShowSpinnerButton = value;
+
+                if (value)
+                    ButtonColumn.Width = new GridLength(20);
+                else
+                    ButtonColumn.Width = new GridLength(0);
+            }
+        }
+
+        private void UpdateButton()
+        {
+            SpinnerUp.DisableButton();
+            SpinnerDown.DisableButton();
+
+            if (this.Value > this._minimum)
+                SpinnerDown.EnableButton();
+
+            if (this.Value < this._maximum)
+                SpinnerUp.EnableButton();
         }
 
         public int Minimum
@@ -74,6 +109,7 @@ namespace DSoft.RDLCReport
                 this._minimum = value;
 
                 CheckRange();
+                UpdateButton();
             }
         }
 
@@ -88,6 +124,7 @@ namespace DSoft.RDLCReport
                 this._maximum = value;
 
                 CheckRange();
+                UpdateButton();
             }
         }
 
@@ -107,7 +144,8 @@ namespace DSoft.RDLCReport
         
 
         private void CheckRange()
-        {
+        { 
+
             if (this.Value > this._maximum)
             {
                 this.Value = this._maximum;
@@ -130,6 +168,9 @@ namespace DSoft.RDLCReport
             if (this.Value < this._maximum)
                 this.Value += 1;
 
+            CheckRange();
+            UpdateButton();
+
             if (UpButtonClick != null)
                 UpButtonClick(this, new EventArgs());
         }
@@ -139,6 +180,9 @@ namespace DSoft.RDLCReport
             if (this.Value > this._minimum)
                 this.Value -= 1;
 
+            CheckRange();
+            UpdateButton();
+
             if (DownButtonClick != null)
                 DownButtonClick(this, new EventArgs());
         }
@@ -146,6 +190,7 @@ namespace DSoft.RDLCReport
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             CheckRange();
+            UpdateButton();
         }
     }
 }
