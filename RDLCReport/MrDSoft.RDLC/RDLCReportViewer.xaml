@@ -12,6 +12,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="./Style/BrushDictionary.xaml"/>
                 <ResourceDictionary Source="./Style/ButtonDictionary.xaml"/>
+                <ResourceDictionary Source="./Style/ToolBarDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <RoutedUICommand x:Key="OpenPrintDialog" />
