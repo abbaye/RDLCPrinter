@@ -50,9 +50,10 @@
             <Label  Content="Page range}" FontSize="12" Margin="10,82,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
             <Label Content="All page" Margin="10,38,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
             <StackPanel x:Name="PageChoiceStackPanel" Margin="125,79,0,0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" IsEnabled="False">
-                <TextBox x:Name="FirstPage"  KeyDown="FirstPage_KeyDown" TextWrapping="Wrap" Text="1"  MaxLength="2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" LostFocus="FirstPage_LostFocus" Height="32" VerticalAlignment="Top" HorizontalAlignment="Left" Width="32"  />
-                <Label  Content="To page" FontSize="12" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="32" VerticalAlignment="Top" HorizontalAlignment="Left" Width="65"/>
-                <TextBox x:Name="LastPage" KeyDown="LastPage_KeyDown" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" MaxLength="2" LostFocus="LastPage_LostFocus" Height="32" VerticalAlignment="Top" HorizontalAlignment="Left" Width="32"  />
+                
+                <RDLCReport:LightIntergerSpinner x:Name="FirstPageSpinner" HorizontalAlignment="Left" Width="54" Height="32" Minimum="1" Maximum="10" Value="1"/>
+                <Label  Content="To page" FontSize="12" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="32" VerticalAlignment="Top" HorizontalAlignment="Left" Width="65"/>                
+                <RDLCReport:LightIntergerSpinner x:Name="LastPageSpinner" HorizontalAlignment="Left" Width="54" Height="32" Minimum="1" Maximum="10" Value="1"/>
             </StackPanel>
             <ToggleButton x:Name="cmdAllPageButton" Margin="125,31,0,0" Click="cmdAllPageButton_Click" IsChecked="True" HorizontalAlignment="Left" Width="53" Height="40" VerticalAlignment="Top">
                 <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/AllPage.ico" Height="30" Width="30" Stretch="Uniform" ToolTip="All Page" RenderOptions.BitmapScalingMode="HighQuality"/>

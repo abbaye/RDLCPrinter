@@ -65,9 +65,6 @@ namespace DSoft.RDLC
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             RefreshWindow();
-            //disable Paste (coller) pour les TextBox du choix des pages
-            DataObject.AddPastingHandler(FirstPage, this.OnCancelCommand);
-            DataObject.AddPastingHandler(LastPage, this.OnCancelCommand);
         }
 
         private void RefreshWindow()
@@ -78,10 +75,13 @@ namespace DSoft.RDLC
             {
                 NumberOfCopySpinner.Value = this._report.CopyNumber;                
             }
-            FirstPage.Text = "1";
 
-            //obtien le nombre de page du rapport
-            LastPage.Text = this._report.PagesCount.ToString();
+            //update spinner
+            FirstPageSpinner.Maximum = this._report.PagesCount;
+            LastPageSpinner.Maximum = this._report.PagesCount;
+
+            FirstPageSpinner.Value = 1;            
+            LastPageSpinner.Value = this._report.PagesCount;
 
             //Get all printer
             cboImprimanteNom.ItemsSource = _printServer.GetPrintQueues(new[] { EnumeratedPrintQueueTypes.Local, EnumeratedPrintQueueTypes.Connections }).Cast<PrintQueue>();
@@ -171,8 +171,8 @@ namespace DSoft.RDLC
         {
             if (cmdAllPageButton.IsChecked == false)
             {
-                _printer.PrinterSettings.FromPage = Convert.ToInt32(FirstPage.Text);
-                _printer.PrinterSettings.ToPage = Convert.ToInt32(LastPage.Text);
+                _printer.PrinterSettings.FromPage = FirstPageSpinner.Value.Value;
+                _printer.PrinterSettings.ToPage = LastPageSpinner.Value.Value;
             }
         }
 
@@ -183,22 +183,6 @@ namespace DSoft.RDLC
         private void Annuler_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
-        }
-
-        private void FirstPage_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.IsNumericKey())
-                e.Handled = false;
-            else
-                e.Handled = true;
-        }
-
-        private void LastPage_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.IsNumericKey())
-                e.Handled = false;
-            else
-                e.Handled = true;
         }
 
         /// <summary>
@@ -214,31 +198,12 @@ namespace DSoft.RDLC
             if (cmdAllPageButton.IsChecked == true)
             {
                 PageChoiceStackPanel.IsEnabled = false;
-                FirstPage.Text = "1";
-                LastPage.Text = this._report.PagesCount.ToString();
-;
+                FirstPageSpinner.Value = 1;
+                LastPageSpinner.Value = this._report.PagesCount;
+
             }
             else
                 PageChoiceStackPanel.IsEnabled = true;
         }
-
-        private void FirstPage_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if(FirstPage.Text.Trim() == "")
-                FirstPage.Text = "1";
-
-            if (Convert.ToInt32(FirstPage.Text) < 1 || Convert.ToInt32(FirstPage.Text) > this._report.PagesCount)
-                FirstPage.Text = "1";
-        }
-
-        private void LastPage_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if(LastPage.Text.Trim() == "")
-                LastPage.Text = this._report.PagesCount.ToString();
-
-            if (Convert.ToInt32(LastPage.Text) < 1 || Convert.ToInt32(LastPage.Text) > this._report.PagesCount)
-                LastPage.Text = this._report.PagesCount.ToString();
-        }
-
     }
 }
