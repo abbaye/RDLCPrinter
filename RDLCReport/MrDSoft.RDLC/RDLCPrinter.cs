@@ -1,15 +1,14 @@
-﻿using Microsoft.Reporting.WinForms;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Printing;
 using System.IO;
-using System.Printing;
 using System.Text;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
+using Microsoft.Reporting.WinForms;
 
 namespace DSoft
 {
@@ -378,7 +377,7 @@ namespace DSoft
 
         #endregion
 
-        #region method Print pour les différent Type de Format
+        #region method to Print / export to various file format
         /// <summary>
         /// Launch printing
         /// </summary>
@@ -407,6 +406,7 @@ namespace DSoft
         #endregion
 
         #region Some export method
+
 
         /// <summary>
         /// Save as PNG image to the specified path
