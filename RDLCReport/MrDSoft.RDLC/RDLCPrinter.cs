@@ -35,8 +35,9 @@ namespace DSoft
         private BitmapDecoder _dec = null;
 
         //Event
-        public EventHandler FileSaving;
-        public EventHandler FileSaved;
+        public event EventHandler FileSaving;
+        public event EventHandler FileSaved;
+        public event EventHandler BeforeRefresh;
         
         /// <summary>
         /// Initialize an empty report object
@@ -69,6 +70,21 @@ namespace DSoft
             this._Copies = 1;
             this._ReportType = ReportType.Printer;
             this._path = "";
+        }
+
+        /// <summary>
+        /// Refresh Report and Data
+        /// </summary>
+        public void Refresh()
+        {
+            if (this._report != null)
+            {
+                if (BeforeRefresh != null)
+                    BeforeRefresh(this, new EventArgs());
+
+                this._report.Refresh();
+                this._dec = null;
+            }
         }
         
         #region Properties
@@ -607,6 +623,7 @@ namespace DSoft
             else
                 return null;
         }
+
         #endregion
 
         #region Dipose des Streams

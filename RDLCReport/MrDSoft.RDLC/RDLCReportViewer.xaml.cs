@@ -157,13 +157,16 @@ namespace DSoft.RDLC
         {
             if (this._report != null)
             {
+                this._report.Refresh();
+
                 LoadImage();
-
-
+                
                 _pos = 0;
 
                 PageSpinner.Maximum = this._report.PagesCount;
                 PageSpinner.Value = _pos + 1;
+
+                ChangeImage(_pos);
 
                 CreateTransformGroup();
             }            

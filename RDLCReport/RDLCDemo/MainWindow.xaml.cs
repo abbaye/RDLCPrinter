@@ -23,6 +23,9 @@ namespace RDLCDemo
     /// </summary>
     public partial class MainWindow : Window
     {
+        NorthwindDataSetTableAdapters.ProductsByCategoriesTableAdapter _dataAdapter;
+        NorthwindDataSet _northWindDataSet;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -37,12 +40,12 @@ namespace RDLCDemo
             
 
             //Create the dataset            
-            NorthwindDataSet northWindDataSet = new NorthwindDataSet();
-            NorthwindDataSetTableAdapters.ProductsByCategoriesTableAdapter dataAdapter = new NorthwindDataSetTableAdapters.ProductsByCategoriesTableAdapter();
+            this._northWindDataSet = new NorthwindDataSet();
+            this._dataAdapter = new NorthwindDataSetTableAdapters.ProductsByCategoriesTableAdapter();
 
-            northWindDataSet.DataSetName = "NorthwindDataSet";
-            northWindDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            dataAdapter.ClearBeforeFill = true;
+            this._northWindDataSet.DataSetName = "NorthwindDataSet";
+            this._northWindDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            this._dataAdapter.ClearBeforeFill = true;
 
             //Created datasource and binding source
             ReportDataSource dataSource = new ReportDataSource();
@@ -51,18 +54,26 @@ namespace RDLCDemo
             dataSource.Name = "ProductsDataSources";  //the datasource name in the RDLC report
             dataSource.Value = source;
             source.DataMember = "ProductsByCategories";
-            source.DataSource = northWindDataSet;
+            source.DataSource = this._northWindDataSet;
             report.DataSources.Add(dataSource);
 
 
             //Fill Data in the dataset
-            dataAdapter.Fill(northWindDataSet.ProductsByCategories);
+            this._dataAdapter.Fill(this._northWindDataSet.ProductsByCategories);
             
             //Create the printer/export rdlc printer
             RDLCPrinter rdlcPrinter = new RDLCPrinter(report);
 
+            rdlcPrinter.BeforeRefresh += rdlcPrinter_BeforeRefresh;
+            
             //Load in report viewer
             ReportViewer.Report = rdlcPrinter;            
+        }
+
+        private void rdlcPrinter_BeforeRefresh(object sender, EventArgs e)
+        {
+            //Fill Data in the dataset            
+            _dataAdapter.Fill(this._northWindDataSet.ProductsByCategories);
         }
     }
 }
