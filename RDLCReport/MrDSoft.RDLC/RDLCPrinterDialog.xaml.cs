@@ -69,50 +69,52 @@ namespace DSoft.RDLC
 
         private void RefreshWindow()
         {
-            
-            
-            if (this._report.CopyNumber >= 1)
+
+            if (this._report != null)
             {
-                NumberOfCopySpinner.Value = this._report.CopyNumber;                
-            }
-
-            //update spinner
-            FirstPageSpinner.Maximum = this._report.PagesCount;
-            LastPageSpinner.Maximum = this._report.PagesCount;
-
-            FirstPageSpinner.Value = 1;            
-            LastPageSpinner.Value = this._report.PagesCount;
-
-            //Get all printer
-            cboImprimanteNom.ItemsSource = _printServer.GetPrintQueues(new[] { EnumeratedPrintQueueTypes.Local, EnumeratedPrintQueueTypes.Connections }).Cast<PrintQueue>();
-            cboImprimanteNom.DisplayMemberPath = "FullName";
-            cboImprimanteNom.SelectedValue = "FullName";
-
-            //Select Default printer
-            _currentPrinter = LocalPrintServer.GetDefaultPrintQueue();
-            for (int i = 0; i < cboImprimanteNom.Items.Count; i++)
-            {
-                PrintQueue testPrint = (PrintQueue)cboImprimanteNom.Items[i];
-                if (testPrint.FullName.ToString() == _currentPrinter.FullName.ToString())
+                if (this._report.CopyNumber >= 1)
                 {
-                    cboImprimanteNom.SelectedIndex = i;
+                    NumberOfCopySpinner.Value = this._report.CopyNumber;
                 }
-            }
 
-            //Check if printer is ready
-            if (_currentPrinter.IsNotAvailable == false)
-            {
-                lblImprimanteStatus.Content = "Ready";
-                ImgSource = @"pack://application:,,,/DSoft.RDLC;component/Resources/Button-Blank-Green.ico";
+                //update spinner
+                FirstPageSpinner.Maximum = this._report.PagesCount;
+                LastPageSpinner.Maximum = this._report.PagesCount;
 
-            }
-            else
-            {
-                lblImprimanteStatus.Content = "Offline";
-                ImgSource = @"pack://application:,,,/DSoft.RDLC;component/Resources/Button-Blank-Red.ico";
+                FirstPageSpinner.Value = 1;
+                LastPageSpinner.Value = this._report.PagesCount;
 
+                //Get all printer
+                cboImprimanteNom.ItemsSource = _printServer.GetPrintQueues(new[] { EnumeratedPrintQueueTypes.Local, EnumeratedPrintQueueTypes.Connections }).Cast<PrintQueue>();
+                cboImprimanteNom.DisplayMemberPath = "FullName";
+                cboImprimanteNom.SelectedValue = "FullName";
+
+                //Select Default printer
+                _currentPrinter = LocalPrintServer.GetDefaultPrintQueue();
+                for (int i = 0; i < cboImprimanteNom.Items.Count; i++)
+                {
+                    PrintQueue testPrint = (PrintQueue)cboImprimanteNom.Items[i];
+                    if (testPrint.FullName.ToString() == _currentPrinter.FullName.ToString())
+                    {
+                        cboImprimanteNom.SelectedIndex = i;
+                    }
+                }
+
+                //Check if printer is ready
+                if (_currentPrinter.IsNotAvailable == false)
+                {
+                    lblImprimanteStatus.Content = "Ready";
+                    ImgSource = @"pack://application:,,,/DSoft.RDLC;component/Resources/Button-Blank-Green.ico";
+
+                }
+                else
+                {
+                    lblImprimanteStatus.Content = "Offline";
+                    ImgSource = @"pack://application:,,,/DSoft.RDLC;component/Resources/Button-Blank-Red.ico";
+
+                }
+                ReadyImage.Source = new BitmapImage(new Uri(ImgSource));
             }
-            ReadyImage.Source = new BitmapImage(new Uri(ImgSource));
         }
 
         /// <summary>
