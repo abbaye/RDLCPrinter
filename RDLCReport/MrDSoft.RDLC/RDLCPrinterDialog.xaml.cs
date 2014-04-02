@@ -67,7 +67,7 @@ namespace DSoft.RDLC
             RefreshWindow();
         }
 
-        private void RefreshWindow()
+        public void RefreshWindow()
         {
 
             if (this._report != null)
