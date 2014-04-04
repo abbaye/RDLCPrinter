@@ -9,7 +9,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>RDLCPrinter Class and  WPF RDLCReportViewer Control Sample</Value>
+                <Value>RDLCPrinter used in RDLCReportViewer WPF Control</Value>
                 <Style>
                   <FontSize>14pt</FontSize>
                   <FontWeight>Bold</FontWeight>
