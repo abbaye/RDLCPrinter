@@ -496,6 +496,7 @@
                     <FontSize>8pt</FontSize>
                   </Style>
                 </ChartAxisTitle>
+                <Margin>False</Margin>
                 <ChartMajorGridLines>
                   <Enabled>False</Enabled>
                   <Style>
