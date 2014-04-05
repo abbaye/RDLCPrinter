@@ -199,8 +199,8 @@ namespace DSoft.RDLC
                 ExportMenu.IsEnabled = true;
                 ExportMenu.Opacity = 1;
                 TBBPrintWithProperties.DisableButton();
-                ZoomInfoStackPanel.Visibility = Visibility.Hidden;
-                ZoomPopupButton.Visibility = Visibility.Hidden;
+                ZoomInfoStackPanel.Visibility = Visibility.Collapsed;
+                ZoomPopupButton.Visibility = Visibility.Collapsed;
                 ZoomPopupButton.IsEnabled = false;
                 ZoomPopupButton.Opacity = 0.5;
             }
@@ -239,16 +239,16 @@ namespace DSoft.RDLC
                 NextImage.Visibility = Visibility.Visible;
                 FirstImage.Visibility = Visibility.Visible;
                 LastImage.Visibility = Visibility.Visible;
-                PageSpinner.Visibility = System.Windows.Visibility.Visible;
+                PageSpinner.Visibility = Visibility.Visible;
             }
             else
             {
-                PagerSeparator.Visibility = Visibility.Hidden;
-                PreviousImage.Visibility = Visibility.Hidden;
-                NextImage.Visibility = Visibility.Hidden;
-                FirstImage.Visibility = Visibility.Hidden;
-                LastImage.Visibility = Visibility.Hidden;
-                PageSpinner.Visibility = System.Windows.Visibility.Hidden;
+                PagerSeparator.Visibility = Visibility.Collapsed;
+                PreviousImage.Visibility = Visibility.Collapsed;
+                NextImage.Visibility = Visibility.Collapsed;
+                FirstImage.Visibility = Visibility.Collapsed;
+                LastImage.Visibility = Visibility.Collapsed;
+                PageSpinner.Visibility = Visibility.Collapsed;
             } 
         }
         #endregion
