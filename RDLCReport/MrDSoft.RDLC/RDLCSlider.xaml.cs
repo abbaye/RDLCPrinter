@@ -15,7 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DSoft.MethodExtension;
 
-namespace GCESRecyclage.Reports
+namespace DSoft.RDLC
 {
     /// <summary>
     /// RDLCSlider
@@ -41,11 +41,10 @@ namespace GCESRecyclage.Reports
         public event EventHandler ValueChanged;
 
 
-        #region Les différente propriétées du control
+        #region Properties
         /// <summary>
-        /// Assigne la valeur minimum du slider
+        /// Get ou set the minimum value
         /// </summary>
-        [DefaultValue(0)]
         public double Minimum
         {
             get
@@ -61,9 +60,8 @@ namespace GCESRecyclage.Reports
 
 
         /// <summary>
-        /// Assigne la valeur maximum du slider
+        /// Get or set the maximum value
         /// </summary>
-        [DefaultValue(1)]
         public double Maximum
         {
             get
@@ -81,9 +79,8 @@ namespace GCESRecyclage.Reports
 
 
         /// <summary>
-        /// Assigne la valeur de Smallchange du slider
+        /// Get or set the Smallchange 
         /// </summary>
-        [DefaultValue(1)]
         public double SmallChange
         {
             get
@@ -95,15 +92,13 @@ namespace GCESRecyclage.Reports
             {
                 this._sliderSmallChange = value;
                 this.ChartSlider.SmallChange = this._sliderSmallChange;
-
-                //assigne la meme valeur a LargeChange du slider que SmallChange
                 this.ChartSlider.LargeChange = this._sliderSmallChange;
             }
         }
 
 
         /// <summary>
-        /// Assigne la veleur de l'interval du slider.
+        /// Get or set the interval
         /// </summary>
         [DefaultValue(1)]
         public int Interval
@@ -123,7 +118,7 @@ namespace GCESRecyclage.Reports
 
 
         /// <summary>
-        /// Assigne le TickFrequency du slider
+        /// Get or set the TickFrequency
         /// </summary>
         [DefaultValue(1)]
         public double TickFrequency
@@ -143,7 +138,7 @@ namespace GCESRecyclage.Reports
 
 
         /// <summary>
-        /// Déffini la valeur de IsSnapToTickEnabled du slider
+        /// Get or set the IsSnapToTickEnabled
         /// </summary>
         [DefaultValue(true)]
         public bool IsSnapToTickEnabled
@@ -163,7 +158,7 @@ namespace GCESRecyclage.Reports
 
 
         /// <summary>
-        /// Assigne la valeur(Value) du slider
+        /// Get or set the curent value of slider
         /// </summary>
         [DefaultValue(0)]
         public double Value
@@ -181,7 +176,7 @@ namespace GCESRecyclage.Reports
                     ValueChanged(this, new EventArgs());
             }
         }
-        #endregion //Les différente propriétées du control
+        #endregion //Properties
 
 
         public RDLCSlider()
@@ -190,10 +185,11 @@ namespace GCESRecyclage.Reports
         }
 
 
-        #region Les différents clic des boutons de naviguation
+        #region Events
 
         private void FirstButton_Click(object sender, RoutedEventArgs e)
         {
+            
             if (FirstButtonClick != null)
                 FirstButtonClick(this, new EventArgs());
         }
@@ -215,10 +211,6 @@ namespace GCESRecyclage.Reports
             if (LastButtonClick != null)
                 LastButtonClick(this, new EventArgs());
         }
-        #endregion //Les différents clic des boutons de naviguation
-
-
-        #region Bloc du changement de valeur du slider.
 
         private void ChartSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -228,10 +220,10 @@ namespace GCESRecyclage.Reports
                 ValueChanged(this, new EventArgs());
         }
 
-        #endregion //Bloc du changement de valeur du slider.
+        #endregion //Events.
 
 
-        #region Update des bouton selon la position du slider
+        #region Methode
 
         public void UpdateButton()
         {
@@ -257,6 +249,6 @@ namespace GCESRecyclage.Reports
                 LastButton.EnableButton(); 
             }
         }
-        #endregion //Update des bouton selon la position du slider
+        #endregion //Methode
     }
 }
