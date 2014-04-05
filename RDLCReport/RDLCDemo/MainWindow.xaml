@@ -8,7 +8,7 @@
         Title="RDLC WPF UserControl Demo" Height="800" Width="1024">
     <Grid>
 
-        <RDLC:RDLCReportViewer x:Name="ReportViewer" Margin="10,10,408,10" Width="Auto" Height="Auto"/>
+        <RDLC:RDLCReportViewer x:Name="ReportViewer" Margin="10" Width="Auto" Height="Auto"/>
         
     </Grid>
 </Window>
