@@ -314,77 +314,6 @@ namespace DSoft.RDLC
             }
         }
 
-        /// <summary>
-        /// Clic du bouton PreviousImage (page précédente)
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void PreviousImage_Click(object sender, RoutedEventArgs e)
-        {
-
-            Application.Current.MainWindow.Cursor = Cursors.Wait;
-
-            if (_pos > 0)
-            {
-                _pos--;
-                PageSpinner.Value = _pos + 1;
-                ChangeImage(_pos);
-            }
-
-            Application.Current.MainWindow.Cursor = null;
-        }
-
-
-        /// <summary>
-        /// Clic du bouton NextImage ( page suivante)
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void NextImage_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.MainWindow.Cursor = Cursors.Wait;
-
-            if (_pos + 1 < this._report.PagesCount)
-            {
-                _pos++;
-                PageSpinner.Value = _pos + 1;
-                ChangeImage(_pos);
-            }
-
-            Application.Current.MainWindow.Cursor = null;
-        }
-
-        private void FirstImage_Click(object sender, RoutedEventArgs e)
-        {
-            _pos = 0;
-            ChangeImage(_pos);
-            PageSpinner.Value = _pos + 1;;
-        }
-
-        private void LastImage_Click(object sender, RoutedEventArgs e)
-        {
-            _pos = this._report.PagesCount - 1;
-            PageSpinner.Value = _pos + 1; 
-            ChangeImage(_pos);
-        }
-
-        // Différente logique pour l'importation des différent type de fichier
-
-        private void MenuItemWord_Click(object sender, RoutedEventArgs e)
-        {
-            ExportMethod(ReportType.Word);
-        }
-
-        private void MenuItemExcel_Click(object sender, RoutedEventArgs e)
-        {
-            ExportMethod(ReportType.Excel);
-        }
-
-        private void MenuItemPNG_Click(object sender, RoutedEventArgs e)
-        {
-            ExportMethod(ReportType.Image);
-        }
-
         private void ExportMethod(ReportType rType)
         {
             System.Windows.Forms.SaveFileDialog saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
@@ -420,37 +349,123 @@ namespace DSoft.RDLC
             }
         }
 
+        /// <summary>
+        /// Previous page
+        /// </summary>
+        private void PreviousImage_Click(object sender, RoutedEventArgs e)
+        {
+
+            Application.Current.MainWindow.Cursor = Cursors.Wait;
+
+            if (_pos > 0)
+            {
+                _pos--;
+                PageSpinner.Value = _pos + 1;
+                ChangeImage(_pos);
+            }
+
+            Application.Current.MainWindow.Cursor = null;
+        }
+
+
+        /// <summary>
+        /// Next page
+        /// </summary>
+        private void NextImage_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.Cursor = Cursors.Wait;
+
+            if (_pos + 1 < this._report.PagesCount)
+            {
+                _pos++;
+                PageSpinner.Value = _pos + 1;
+                ChangeImage(_pos);
+            }
+
+            Application.Current.MainWindow.Cursor = null;
+        }
+
+        /// <summary>
+        /// First page
+        /// </summary>
+        private void FirstImage_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.Cursor = Cursors.Wait;
+
+            _pos = 0;
+            ChangeImage(_pos);
+            PageSpinner.Value = _pos + 1;;
+
+            Application.Current.MainWindow.Cursor = null;
+        }
+
+        /// <summary>
+        /// Last page
+        /// </summary>        
+        private void LastImage_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.Cursor = Cursors.Wait;
+
+            _pos = this._report.PagesCount - 1;
+            PageSpinner.Value = _pos + 1; 
+            ChangeImage(_pos);
+
+            Application.Current.MainWindow.Cursor = null;
+        }
+
+        /// <summary>
+        /// Export to word file format button
+        /// </summary>        
+        private void MenuItemWord_Click(object sender, RoutedEventArgs e)
+        {
+            ExportMethod(ReportType.Word);
+        }
+
+        /// <summary>
+        /// Export to excel file format button
+        /// </summary>        
+        private void MenuItemExcel_Click(object sender, RoutedEventArgs e)
+        {
+            ExportMethod(ReportType.Excel);
+        }
+
+        /// <summary>
+        /// Export to PNG file format button
+        /// </summary>        
+        private void MenuItemPNG_Click(object sender, RoutedEventArgs e)
+        {
+            ExportMethod(ReportType.Image);
+        }
+
+
+        /// <summary>
+        /// Export to PDF file format button
+        /// </summary>        
         private void ExportDefault_Click(object sender, RoutedEventArgs e)
         {
             ExportMethod(ReportType.PDF);
         }
 
         /// <summary>
-        /// Logique qui load la ToolBar
+        /// Load toolbar logic
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void ToolBarRow_Loaded(object sender, RoutedEventArgs e)
         {
             ToolBar toolBar = sender as ToolBar;
             var overflowGrid = toolBar.Template.FindName("OverflowGrid", toolBar) as FrameworkElement;
-            if (overflowGrid != null)
-            {
+            if (overflowGrid != null)            
                 overflowGrid.Visibility = Visibility.Collapsed;
-            }
+            
 
             var mainPanelBorder = toolBar.Template.FindName("MainPanelBorder", toolBar) as FrameworkElement;
-            if (mainPanelBorder != null)
-            {
+            if (mainPanelBorder != null)            
                 mainPanelBorder.Margin = new Thickness(0);
-            }
+            
         }
 
         /// <summary>
-        /// Appel de la fenêtre RDLCPrintDialog
+        /// Call a RDLCPrintDialog
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void TBBPrintWithProperties_Click(object sender, RoutedEventArgs e)
         {
             RDLCPrinterDialog printerDialog = new RDLCPrinterDialog();
@@ -465,10 +480,8 @@ namespace DSoft.RDLC
 
 
         /// <summary>
-        /// Logique pour le "drag" de l'image
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// Drag picture logic
+        /// </summary>        
         private void PreviewImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (ZoomSlider.Value == 98 || ZoomSlider.Value == 99) return;
@@ -479,12 +492,15 @@ namespace DSoft.RDLC
             _origin = new Point(tt.X, tt.Y);
         }
 
+        /// <summary>
+        /// Zoom slider logic
+        /// </summary>        
         private void ZoomSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (ZoomSlider.Value != 98)
             {
                 ActualSizeButton.IsEnabled = true;
-                ActualSizeButton.Opacity = 1;
+                ActualSizeButton.Opacity = 1;                
             }
             else
             {
@@ -502,8 +518,7 @@ namespace DSoft.RDLC
                 ZoomPopup.IsOpen = false;
         }
 
-        #region différents click des boutons du zoom
-        // Différent click des bouton du Zoom
+        #region zoom button event
         private void ActualSizeButton_Click(object sender, RoutedEventArgs e)
         {
             ImageScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
@@ -552,18 +567,11 @@ namespace DSoft.RDLC
             ZoomSlider.Value += e.Delta / 15;
         }
 
-
-        /// <summary>
-        /// entre en mode Fixé a la fenêtre
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void FitToWindowButton_Click(object sender, RoutedEventArgs e)
         {
             SetFitToWindowMode();        
         }
-
-
+        
         private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             RDLCPrinterDialog printerDialog = new RDLCPrinterDialog();
@@ -574,11 +582,6 @@ namespace DSoft.RDLC
                 return;
 
             printerDialog.ShowDialog();
-        }
-
-        private void PageSpinner_ValueChanged(object sender, EventArgs e)
-        {
-            
-        }
+        }        
     }    
 }
