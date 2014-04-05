@@ -189,6 +189,7 @@ namespace DSoft.RDLC
 
         private void FirstButton_Click(object sender, RoutedEventArgs e)
         {
+            UpdateButton();
             
             if (FirstButtonClick != null)
                 FirstButtonClick(this, new EventArgs());
@@ -196,18 +197,24 @@ namespace DSoft.RDLC
 
         private void PreviousButton_Click(object sender, RoutedEventArgs e)
         {
+            UpdateButton();
+
             if (PrevioustButtonClick != null)
                 PrevioustButtonClick(this, new EventArgs());
         }
 
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
+            UpdateButton();
+
             if (NextButtonClick != null)
                 NextButtonClick(this, new EventArgs());
         }
 
         private void LastButton_Click(object sender, RoutedEventArgs e)
         {
+            UpdateButton();
+
             if (LastButtonClick != null)
                 LastButtonClick(this, new EventArgs());
         }
@@ -215,6 +222,8 @@ namespace DSoft.RDLC
         private void ChartSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             _sliderValue = ChartSlider.Value;
+
+            UpdateButton();
 
             if (ValueChanged != null)
                 ValueChanged(this, new EventArgs());
