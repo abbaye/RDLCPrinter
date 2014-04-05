@@ -15,7 +15,7 @@ namespace DSoft.RDLCReport
     /// http://social.msdn.microsoft.com/Forums/fr-FR/248a3258-e3ec-4ba2-9085-2fda2f0b0058/wpf-faq-applicationdoevents-dans-wpf?forum=wpffr
     /// </remarks>
     /// </summary>
-    private class DispatcherHelper
+    public class DispatcherHelper
     {
         private static DispatcherOperationCallback exitFrameCallback = new DispatcherOperationCallback(ExitFrame);
         
