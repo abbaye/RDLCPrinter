@@ -38,7 +38,7 @@ namespace DSoft.RDLC
         private List<PrintQueue> _printerList = new List<PrintQueue>();
         private string ImgSource; 
 
-        public RDLCPrinter CurrentReport
+        public RDLCPrinter Report
         {
             get
             {
@@ -49,14 +49,8 @@ namespace DSoft.RDLC
             {
                 _report = value;
 
-                if (_report.isDefaultLandscape == true)
-                {
-                    _printer.DefaultPageSettings.Landscape = true;                    
-                }
-                else
-                {
-                    
-                }
+                if (_report.isDefaultLandscape == true)                
+                    _printer.DefaultPageSettings.Landscape = true;   
             }
         }
 
@@ -158,14 +152,14 @@ namespace DSoft.RDLC
         private void OK_Click(object sender, RoutedEventArgs e)
         {            
             PreparePrint();
-            CurrentReport.PrintDoc = this._printer;
+            Report.PrintDoc = this._printer;
 
             if (NumberOfCopySpinner.Value.HasValue)
-                CurrentReport.CopyNumber = NumberOfCopySpinner.Value.Value;
+                Report.CopyNumber = NumberOfCopySpinner.Value.Value;
             else
-                CurrentReport.CopyNumber = 1;
+                Report.CopyNumber = 1;
 
-            CurrentReport.Print();
+            Report.Print();
             this.Close();
         }
 

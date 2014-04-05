@@ -471,7 +471,7 @@ namespace DSoft.RDLC
             RDLCPrinterDialog printerDialog = new RDLCPrinterDialog();
 
             if (this._report != null)                            
-                printerDialog.CurrentReport = this._report;            
+                printerDialog.Report = this._report;            
             else
                 return;
 
@@ -577,7 +577,7 @@ namespace DSoft.RDLC
             RDLCPrinterDialog printerDialog = new RDLCPrinterDialog();
 
             if (this._report != null)                            
-                printerDialog.CurrentReport = this._report;            
+                printerDialog.Report = this._report;            
             else
                 return;
 
