@@ -26,7 +26,6 @@ namespace DSoft.RDLC
     /// </summary>
     public partial class RDLCSlider : UserControl
     {
-
         private double _sliderMinimum = 0;
         private double _sliderMaximum = 1;
         private double _sliderSmallChange = 1;
