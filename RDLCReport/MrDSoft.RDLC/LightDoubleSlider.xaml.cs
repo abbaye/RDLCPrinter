@@ -24,7 +24,7 @@ namespace DSoft.RDLC
     /// https://rdlcprinter.codeplex.com/
     /// </remarks>
     /// </summary>
-    public partial class RDLCSlider : UserControl
+    public partial class LightDoubleSlider : UserControl
     {
         private double _sliderMinimum = 0;
         private double _sliderMaximum = 1;
@@ -38,6 +38,13 @@ namespace DSoft.RDLC
         public event EventHandler NextButtonClick;
         public event EventHandler LastButtonClick;
         public event EventHandler ValueChanged;
+
+
+
+        public LightDoubleSlider()
+        {
+            InitializeComponent();
+        }
 
 
         #region Properties
@@ -176,13 +183,6 @@ namespace DSoft.RDLC
             }
         }
         #endregion //Properties
-
-
-        public RDLCSlider()
-        {
-            InitializeComponent();
-        }
-
 
         #region Events
 

@@ -67,7 +67,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="RDLCSlider.xaml">
+    <Page Include="LightDoubleSlider.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -88,8 +88,8 @@
     <Compile Include="RDLCReportViewer.xaml.cs">
       <DependentUpon>RDLCReportViewer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RDLCSlider.xaml.cs">
-      <DependentUpon>RDLCSlider.xaml</DependentUpon>
+    <Compile Include="LightDoubleSlider.xaml.cs">
+      <DependentUpon>LightDoubleSlider.xaml</DependentUpon>
     </Compile>
     <Page Include="Style\BrushDictionary.xaml">
       <SubType>Designer</SubType>
