@@ -71,6 +71,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </None>
+    <Compile Include="DispatcherHelper.cs" />
     <Compile Include="enumeration.cs" />
     <Compile Include="LightIntergerSpinner.xaml.cs">
       <DependentUpon>LightIntergerSpinner.xaml</DependentUpon>

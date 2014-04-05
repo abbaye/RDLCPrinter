@@ -119,6 +119,8 @@ namespace DSoft.RDLC
                 
                 RefreshControl();
 
+                //DispatcherHelper.DoEvents();
+
                 GiveFocus();
             }
         }
