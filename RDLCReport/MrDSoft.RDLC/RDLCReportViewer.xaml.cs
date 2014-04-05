@@ -60,7 +60,7 @@ namespace DSoft.RDLC
         }
 
         /// <summary>
-        /// logique pour bopuger l'image (rapport dans notre cas)
+        /// For move the report in usercontrol
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -77,7 +77,7 @@ namespace DSoft.RDLC
         }
 
         /// <summary>
-        /// relache l'image
+        /// Release mouse capture
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -87,20 +87,16 @@ namespace DSoft.RDLC
         }
 
         /// <summary>
-        /// Call du refresh au changement de rapport
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// Call refresh button
+        /// </summary>        
         private void cmdRefresh_Click(object sender, RoutedEventArgs e)
         {            
             RefreshControl();
         }
 
         /// <summary>
-        /// Impression du Rapport au clic du bouton Print
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// Print report button
+        /// </summary>        
         private void cmdPrint_Click(object sender, RoutedEventArgs e)
         {
             this._report.Reporttype = ReportType.Printer;
@@ -127,6 +123,9 @@ namespace DSoft.RDLC
             }
         }
 
+        /// <summary>
+        /// Give the focus to usercontrol
+        /// </summary>
         public void GiveFocus()
         {
             FocusManager.SetFocusedElement(this, this.PreviewImage);
@@ -135,7 +134,7 @@ namespace DSoft.RDLC
 
 
         /// <summary>
-        /// Display toolbar
+        /// Display or not the toolbar
         /// </summary>
         public bool isShowToolBar
         {
@@ -155,7 +154,7 @@ namespace DSoft.RDLC
         }
 
         /// <summary>
-        /// Resfresh du controle au changement de rapport
+        /// Refresh logic.         
         /// </summary>
         public void RefreshControl()
         {
@@ -163,7 +162,7 @@ namespace DSoft.RDLC
             {
                 this._report.Refresh();
 
-                DispatcherHelper.DoEvents();
+                DispatcherHelper.DoEvents(); //Clear the ui message queud
 
                 LoadImage();
                 
@@ -178,9 +177,8 @@ namespace DSoft.RDLC
             }            
         }
 
-        #region Update des propriétées pour les différents bouton et controles de la toolbar
         /// <summary>
-        /// Update des propriétées pour les différents bouton et controles de la toolbar
+        /// Update the toolbar button
         /// </summary>
         private void UpdateToolBarButton()
         {
@@ -257,10 +255,9 @@ namespace DSoft.RDLC
                 PageSpinner.Visibility = Visibility.Collapsed;
             } 
         }
-        #endregion
 
         /// <summary>
-        /// Load de l'image en bitmap image pour afficher dans le controle utilisateur
+        /// Load image for the preview
         /// </summary>
         private void LoadImage()
         {
@@ -277,14 +274,21 @@ namespace DSoft.RDLC
 
 
         /// <summary>
-        /// change l'image (page) sur demande
+        /// Chage page to the position
         /// </summary>
         /// <param name="position"></param>
         private void ChangeImage(int position)
         {
-            
-            CreateTransformGroup();
+            int pagecount = this._report.GetBitmapDecoder().Frames.Count;
 
+            //Check interval
+            if (position < 0)
+                position = 0;
+            else if (position > pagecount)
+                position = pagecount;
+
+            CreateTransformGroup();
+                        
             this.PreviewImage.Source = this._report.GetBitmapDecoder().Frames[position];
 
             UpdateToolBarButton();
