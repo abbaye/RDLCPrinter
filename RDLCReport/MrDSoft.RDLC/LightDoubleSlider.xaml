@@ -6,7 +6,7 @@
              mc:Ignorable="d" Height="26" Width="767">
 
     <!--
-    CREDIT : 2013-2014 Derek Tremblay (abbaye), Martin Savard
+    CREDIT : 2013-2014 Derek Tremblay (abbaye)
     https://rdlcprinter.codeplex.com/
     -->
 
@@ -19,6 +19,14 @@
     </UserControl.Resources>
 
     <Grid x:Name="SliderRow" >
+        <!--<Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>-->
+        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                 <Button x:Name="FirstButton"
                         Style="{StaticResource FlatButtonStyle}" 
@@ -29,6 +37,7 @@
                             SnapsToDevicePixels="True" 
                             />
                 </Button>
+                
                 <Button x:Name="PreviousButton"
                         Style="{StaticResource FlatButtonStyle}"
                         Click="PreviousButton_Click"
@@ -36,6 +45,7 @@
                     <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/move-previous.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Button>
             </StackPanel>
+        
             <StackPanel HorizontalAlignment="Stretch" Margin="52,0">
                 <Border BorderBrush="LightBlue" BorderThickness="1">
                     <Slider x:Name="ChartSlider" 
