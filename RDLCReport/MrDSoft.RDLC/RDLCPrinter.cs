@@ -14,6 +14,10 @@ namespace DSoft
 {
     /// <summary>
     /// This class allow to Print and export RDLC Report. 
+    /// <remarks>
+    /// CREDIT : 2013-2014 Derek Tremblay (abbaye), Martin Savard
+    /// https://rdlcprinter.codeplex.com/
+    /// </remarks>
     /// </summary>
     public class RDLCPrinter : IDisposable
     {

@@ -1,6 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <!--
+    CREDIT : 2013-2014 Derek Tremblay (abbaye)
+    https://rdlcprinter.codeplex.com/
+    -->
+
     <Style TargetType="{x:Type ToolBar}">
         <Setter Property="Background">
             <Setter.Value>

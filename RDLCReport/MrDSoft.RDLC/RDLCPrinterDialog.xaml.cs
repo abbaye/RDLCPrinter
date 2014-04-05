@@ -23,7 +23,11 @@ using DSoft.RDLCReport;
 namespace DSoft.RDLC
 {
     /// <summary>
-    /// Interaction logic for RDLCPrinterDialog.xaml
+    /// RDLCPrinterDialog
+    /// <remarks>
+    /// CREDIT : 2013-2014 Derek Tremblay (abbaye), Martin Savard
+    /// https://rdlcprinter.codeplex.com/
+    /// </remarks>
     /// </summary>
     public partial class RDLCPrinterDialog : Window
     {

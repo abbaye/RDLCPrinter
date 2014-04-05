@@ -18,7 +18,11 @@ using DSoft.MethodExtension;
 namespace GCESRecyclage.Reports
 {
     /// <summary>
-    /// Interaction logic for RDLCSlider.xaml
+    /// RDLCSlider
+    /// <remarks>
+    /// CREDIT : 2013-2014 Derek Tremblay (abbaye), Martin Savard
+    /// https://rdlcprinter.codeplex.com/
+    /// </remarks>
     /// </summary>
     public partial class RDLCSlider : UserControl
     {

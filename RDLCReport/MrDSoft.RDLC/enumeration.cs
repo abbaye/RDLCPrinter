@@ -11,6 +11,7 @@ namespace DSoft
         Word,
         PDF,
         Excel,
-        Image
+        Image,
+        //PlainText
     }
 }

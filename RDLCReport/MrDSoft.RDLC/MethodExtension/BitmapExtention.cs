@@ -12,9 +12,12 @@ namespace DSoft.MethodExtension
     {
         /// <summary>
         /// Recoit un bitmap et retourne la couleur de la premiere pixel du coin supérieur gauche pour etre utiliser pour définir le backgroud d'un control
+        /// <remarks>
+        /// CREDIT : 2013 Martin Savard
+        /// https://rdlcprinter.codeplex.com/
+        /// </remarks>
         /// </summary>
-        /// <param name="b"></param>
-        /// <returns></returns>
+
         public static System.Windows.Media.Color GetColor(this Bitmap b)
         {
             Bitmap myBitmap = new Bitmap(b);

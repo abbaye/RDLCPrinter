@@ -18,7 +18,11 @@ using DSoft.MethodExtension;
 namespace DSoft.RDLCReport
 {
     /// <summary>
-    /// Logique d'interaction pour LightIntergerSpinner.xaml
+    /// LightIntergerSpinner
+    /// <remarks>
+    /// CREDIT : 2013-2014 Derek Tremblay (abbaye)
+    /// https://rdlcprinter.codeplex.com/
+    /// </remarks>
     /// </summary>
     public partial class LightIntergerSpinner : UserControl
     {

@@ -8,6 +8,10 @@ using System.Windows.Controls;
 
 namespace DSoft.MethodExtension
 {
+    /// <remarks>
+    /// CREDIT : 2013-2014 Derek Tremblay (abbaye), Martin Savard
+    /// https://rdlcprinter.codeplex.com/
+    /// </remarks>
     public static class ButtonExtention
     {
         /// <summary>

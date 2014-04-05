@@ -6,7 +6,11 @@
              Background="White" BorderThickness="1" BorderBrush="DarkGray"
              mc:Ignorable="d" Height="500" Width="566.482" >
 
-       
+    <!--
+    CREDIT : 2013-2014 Derek Tremblay (abbaye), Martin Savard
+    https://rdlcprinter.codeplex.com/
+    -->
+
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

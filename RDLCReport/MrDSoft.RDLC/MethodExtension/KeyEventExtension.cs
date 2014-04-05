@@ -7,6 +7,10 @@ using System.Windows.Input;
 
 namespace DSoft.MethodExtension
 {
+    /// <remarks>
+    /// CREDIT : 2013-2014 Derek Tremblay (abbaye)
+    /// https://rdlcprinter.codeplex.com/
+    /// </remarks>
     public static class KeyEventExtension
     {
         public static bool IsNumericKey(this KeyEventArgs e)

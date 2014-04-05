@@ -14,6 +14,11 @@
         </ResourceDictionary>
     </Window.Resources>
 
+    <!--
+    CREDIT : 2013-2014 Derek Tremblay (abbaye), Martin Savard
+    https://rdlcprinter.codeplex.com/
+    -->
+
     <Grid>
 
         <Button x:Name="cmdOK" Margin="0,0,110,10" Height="40" Click="OK_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="98" IsDefault="True">

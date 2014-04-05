@@ -8,6 +8,10 @@ using System.Windows.Controls;
 
 namespace DSoft.MethodExtension
 {
+    /// <remarks>
+    /// CREDIT : 2013-2014 Derek Tremblay (abbaye)
+    /// https://rdlcprinter.codeplex.com/
+    /// </remarks>
     public static class ImageExtention
     {
         public static BitmapImage GetImageSource(this Image img, string path, UriKind uriKind = UriKind.RelativeOrAbsolute)

@@ -14,7 +14,11 @@ using DSoft.MethodExtension;
 namespace DSoft.RDLC
 {
     /// <summary>
-    /// Logique d'interaction pour RDLCPreviewControl.xaml
+    /// RDLCPreviewControl
+    /// <remarks>
+    /// CREDIT : 2013-2014 Derek Tremblay (abbaye), Martin Savard
+    /// https://rdlcprinter.codeplex.com/
+    /// </remarks>
     /// </summary>
     public partial class RDLCReportViewer : UserControl
     {

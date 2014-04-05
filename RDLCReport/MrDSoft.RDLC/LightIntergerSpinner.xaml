@@ -6,7 +6,12 @@
              mc:Ignorable="d" 
              Loaded="UserControl_Loaded"
              d:DesignHeight="30" d:DesignWidth="50">
-    
+
+    <!--
+    CREDIT : 2014 Derek Tremblay (abbaye)
+    https://rdlcprinter.codeplex.com/
+    -->
+
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
