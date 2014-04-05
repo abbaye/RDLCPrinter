@@ -12,8 +12,7 @@ namespace DSoft.RDLCReport
     /// </summary>
     public class DispatcherHelper
     {
-        private static DispatcherOperationCallback exitFrameCallback = new
-           DispatcherOperationCallback(ExitFrame);
+        private static DispatcherOperationCallback exitFrameCallback = new DispatcherOperationCallback(ExitFrame);
 
         /// <summary>
         /// Traite tous les messages de l'IU actuellement dans la file d'attente de message. 
@@ -26,8 +25,7 @@ namespace DSoft.RDLCReport
             //Envoie un callback a la file de messages
             //lorsqu’il est appelle, ce callback arrêtera la boucle de messages imbriques
             //la priorité de ce callback doit être inferieure à celle des messages d’évènement IU
-            DispatcherOperation exitOperation = Dispatcher.CurrentDispatcher.BeginInvoke(
-              DispatcherPriority.Background, exitFrameCallback, nestedFrame);
+            DispatcherOperation exitOperation = Dispatcher.CurrentDispatcher.BeginInvoke( DispatcherPriority.Background, exitFrameCallback, nestedFrame);
 
             // Avancer la boucle de messages, la boucle de messages
             //va traiter les messages restés a l’intérieur du fil des messages

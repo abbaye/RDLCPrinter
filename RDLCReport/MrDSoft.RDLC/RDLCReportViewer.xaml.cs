@@ -117,9 +117,7 @@ namespace DSoft.RDLC
             {
                 this._report = value;
                 
-                RefreshControl();
-
-                //DispatcherHelper.DoEvents();
+                RefreshControl();                
 
                 GiveFocus();
             }
@@ -160,6 +158,8 @@ namespace DSoft.RDLC
             if (this._report != null)
             {
                 this._report.Refresh();
+
+                DispatcherHelper.DoEvents();
 
                 LoadImage();
                 
