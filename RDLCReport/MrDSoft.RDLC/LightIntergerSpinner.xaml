@@ -32,10 +32,10 @@
         <TextBox Grid.Column="0" Grid.RowSpan="2" x:Name="NumPager" Text="0" TextAlignment="Center" VerticalContentAlignment="Center" BorderBrush="#FF8BA5EC" 
             		IsReadOnly="True" />
         <Button x:Name="SpinnerUp" Grid.Column="2" Style="{StaticResource FlatButtonStyle}" Click="SpinnerUp_Click">
-            <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/UpArrow.ico"/>
+            <Image Source="Resources/UpArrow.ico"/>
         </Button>
         <Button x:Name="SpinnerDown" Grid.Column="2" Grid.Row="1" Style="{StaticResource FlatButtonStyle}" Click="SpinnerDown_Click">
-            <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/DownArrow.ico"/>
+            <Image Source="Resources/DownArrow.ico"/>
         </Button>
     </Grid>
 </UserControl>

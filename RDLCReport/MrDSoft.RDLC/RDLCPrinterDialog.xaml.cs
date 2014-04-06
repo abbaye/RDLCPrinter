@@ -102,13 +102,13 @@ namespace DSoft.RDLC
                 if (_currentPrinter.IsNotAvailable == false)
                 {
                     lblImprimanteStatus.Content = "Ready";
-                    ImgSource = @"pack://application:,,,/DSoft.RDLC;component/Resources/Button-Blank-Green.ico";
+                    ImgSource = @"pack://application:,,,/RDLCPrinter;component/Resources/Button-Blank-Green.ico";
 
                 }
                 else
                 {
                     lblImprimanteStatus.Content = "Offline";
-                    ImgSource = @"pack://application:,,,/DSoft.RDLC;component/Resources/Button-Blank-Red.ico";
+                    ImgSource = @"pack://application:,,,/RDLCPrinter;component/Resources/Button-Blank-Red.ico";
 
                 }
                 ReadyImage.Source = new BitmapImage(new Uri(ImgSource));
@@ -133,12 +133,12 @@ namespace DSoft.RDLC
                 lblImprimanteStatus.Content = "Ready";                
                 _printer.PrinterSettings.PrinterName = _currentPrinter.FullName;
                 lblEmplacementImprimante.Content = _currentPrinter.QueuePort.Name;
-                ImgSource = @"pack://application:,,,/DSoft.RDLC;component/Resources/Button-Blank-Green.ico";
+                ImgSource = @"pack://application:,,,/RDLCPrinter;component/Resources/Button-Blank-Green.ico";
             }
             else
             {
                 lblImprimanteStatus.Content = "Offline";
-                ImgSource = @"pack://application:,,,/DSoft.RDLC;component/Resources/Button-Blank-Red.ico";
+                ImgSource = @"pack://application:,,,/RDLCPrinter;component/Resources/Button-Blank-Red.ico";
             }
 
             ReadyImage.Source = new BitmapImage(new Uri(ImgSource));

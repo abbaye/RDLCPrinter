@@ -23,14 +23,14 @@
 
         <Button x:Name="cmdOK" Margin="0,0,110,10" Height="40" Click="OK_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="98" IsDefault="True">
             <StackPanel Orientation="Horizontal">
-                <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/ok-apply.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image Source="Resources/ok-apply.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
                 <Label VerticalAlignment="Center" Content="Print"/>
             </StackPanel>
         </Button>
 
         <Button x:Name="cmdAnnuler" Margin="0,0,10,10" Click="Annuler_Click" HorizontalAlignment="Right" Width="95" Height="40" VerticalAlignment="Bottom" IsCancel="True">
             <StackPanel Orientation="Horizontal">
-                <Image Margin="0,0,10,0" Source="pack://application:,,,/DSoft.RDLC;component/Resources/System-Delete.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image Margin="0,0,10,0" Source="Resources/System-Delete.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
                 <ContentControl VerticalAlignment="Center" Content="Close"/>
             </StackPanel>
         </Button>
@@ -61,7 +61,7 @@
                 <RDLCReport:LightIntergerSpinner x:Name="LastPageSpinner" HorizontalAlignment="Left" Width="54" Height="32" Minimum="1" Maximum="10" Value="1"/>
             </StackPanel>
             <ToggleButton x:Name="cmdAllPageButton" Margin="125,31,0,0" Click="cmdAllPageButton_Click" IsChecked="True" HorizontalAlignment="Left" Width="53" Height="40" VerticalAlignment="Top">
-                <Image Source="pack://application:,,,/DSoft.RDLC;component/Resources/AllPage.ico" Height="30" Width="30" Stretch="Uniform" ToolTip="All Page" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image Source="Resources/AllPage.ico" Height="30" Width="30" Stretch="Uniform" ToolTip="All Page" RenderOptions.BitmapScalingMode="HighQuality"/>
             </ToggleButton>
         </Grid>
     </Grid>
