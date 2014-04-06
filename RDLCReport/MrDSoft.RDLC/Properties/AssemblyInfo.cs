@@ -11,8 +11,8 @@ using System.Windows;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Derek Tremblay")]
-[assembly: AssemblyProduct("RDLCPrinter Library")]
-[assembly: AssemblyCopyright("2013-2014 License MS-PL")]
+[assembly: AssemblyProduct("RDLCPrinter")]
+[assembly: AssemblyCopyright("Copyright ©  2013-2014 (MS-PL)")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -51,5 +51,5 @@ using System.Windows;
 // Vous pouvez spécifier toutes les valeurs ou indiquer les numéros de build et de révision par défaut 
 // en utilisant '*', comme indiqué ci-dessous :
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.1.5.0")]
-[assembly: AssemblyFileVersion("1.1.5.0")]
+[assembly: AssemblyVersion("1.2.0.0")]
+[assembly: AssemblyFileVersion("1.2.0.0")]
