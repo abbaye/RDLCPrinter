@@ -68,19 +68,19 @@ namespace DSoft.RDLC
         public void RefreshWindow()
         {
 
-            if (this._report != null)
+            if (_report != null)
             {
-                if (this._report.CopyNumber >= 1)
+                if (_report.CopyNumber >= 1)
                 {
-                    NumberOfCopySpinner.Value = this._report.CopyNumber;
+                    NumberOfCopySpinner.Value = _report.CopyNumber;
                 }
 
                 //update spinner
-                FirstPageSpinner.Maximum = this._report.PagesCount;
-                LastPageSpinner.Maximum = this._report.PagesCount;
+                FirstPageSpinner.Maximum = _report.PagesCount;
+                LastPageSpinner.Maximum = _report.PagesCount;
 
                 FirstPageSpinner.Value = 1;
-                LastPageSpinner.Value = this._report.PagesCount;
+                LastPageSpinner.Value = _report.PagesCount;
 
                 //Get all printer
                 cboImprimanteNom.ItemsSource = _printServer.GetPrintQueues(new[] { EnumeratedPrintQueueTypes.Local, EnumeratedPrintQueueTypes.Connections }).Cast<PrintQueue>();
@@ -152,7 +152,7 @@ namespace DSoft.RDLC
         private void OK_Click(object sender, RoutedEventArgs e)
         {            
             PreparePrint();
-            Report.PrintDoc = this._printer;
+            Report.PrintDoc = _printer;
 
             if (NumberOfCopySpinner.Value.HasValue)
                 Report.CopyNumber = NumberOfCopySpinner.Value.Value;
@@ -160,7 +160,7 @@ namespace DSoft.RDLC
                 Report.CopyNumber = 1;
 
             Report.Print();
-            this.Close();
+            Close();
         }
 
         /// <summary>
@@ -182,7 +182,7 @@ namespace DSoft.RDLC
         /// </summary>        
         private void Annuler_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         /// <summary>
@@ -199,7 +199,7 @@ namespace DSoft.RDLC
             {
                 PageChoiceStackPanel.IsEnabled = false;
                 FirstPageSpinner.Value = 1;
-                LastPageSpinner.Value = this._report.PagesCount;
+                LastPageSpinner.Value = _report.PagesCount;
 
             }
             else

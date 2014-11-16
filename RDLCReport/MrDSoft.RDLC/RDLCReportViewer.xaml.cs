@@ -55,7 +55,7 @@ namespace DSoft.RDLC
             PreviewImage.MouseLeftButtonDown += PreviewImage_MouseLeftButtonDown;
             PreviewImage.MouseLeftButtonUp += PreviewImage_MouseLeftButtonUp;
             PreviewImage.MouseMove += PreviewImage_MouseMove;
-            if(this._fixedToWindowMode == false)
+            if(_fixedToWindowMode == false)
                 ZoomSlider.Value = 98;
         }
 
@@ -99,8 +99,8 @@ namespace DSoft.RDLC
         /// </summary>        
         private void cmdPrint_Click(object sender, RoutedEventArgs e)
         {
-            this._report.Reporttype = ReportType.Printer;
-            this._report.Print();
+            _report.Reporttype = ReportType.Printer;
+            _report.Print();
             
         }
 
@@ -111,11 +111,11 @@ namespace DSoft.RDLC
         {
             get
             {
-                return this._report;
+                return _report;
             }
             set
             {
-                this._report = value;
+                _report = value;
                 
                 RefreshControl();                
 
@@ -128,8 +128,8 @@ namespace DSoft.RDLC
         /// </summary>
         public void GiveFocus()
         {
-            FocusManager.SetFocusedElement(this, this.PreviewImage);
-            Keyboard.Focus(this.PreviewImage);
+            FocusManager.SetFocusedElement(this, PreviewImage);
+            Keyboard.Focus(PreviewImage);
         }
 
 
@@ -140,11 +140,11 @@ namespace DSoft.RDLC
         {
             get
             {
-                return this._isShowToolBar;
+                return _isShowToolBar;
             }
             set
             {
-                this._isShowToolBar = value;
+                _isShowToolBar = value;
 
                 if (value)
                     ToolBarRow.Visibility = System.Windows.Visibility.Visible;
@@ -158,9 +158,9 @@ namespace DSoft.RDLC
         /// </summary>
         public void RefreshControl()
         {
-            if (this._report != null)
+            if (_report != null)
             {
-                this._report.Refresh();
+                _report.Refresh();
 
                 DispatcherHelper.DoEvents(); //Clear the ui message queud
 
@@ -168,7 +168,7 @@ namespace DSoft.RDLC
                 
                 _pos = 0;
 
-                PageSpinner.Maximum = this._report.PagesCount;
+                PageSpinner.Maximum = _report.PagesCount;
                 PageSpinner.Value = _pos + 1;
 
                 ChangeImage(_pos);
@@ -220,7 +220,7 @@ namespace DSoft.RDLC
             }
             else
             {
-                if (_pos + 1 == this._report.PagesCount)
+                if (_pos + 1 == _report.PagesCount)
                 {
                     NextImage.DisableButton();
                     LastImage.DisableButton();
@@ -236,7 +236,7 @@ namespace DSoft.RDLC
                 }
             }
 
-            if (this._report.PagesCount > 1)
+            if (_report.PagesCount > 1)
             {
                 PagerSeparator.Visibility = Visibility.Visible;
                 PreviousImage.Visibility = Visibility.Visible;
@@ -279,7 +279,7 @@ namespace DSoft.RDLC
         /// <param name="position"></param>
         private void ChangeImage(int position)
         {
-            int pagecount = this._report.GetBitmapDecoder().Frames.Count;
+            int pagecount = _report.GetBitmapDecoder().Frames.Count;
 
             //Check interval
             if (position < 0)
@@ -288,8 +288,8 @@ namespace DSoft.RDLC
                 position = pagecount;
 
             CreateTransformGroup();
-                        
-            this.PreviewImage.Source = this._report.GetBitmapDecoder().Frames[position];
+
+            PreviewImage.Source = _report.GetBitmapDecoder().Frames[position];
 
             UpdateToolBarButton();
             
@@ -302,7 +302,7 @@ namespace DSoft.RDLC
         {
             CreateTransformGroup();
 
-            if (this._report != null)
+            if (_report != null)
             {
                 _fixedToWindowMode = true;
 
@@ -310,7 +310,7 @@ namespace DSoft.RDLC
 
                 PreviewImage.Stretch = Stretch.UniformToFill;
 
-                this.ZoomSlider.Value = 99;
+                ZoomSlider.Value = 99;
             }
         }
 
@@ -343,9 +343,9 @@ namespace DSoft.RDLC
 
             if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                this._report.Path = saveFileDialog1.FileName;
-                this._report.Reporttype = rType;
-                this._report.Print();
+                _report.Path = saveFileDialog1.FileName;
+                _report.Reporttype = rType;
+                _report.Print();
             }
         }
 
@@ -375,7 +375,7 @@ namespace DSoft.RDLC
         {
             Application.Current.MainWindow.Cursor = Cursors.Wait;
 
-            if (_pos + 1 < this._report.PagesCount)
+            if (_pos + 1 < _report.PagesCount)
             {
                 _pos++;
                 PageSpinner.Value = _pos + 1;
@@ -406,7 +406,7 @@ namespace DSoft.RDLC
         {
             Application.Current.MainWindow.Cursor = Cursors.Wait;
 
-            _pos = this._report.PagesCount - 1;
+            _pos = _report.PagesCount - 1;
             PageSpinner.Value = _pos + 1; 
             ChangeImage(_pos);
 
@@ -470,8 +470,8 @@ namespace DSoft.RDLC
         {
             RDLCPrinterDialog printerDialog = new RDLCPrinterDialog();
 
-            if (this._report != null)                            
-                printerDialog.Report = this._report;            
+            if (_report != null)                            
+                printerDialog.Report = _report;            
             else
                 return;
 
@@ -523,7 +523,7 @@ namespace DSoft.RDLC
         {
             ImageScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
             PreviewImage.Stretch = Stretch.Uniform;
-            this._fixedToWindowMode = false;
+            _fixedToWindowMode = false;
 
             CreateTransformGroup();
             ZoomSlider.Value = 98;
@@ -576,8 +576,8 @@ namespace DSoft.RDLC
         {
             RDLCPrinterDialog printerDialog = new RDLCPrinterDialog();
 
-            if (this._report != null)                            
-                printerDialog.Report = this._report;            
+            if (_report != null)                            
+                printerDialog.Report = _report;            
             else
                 return;
 

@@ -44,12 +44,12 @@ namespace RDLCDemo
 
 
             //Create the dataset            
-            this._northWindDataSet = new NorthwindDataSet();
-            this._dataAdapter = new NorthwindDataSetTableAdapters.ProductsByCategoriesTableAdapter();
+            _northWindDataSet = new NorthwindDataSet();
+            _dataAdapter = new NorthwindDataSetTableAdapters.ProductsByCategoriesTableAdapter();
 
-            this._northWindDataSet.DataSetName = "NorthwindDataSet";
-            this._northWindDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            this._dataAdapter.ClearBeforeFill = true;
+            _northWindDataSet.DataSetName = "NorthwindDataSet";
+            _northWindDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            _dataAdapter.ClearBeforeFill = true;
 
             //Created datasource and binding source
             ReportDataSource dataSource = new ReportDataSource();
@@ -58,12 +58,12 @@ namespace RDLCDemo
             dataSource.Name = "ProductsDataSources";  //the datasource name in the RDLC report
             dataSource.Value = source;
             source.DataMember = "ProductsByCategories";
-            source.DataSource = this._northWindDataSet;
+            source.DataSource = _northWindDataSet;
             report.DataSources.Add(dataSource);
 
 
             //Fill Data in the dataset
-            this._dataAdapter.Fill(this._northWindDataSet.ProductsByCategories);
+            _dataAdapter.Fill(_northWindDataSet.ProductsByCategories);
 
             //Create the printer/export rdlc printer
             RDLCPrinter rdlcPrinter = new RDLCPrinter(report);
@@ -77,7 +77,7 @@ namespace RDLCDemo
         private void rdlcPrinter_BeforeRefresh(object sender, EventArgs e)
         {
             //Fill Data in the dataset            
-            _dataAdapter.Fill(this._northWindDataSet.ProductsByCategories);
+            _dataAdapter.Fill(_northWindDataSet.ProductsByCategories);
         }
     }
 }

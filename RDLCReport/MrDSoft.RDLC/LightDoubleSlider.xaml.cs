@@ -72,13 +72,13 @@ namespace DSoft.RDLC
         {
             get
             {
-                return this._sliderMaximum;
+                return _sliderMaximum;
             }
 
             set
             {
-                this._sliderMaximum = value;
-                this.ChartSlider.Maximum = this._sliderMaximum;
+                _sliderMaximum = value;
+                ChartSlider.Maximum = _sliderMaximum;
 
             }
         }
@@ -91,14 +91,14 @@ namespace DSoft.RDLC
         {
             get
             {
-                return this._sliderSmallChange;
+                return _sliderSmallChange;
             }
 
             set
             {
-                this._sliderSmallChange = value;
-                this.ChartSlider.SmallChange = this._sliderSmallChange;
-                this.ChartSlider.LargeChange = this._sliderSmallChange;
+                _sliderSmallChange = value;
+                ChartSlider.SmallChange = _sliderSmallChange;
+                ChartSlider.LargeChange = _sliderSmallChange;
             }
         }
 
@@ -111,13 +111,13 @@ namespace DSoft.RDLC
         {
             get
             {
-                return this._sliderInterval;
+                return _sliderInterval;
             }
 
             set
             {
-                this._sliderInterval = value;
-                this.ChartSlider.Interval = this._sliderInterval;
+                _sliderInterval = value;
+                ChartSlider.Interval = _sliderInterval;
 
             }
         }
@@ -131,13 +131,13 @@ namespace DSoft.RDLC
         {
             get
             {
-                return this._sliderTickFrequency;
+                return _sliderTickFrequency;
             }
 
             set
             {
-                this._sliderTickFrequency = value;
-                this.ChartSlider.TickFrequency = this._sliderTickFrequency;
+                _sliderTickFrequency = value;
+                ChartSlider.TickFrequency = _sliderTickFrequency;
 
             }
         }
@@ -151,13 +151,13 @@ namespace DSoft.RDLC
         {
             get
             {
-                return this._slideIsSnapToTickEnabled;
+                return _slideIsSnapToTickEnabled;
             }
 
             set
             {
-                this._slideIsSnapToTickEnabled = value;
-                this.ChartSlider.IsSnapToTickEnabled = this._slideIsSnapToTickEnabled;
+                _slideIsSnapToTickEnabled = value;
+                ChartSlider.IsSnapToTickEnabled = _slideIsSnapToTickEnabled;
 
             }
         }
@@ -176,7 +176,7 @@ namespace DSoft.RDLC
             set
             {
                 _sliderValue = value;
-                this.ChartSlider.Value = this._sliderValue;
+                ChartSlider.Value = _sliderValue;
 
                 if (ValueChanged != null)
                     ValueChanged(this, new EventArgs());

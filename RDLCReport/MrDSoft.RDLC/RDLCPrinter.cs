@@ -56,10 +56,10 @@ namespace DSoft
         /// </summary>
         public RDLCPrinter(LocalReport report, ReportType rtype, int nbrPage, string path)
         {
-            this._report = report;
-            this._Copies = nbrPage;
-            this._ReportType = rtype;
-            this._path = path;
+            _report = report;
+            _Copies = nbrPage;
+            _ReportType = rtype;
+            _path = path;
         }
 
         /// <summary>
@@ -70,10 +70,10 @@ namespace DSoft
         /// </summary>
         public RDLCPrinter(LocalReport report)
         {
-            this._report = report;
-            this._Copies = 1;
-            this._ReportType = ReportType.Printer;
-            this._path = "";
+            _report = report;
+            _Copies = 1;
+            _ReportType = ReportType.Printer;
+            _path = "";
         }
 
         /// <summary>
@@ -81,13 +81,13 @@ namespace DSoft
         /// </summary>
         public void Refresh()
         {
-            if (this._report != null)
+            if (_report != null)
             {
                 if (BeforeRefresh != null)
                     BeforeRefresh(this, new EventArgs());
 
-                this._report.Refresh();
-                this._dec = null;
+                _report.Refresh();
+                _dec = null;
             }
         }
         
@@ -100,11 +100,11 @@ namespace DSoft
         {            
             get
             {
-                return (this._printDoc != null) ? this._printDoc : GetDefaultPrinter();
+                return (_printDoc != null) ? _printDoc : GetDefaultPrinter();
             }
             set
             {
-                this._printDoc = value;
+                _printDoc = value;
             }
         }
 
@@ -117,11 +117,11 @@ namespace DSoft
         {
             get
             {
-                return this._ReportType;
+                return _ReportType;
             }
             set
             {
-                this._ReportType = value;
+                _ReportType = value;
             }
         }
 
@@ -132,7 +132,7 @@ namespace DSoft
         {
             get
             {
-                if (this._report != null)
+                if (_report != null)
                     return _report.GetDefaultPageSettings().IsLandscape;
                 else
                     return null;
@@ -167,14 +167,14 @@ namespace DSoft
         {
             try
             {
-                if (this._dec == null)
+                if (_dec == null)
                 {
-                    Stream mStream = new MemoryStream(this.GetImageArray());
-                    this._dec = BitmapDecoder.Create(mStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
-                    return this._dec;
+                    Stream mStream = new MemoryStream(GetImageArray());
+                    _dec = BitmapDecoder.Create(mStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+                    return _dec;
                 }
                 else
-                    return this._dec;
+                    return _dec;
             }
             catch
             {
@@ -190,11 +190,11 @@ namespace DSoft
         {
             get
             {
-                return this._Copies;
+                return _Copies;
             }
             set
             {
-                this._Copies = value;
+                _Copies = value;
             }
         }
 
@@ -206,11 +206,11 @@ namespace DSoft
         {
             get
             {
-                return this._path;
+                return _path;
             }
             set
             {
-                this._path = value;
+                _path = value;
             }
         }
 
@@ -221,11 +221,11 @@ namespace DSoft
         {
             get
             {
-                return this._report;
+                return _report;
             }
             set
             {
-                this._report = value;
+                _report = value;
             }
         }
         #endregion
@@ -246,7 +246,7 @@ namespace DSoft
         private void Export(LocalReport report)
         {
             if (_printDoc == null)
-                this._printDoc = GetDefaultPrinter();
+                _printDoc = GetDefaultPrinter();
 
             string deviceInfo = GetDeviceInfo();
 
@@ -270,29 +270,29 @@ namespace DSoft
 
             if (_report != null)
             {
-                if (this._report.GetDefaultPageSettings().IsLandscape)
+                if (_report.GetDefaultPageSettings().IsLandscape)
                     deviceinfo = @"<DeviceInfo>
                         <OutputFormat>EMF</OutputFormat>
-                        <StartPage>" + this._printDoc.PrinterSettings.FromPage.ToString() + @"</StartPage>
-                        <EndPage>" + this._printDoc.PrinterSettings.ToPage.ToString() + @"</EndPage>
-                        <PageWidth>" + ((double)this._report.GetDefaultPageSettings().PaperSize.Height / 100).ToString() + @"in</PageWidth>
-                        <PageHeight>" + ((double)this._report.GetDefaultPageSettings().PaperSize.Width / 100).ToString() + @"in</PageHeight>
-                        <MarginTop>" + ((double)this._report.GetDefaultPageSettings().Margins.Top / 100).ToString() + @"in</MarginTop>
-                        <MarginLeft>" + ((double)this._report.GetDefaultPageSettings().Margins.Left / 100).ToString() + @"in</MarginLeft>
-                        <MarginRight>" + ((double)this._report.GetDefaultPageSettings().Margins.Right / 100).ToString() + @"in</MarginRight>
-                        <MarginBottom>" + ((double)this._report.GetDefaultPageSettings().Margins.Bottom / 100).ToString() + @"in</MarginBottom>
+                        <StartPage>" + _printDoc.PrinterSettings.FromPage.ToString() + @"</StartPage>
+                        <EndPage>" + _printDoc.PrinterSettings.ToPage.ToString() + @"</EndPage>
+                        <PageWidth>" + ((double)_report.GetDefaultPageSettings().PaperSize.Height / 100).ToString() + @"in</PageWidth>
+                        <PageHeight>" + ((double)_report.GetDefaultPageSettings().PaperSize.Width / 100).ToString() + @"in</PageHeight>
+                        <MarginTop>" + ((double)_report.GetDefaultPageSettings().Margins.Top / 100).ToString() + @"in</MarginTop>
+                        <MarginLeft>" + ((double)_report.GetDefaultPageSettings().Margins.Left / 100).ToString() + @"in</MarginLeft>
+                        <MarginRight>" + ((double)_report.GetDefaultPageSettings().Margins.Right / 100).ToString() + @"in</MarginRight>
+                        <MarginBottom>" + ((double)_report.GetDefaultPageSettings().Margins.Bottom / 100).ToString() + @"in</MarginBottom>
                     </DeviceInfo>";
                 else
                     deviceinfo = @"<DeviceInfo>
                         <OutputFormat>EMF</OutputFormat>
-                        <StartPage>" + this._printDoc.PrinterSettings.FromPage.ToString() + @"</StartPage>
-                        <EndPage>" + this._printDoc.PrinterSettings.ToPage.ToString() + @"</EndPage>
-                        <PageWidth>" + ((double)this._report.GetDefaultPageSettings().PaperSize.Width / 100).ToString() + @"in</PageWidth>
-                        <PageHeight>" + ((double)this._report.GetDefaultPageSettings().PaperSize.Height / 100).ToString() + @"in</PageHeight>
-                        <MarginTop>" + ((double)this._report.GetDefaultPageSettings().Margins.Top / 100).ToString() + @"in</MarginTop>
-                        <MarginLeft>" + ((double)this._report.GetDefaultPageSettings().Margins.Left / 100).ToString() + @"in</MarginLeft>
-                        <MarginRight>" + ((double)this._report.GetDefaultPageSettings().Margins.Right / 100).ToString() + @"in</MarginRight>
-                        <MarginBottom>" + ((double)this._report.GetDefaultPageSettings().Margins.Bottom / 100).ToString() + @"in</MarginBottom>
+                        <StartPage>" + _printDoc.PrinterSettings.FromPage.ToString() + @"</StartPage>
+                        <EndPage>" + _printDoc.PrinterSettings.ToPage.ToString() + @"</EndPage>
+                        <PageWidth>" + ((double)_report.GetDefaultPageSettings().PaperSize.Width / 100).ToString() + @"in</PageWidth>
+                        <PageHeight>" + ((double)_report.GetDefaultPageSettings().PaperSize.Height / 100).ToString() + @"in</PageHeight>
+                        <MarginTop>" + ((double)_report.GetDefaultPageSettings().Margins.Top / 100).ToString() + @"in</MarginTop>
+                        <MarginLeft>" + ((double)_report.GetDefaultPageSettings().Margins.Left / 100).ToString() + @"in</MarginLeft>
+                        <MarginRight>" + ((double)_report.GetDefaultPageSettings().Margins.Right / 100).ToString() + @"in</MarginRight>
+                        <MarginBottom>" + ((double)_report.GetDefaultPageSettings().Margins.Bottom / 100).ToString() + @"in</MarginBottom>
                     </DeviceInfo>";
             }
             else
@@ -374,8 +374,8 @@ namespace DSoft
 
             PrintDocument pDoc = new PrintDocument();
             
-            pDoc.DefaultPageSettings.Landscape = this._report.GetDefaultPageSettings().IsLandscape;
-            pDoc.DefaultPageSettings.PaperSize = new PaperSize(this._report.GetDefaultPageSettings().PaperSize.PaperName, _report.GetDefaultPageSettings().PaperSize.Width, _report.GetDefaultPageSettings().PaperSize.Height);
+            pDoc.DefaultPageSettings.Landscape = _report.GetDefaultPageSettings().IsLandscape;
+            pDoc.DefaultPageSettings.PaperSize = new PaperSize(_report.GetDefaultPageSettings().PaperSize.PaperName, _report.GetDefaultPageSettings().PaperSize.Width, _report.GetDefaultPageSettings().PaperSize.Height);
             
             //par default ont imprime toute les pages
             pDoc.PrinterSettings.FromPage = 1;
@@ -403,7 +403,7 @@ namespace DSoft
         /// </summary>
         public void Print()
         {
-            switch (this._ReportType)
+            switch (_ReportType)
             {
                 case ReportType.Printer:
                     Export(_report);

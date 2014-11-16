@@ -47,7 +47,7 @@ namespace DSoft.RDLCReport
             {
                 try
                 {
-                    if (this._IsShowCurrentToMaximumValue)                    
+                    if (_IsShowCurrentToMaximumValue)                    
                         return Convert.ToInt32(NumPager.Text.Split('/')[0].Trim());                    
                     else                    
                         return Convert.ToInt32(NumPager.Text);                    
@@ -59,9 +59,9 @@ namespace DSoft.RDLCReport
             }
             set
             {
-                if (this._IsShowCurrentToMaximumValue)
+                if (_IsShowCurrentToMaximumValue)
                 {
-                    NumPager.Text = value.ToString() + " / " + this._maximum.ToString();
+                    NumPager.Text = value.ToString() + " / " + _maximum.ToString();
                 }else
                     NumPager.Text = value.ToString();
 
@@ -77,11 +77,11 @@ namespace DSoft.RDLCReport
         {
             get
             {
-                return this._isShowSpinnerButton;
+                return _isShowSpinnerButton;
             }
             set
             {
-                this._isShowSpinnerButton = value;
+                _isShowSpinnerButton = value;
 
                 if (value)
                     ButtonColumn.Width = new GridLength(20);
@@ -95,10 +95,10 @@ namespace DSoft.RDLCReport
             SpinnerUp.DisableButton();
             SpinnerDown.DisableButton();
 
-            if (this.Value > this._minimum)
+            if (Value > _minimum)
                 SpinnerDown.EnableButton();
 
-            if (this.Value < this._maximum)
+            if (Value < _maximum)
                 SpinnerUp.EnableButton();
         }
 
@@ -106,11 +106,11 @@ namespace DSoft.RDLCReport
         {
             get
             {
-                return this._minimum;
+                return _minimum;
             }
             set
             {
-                this._minimum = value;
+                _minimum = value;
 
                 CheckRange();
                 UpdateButton();
@@ -121,11 +121,11 @@ namespace DSoft.RDLCReport
         {
             get
             {
-                return this._maximum;
+                return _maximum;
             }
             set
             {
-                this._maximum = value;
+                _maximum = value;
 
                 CheckRange();
                 UpdateButton();
@@ -136,13 +136,13 @@ namespace DSoft.RDLCReport
         {
             get
             {
-                return this._IsShowCurrentToMaximumValue;
+                return _IsShowCurrentToMaximumValue;
             }
             set
             {
-                this._IsShowCurrentToMaximumValue = value;
+                _IsShowCurrentToMaximumValue = value;
 
-                this.Value = this.Value;
+                Value = Value;
             }
         }
         
@@ -150,17 +150,17 @@ namespace DSoft.RDLCReport
         private void CheckRange()
         { 
 
-            if (this.Value > this._maximum)
+            if (Value > _maximum)
             {
-                this.Value = this._maximum;
+                Value = _maximum;
 
                 if (ValueChanged != null)
                     ValueChanged(this, new EventArgs());
             }
 
-            if (this.Value < this._minimum)
+            if (Value < _minimum)
             {
-                this.Value = this._minimum;
+                Value = _minimum;
 
                 if (ValueChanged != null)
                     ValueChanged(this, new EventArgs());
@@ -169,8 +169,8 @@ namespace DSoft.RDLCReport
 
         private void SpinnerUp_Click(object sender, RoutedEventArgs e)
         {
-            if (this.Value < this._maximum)
-                this.Value += 1;
+            if (Value < _maximum)
+                Value += 1;
 
             CheckRange();
             UpdateButton();
@@ -181,8 +181,8 @@ namespace DSoft.RDLCReport
 
         private void SpinnerDown_Click(object sender, RoutedEventArgs e)
         {
-            if (this.Value > this._minimum)
-                this.Value -= 1;
+            if (Value > _minimum)
+                Value -= 1;
 
             CheckRange();
             UpdateButton();
