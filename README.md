@@ -1,10 +1,13 @@
-#RDLC Printer (WPF ReportViewer)
+#RDLC Printer (WPF ReportViewer control)
 
 ##Summary
 
 RDLCPrinter is a library for RDLC LocalReport. You can use by exemple with SQL Server dataset.
 
 With RDLCPrinter class, you can export your report to PDF, Word or PNG Image... A WPF Preview control is include in this package and some usefull control!
+
+##ScreenShot
+![example](RDLCPrinterDemo.png?raw=true)
 
 ##What RDLCPrinter Include
 * *RDLCPrinter* _This powerful class encapsulates a LocalReport with a lot of functionnality (ex: export to pdf, print, image decoder,,,)_
@@ -15,6 +18,3 @@ With RDLCPrinter class, you can export your report to PDF, Word or PNG Image... 
 
 ## NUGET LINK
 https://www.nuget.org/packages/RDLCPrinter/
-
-## Screenshot
-[image:RDLCPrinterDemo.png]
