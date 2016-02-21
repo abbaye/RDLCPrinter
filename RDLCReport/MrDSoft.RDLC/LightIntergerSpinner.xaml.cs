@@ -21,7 +21,7 @@ namespace DSoft.RDLCReport
     /// LightIntergerSpinner
     /// <remarks>
     /// CREDIT : 2013-2014 Derek Tremblay (abbaye)
-    /// https://rdlcprinter.codeplex.com/
+    /// https://github.com/abbaye/RDLCPrinter
     /// </remarks>
     /// </summary>
     public partial class LightIntergerSpinner : UserControl

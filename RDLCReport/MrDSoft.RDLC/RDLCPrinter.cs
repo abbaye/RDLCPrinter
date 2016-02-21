@@ -15,8 +15,8 @@ namespace DSoft
     /// <summary>
     /// This class allow to Print and export RDLC Report. 
     /// <remarks>
-    /// CREDIT : 2013-2014 Derek Tremblay (abbaye), Martin Savard
-    /// https://rdlcprinter.codeplex.com/
+    /// CREDIT : 2013-2016 Derek Tremblay (abbaye), 2013 Martin Savard
+    /// https://github.com/abbaye/RDLCPrinter
     /// </remarks>
     /// </summary>
     public class RDLCPrinter : IDisposable
@@ -31,9 +31,9 @@ namespace DSoft
         private string _path;
         private Warning[] _warnings = null;
         private string[] _streamids = null;
-        private string _mimeType = String.Empty;
-        private string _encoding = String.Empty;
-        private string _extension = String.Empty;
+        private string _mimeType = string.Empty;
+        private string _encoding = string.Empty;
+        private string _extension = string.Empty;
         private string _filename = "";
         private PrintDocument _printDoc = null;
         private BitmapDecoder _dec = null;
@@ -487,16 +487,22 @@ namespace DSoft
         /// <returns></returns>
         public BitmapImage GetBitmapImage()
         {
-            byte[] img = GetImageArray();
+            try
+            {
+                byte[] img = GetImageArray();
 
-            MemoryStream mStream = new MemoryStream(img);
+                MemoryStream mStream = new MemoryStream(img);
 
-            BitmapImage reportBitmap = new BitmapImage();
-            reportBitmap.BeginInit();
-            reportBitmap.StreamSource = mStream;
-            reportBitmap.EndInit();
-            return reportBitmap;
-
+                BitmapImage reportBitmap = new BitmapImage();
+                reportBitmap.BeginInit();
+                reportBitmap.StreamSource = mStream;
+                reportBitmap.EndInit();
+                return reportBitmap;
+            }
+            catch
+            {
+                return null;
+            }
 
         }
                

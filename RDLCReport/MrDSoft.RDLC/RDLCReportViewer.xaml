@@ -7,8 +7,8 @@
              mc:Ignorable="d" Height="500" Width="566.482" >
 
     <!--
-    CREDIT : 2013-2014 Derek Tremblay (abbaye), Martin Savard
-    https://rdlcprinter.codeplex.com/
+    CREDIT : 2013-2016 Derek Tremblay (abbaye), 2013 Martin Savard
+    https://github.com/abbaye/RDLCPrinter
     -->
 
     <UserControl.Resources>
@@ -97,7 +97,6 @@
                 <Button x:Name="ActualSizeButton" Margin="5,1,0,0" Click="ActualSizeButton_Click" ToolTip="Actual size" IsEnabled="False" Opacity="0.5">
                     <Image Source="Resources/TailleNormal.ico" RenderOptions.BitmapScalingMode="HighQuality" />
                 </Button>
-
                 <Separator x:Name="PagerSeparator" Margin="5" Visibility="Hidden"/>
                 <Button x:Name="FirstImage" Click="FirstImage_Click" IsEnabled="true" Visibility="Hidden" >
                     <Image Source="Resources/move-first.ico" ToolTip="First" RenderOptions.BitmapScalingMode="HighQuality"/>

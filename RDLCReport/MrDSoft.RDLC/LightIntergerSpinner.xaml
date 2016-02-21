@@ -8,8 +8,8 @@
              d:DesignHeight="30" d:DesignWidth="50">
 
     <!--
-    CREDIT : 2014 Derek Tremblay (abbaye)
-    https://rdlcprinter.codeplex.com/
+    CREDIT : 2014-2016 Derek Tremblay (abbaye)
+    https://github.com/abbaye/RDLCPrinter
     -->
 
     <UserControl.Resources>
@@ -17,6 +17,9 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="./Style/ButtonDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <Geometry x:Key="DownArrow">M0,0 L1,0 0.5,1Z</Geometry>
+            <Geometry x:Key="UpArrow">M0,1 L1,1 0.5,0Z</Geometry>
         </ResourceDictionary>
     </UserControl.Resources>
     
@@ -32,10 +35,10 @@
         <TextBox Grid.Column="0" Grid.RowSpan="2" x:Name="NumPager" Text="0" TextAlignment="Center" VerticalContentAlignment="Center" BorderBrush="#FF8BA5EC" 
             		IsReadOnly="True" />
         <Button x:Name="SpinnerUp" Grid.Column="2" Style="{StaticResource FlatButtonStyle}" Click="SpinnerUp_Click">
-            <Image Source="Resources/UpArrow.ico"/>
+            <Path Data="{StaticResource UpArrow}" Width="12" Height="8" Stretch="Fill" Fill="Black"/>
         </Button>
         <Button x:Name="SpinnerDown" Grid.Column="2" Grid.Row="1" Style="{StaticResource FlatButtonStyle}" Click="SpinnerDown_Click">
-            <Image Source="Resources/DownArrow.ico"/>
+            <Path Data="{StaticResource DownArrow}" Width="12" Height="8" Stretch="Fill" Fill="Black"/>
         </Button>
     </Grid>
 </UserControl>

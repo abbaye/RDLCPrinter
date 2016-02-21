@@ -14,7 +14,7 @@ namespace DSoft.MethodExtension
         /// Recoit un bitmap et retourne la couleur de la premiere pixel du coin supérieur gauche pour etre utiliser pour définir le backgroud d'un control
         /// <remarks>
         /// CREDIT : 2013 Martin Savard
-        /// https://rdlcprinter.codeplex.com/
+        /// https://github.com/abbaye/RDLCPrinter
         /// </remarks>
         /// </summary>
 
