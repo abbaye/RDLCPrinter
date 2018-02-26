@@ -1,4 +1,4 @@
-#RDLC Printer (WPF ReportViewer control)
+# RDLC Printer (include Wpf ReportViewer control)
 
 ## Summary
 
