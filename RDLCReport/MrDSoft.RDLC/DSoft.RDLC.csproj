@@ -95,11 +95,7 @@
     <Compile Include="LightIntegerSpinner.xaml.cs">
       <DependentUpon>LightIntegerSpinner.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MethodExtension\BitmapExtention.cs" />
     <Compile Include="MethodExtension\ButtonExtention.cs" />
-    <Compile Include="MethodExtension\DoubleExtension.cs" />
-    <Compile Include="MethodExtension\ImageExtention.cs" />
-    <Compile Include="MethodExtension\KeyEventExtension.cs" />
     <Compile Include="RDLCPrinter.cs" />
     <Compile Include="RDLCPrinterDialog.xaml.cs">
       <DependentUpon>RDLCPrinterDialog.xaml</DependentUpon>
