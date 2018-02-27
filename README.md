@@ -1,4 +1,4 @@
-# Wpf ReportViewer control and RDLCPrinter
+![example](Logo.png?raw=true)
 
 ## Summary
 
