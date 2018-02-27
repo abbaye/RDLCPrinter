@@ -9,13 +9,13 @@ using System.Text;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using Microsoft.Reporting.WinForms;
- 
+
 namespace DSoft
 {
     /// <summary>
     /// This class allow to Print and export RDLC Report. 
     /// <remarks>
-    /// CREDIT : 2013-2016 Derek Tremblay (abbaye), 2013 Martin Savard
+    /// CREDIT : 2013-2018 Derek Tremblay (abbaye), 2013 Martin Savard
     /// https://github.com/abbaye/RDLCPrinter
     /// </remarks>
     /// </summary>
@@ -23,26 +23,22 @@ namespace DSoft
     {
         private int _currentPageIndex;
         private IList<Stream> _streams;
-        private LocalReport _report;
-        private int _Copies;
-        private Metafile _pageImage = null;
-        private Rectangle _adjustedRect = new Rectangle();
-        private ReportType _ReportType;
-        private string _path;
-        private Warning[] _warnings = null;
-        private string[] _streamids = null;
+        private Metafile _pageImage;
+        private Rectangle _adjustedRect;
+        private Warning[] _warnings;
+        private string[] _streamids;
         private string _mimeType = string.Empty;
         private string _encoding = string.Empty;
         private string _extension = string.Empty;
         private string _filename = "";
-        private PrintDocument _printDoc = null;
-        private BitmapDecoder _dec = null;
+        private PrintDocument _printDoc;
+        private BitmapDecoder _dec;
 
         //Event
         public event EventHandler FileSaving;
         public event EventHandler FileSaved;
         public event EventHandler BeforeRefresh;
-        
+
         /// <summary>
         /// Initialize an empty report object
         /// </summary>
@@ -50,16 +46,16 @@ namespace DSoft
         {
 
         }
-        
+
         /// <summary>
         /// Initialize report object with default setting
         /// </summary>
         public RDLCPrinter(LocalReport report, ReportType rtype, int nbrPage, string path)
         {
-            _report = report;
-            _Copies = nbrPage;
-            _ReportType = rtype;
-            _path = path;
+            Report = report;
+            CopyNumber = nbrPage;
+            Reporttype = rtype;
+            Path = path;
         }
 
         /// <summary>
@@ -70,10 +66,10 @@ namespace DSoft
         /// </summary>
         public RDLCPrinter(LocalReport report)
         {
-            _report = report;
-            _Copies = 1;
-            _ReportType = ReportType.Printer;
-            _path = "";
+            Report = report;
+            CopyNumber = 1;
+            Reporttype = ReportType.Printer;
+            Path = "";
         }
 
         /// <summary>
@@ -81,31 +77,24 @@ namespace DSoft
         /// </summary>
         public void Refresh()
         {
-            if (_report != null)
+            if (Report != null)
             {
-                if (BeforeRefresh != null)
-                    BeforeRefresh(this, new EventArgs());
+                BeforeRefresh?.Invoke(this, new EventArgs());
 
-                _report.Refresh();
+                Report.Refresh();
                 _dec = null;
             }
         }
-        
+
         #region Properties
-        
+
         /// <summary>
         ///Get or set the printer for print report (if null, get default printer)
         /// </summary>        
         public PrintDocument PrintDoc
-        {            
-            get
-            {
-                return (_printDoc != null) ? _printDoc : GetDefaultPrinter();
-            }
-            set
-            {
-                _printDoc = value;
-            }
+        {
+            get => _printDoc ?? GetDefaultPrinter();
+            set => _printDoc = value;
         }
 
 
@@ -113,31 +102,12 @@ namespace DSoft
         /// get or set the type of report
         /// </summary>
         [DefaultValue(ReportType.Printer)]
-        public ReportType Reporttype
-        {
-            get
-            {
-                return _ReportType;
-            }
-            set
-            {
-                _ReportType = value;
-            }
-        }
+        public ReportType Reporttype { get; set; }
 
         /// <summary>
         /// Get the default orientation of report
         /// </summary>
-        public bool? isDefaultLandscape
-        {
-            get
-            {
-                if (_report != null)
-                    return _report.GetDefaultPageSettings().IsLandscape;
-                else
-                    return null;
-            }            
-        }
+        public bool? isDefaultLandscape => Report?.GetDefaultPageSettings().IsLandscape;
 
         /// <summary>
         /// Get the number of pages in the report
@@ -155,7 +125,7 @@ namespace DSoft
                 {
                     return -1;
                 }
-            
+
             }
         }
 
@@ -170,11 +140,12 @@ namespace DSoft
                 if (_dec == null)
                 {
                     Stream mStream = new MemoryStream(GetImageArray());
-                    _dec = BitmapDecoder.Create(mStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+                    _dec = BitmapDecoder.Create(mStream, BitmapCreateOptions.PreservePixelFormat,
+                        BitmapCacheOption.Default);
                     return _dec;
                 }
-                else
-                    return _dec;
+
+                return _dec;
             }
             catch
             {
@@ -186,55 +157,28 @@ namespace DSoft
         /// Get ou Set the number of copy to print
         /// </summary>
         [DefaultValue(1)]
-        public int CopyNumber
-        {
-            get
-            {
-                return _Copies;
-            }
-            set
-            {
-                _Copies = value;
-            }
-        }
+        public int CopyNumber { get; set; }
 
         /// <summary>
         /// Get or set the path to print rapport file
         /// </summary>
         [DefaultValue("")]
-        public string Path
-        {
-            get
-            {
-                return _path;
-            }
-            set
-            {
-                _path = value;
-            }
-        }
+        public string Path { get; set; }
 
         /// <summary>
         /// Get ou set the current report
         /// </summary>        
-        public LocalReport Report
-        {
-            get
-            {
-                return _report;
-            }
-            set
-            {
-                _report = value;
-            }
-        }
+        public LocalReport Report { get; set; }
+
         #endregion
 
         #region Export to EMF (Enhanced Metafile) and stream creation
+
         /// <summary>
         /// Create a stream user for each raport page...
         /// </summary>
-        private Stream CreateStream(string name, string fileNameExtension, Encoding encoding, string mimeType, bool willSeek)
+        private Stream CreateStream(string name, string fileNameExtension, Encoding encoding, string mimeType,
+            bool willSeek)
         {
             Stream stream = new MemoryStream();
             _streams.Add(stream);
@@ -248,15 +192,12 @@ namespace DSoft
             if (_printDoc == null)
                 _printDoc = GetDefaultPrinter();
 
-            string deviceInfo = GetDeviceInfo();
-
-            Warning[] warnings;
             _streams = new List<Stream>();
 
-            for (int i = 0; i < _Copies; i++)
-                report.Render("Image", deviceInfo, CreateStream, out warnings);
-            
-            foreach (Stream stream in _streams)
+            for (var i = 0; i < CopyNumber; i++)
+                report.Render("Image", GetDeviceInfo(), CreateStream, out _);
+
+            foreach (var stream in _streams)
                 stream.Position = 0;
         }
 
@@ -264,35 +205,35 @@ namespace DSoft
         /// the device information
         /// </summary>
         /// <returns></returns>
-        private string GetDeviceInfo(){           
-
+        private string GetDeviceInfo()
+        {
             string deviceinfo;
 
-            if (_report != null)
+            if (Report != null)
             {
-                if (_report.GetDefaultPageSettings().IsLandscape)
+                if (Report.GetDefaultPageSettings().IsLandscape)
                     deviceinfo = @"<DeviceInfo>
                         <OutputFormat>EMF</OutputFormat>
-                        <StartPage>" + _printDoc.PrinterSettings.FromPage.ToString() + @"</StartPage>
-                        <EndPage>" + _printDoc.PrinterSettings.ToPage.ToString() + @"</EndPage>
-                        <PageWidth>" + ((double)_report.GetDefaultPageSettings().PaperSize.Height / 100).ToString() + @"in</PageWidth>
-                        <PageHeight>" + ((double)_report.GetDefaultPageSettings().PaperSize.Width / 100).ToString() + @"in</PageHeight>
-                        <MarginTop>" + ((double)_report.GetDefaultPageSettings().Margins.Top / 100).ToString() + @"in</MarginTop>
-                        <MarginLeft>" + ((double)_report.GetDefaultPageSettings().Margins.Left / 100).ToString() + @"in</MarginLeft>
-                        <MarginRight>" + ((double)_report.GetDefaultPageSettings().Margins.Right / 100).ToString() + @"in</MarginRight>
-                        <MarginBottom>" + ((double)_report.GetDefaultPageSettings().Margins.Bottom / 100).ToString() + @"in</MarginBottom>
+                        <StartPage>" + _printDoc.PrinterSettings.FromPage + @"</StartPage>
+                        <EndPage>" + _printDoc.PrinterSettings.ToPage + @"</EndPage>
+                        <PageWidth>" + (double)Report.GetDefaultPageSettings().PaperSize.Height / 100 + @"in</PageWidth>
+                        <PageHeight>" + (double)Report.GetDefaultPageSettings().PaperSize.Width / 100 + @"in</PageHeight>
+                        <MarginTop>" + (double)Report.GetDefaultPageSettings().Margins.Top / 100 + @"in</MarginTop>
+                        <MarginLeft>" + (double)Report.GetDefaultPageSettings().Margins.Left / 100 + @"in</MarginLeft>
+                        <MarginRight>" + (double)Report.GetDefaultPageSettings().Margins.Right / 100 + @"in</MarginRight>
+                        <MarginBottom>" + (double)Report.GetDefaultPageSettings().Margins.Bottom / 100 + @"in</MarginBottom>
                     </DeviceInfo>";
                 else
                     deviceinfo = @"<DeviceInfo>
                         <OutputFormat>EMF</OutputFormat>
-                        <StartPage>" + _printDoc.PrinterSettings.FromPage.ToString() + @"</StartPage>
-                        <EndPage>" + _printDoc.PrinterSettings.ToPage.ToString() + @"</EndPage>
-                        <PageWidth>" + ((double)_report.GetDefaultPageSettings().PaperSize.Width / 100).ToString() + @"in</PageWidth>
-                        <PageHeight>" + ((double)_report.GetDefaultPageSettings().PaperSize.Height / 100).ToString() + @"in</PageHeight>
-                        <MarginTop>" + ((double)_report.GetDefaultPageSettings().Margins.Top / 100).ToString() + @"in</MarginTop>
-                        <MarginLeft>" + ((double)_report.GetDefaultPageSettings().Margins.Left / 100).ToString() + @"in</MarginLeft>
-                        <MarginRight>" + ((double)_report.GetDefaultPageSettings().Margins.Right / 100).ToString() + @"in</MarginRight>
-                        <MarginBottom>" + ((double)_report.GetDefaultPageSettings().Margins.Bottom / 100).ToString() + @"in</MarginBottom>
+                        <StartPage>" + _printDoc.PrinterSettings.FromPage + @"</StartPage>
+                        <EndPage>" + _printDoc.PrinterSettings.ToPage + @"</EndPage>
+                        <PageWidth>" + (double)Report.GetDefaultPageSettings().PaperSize.Width / 100 + @"in</PageWidth>
+                        <PageHeight>" + (double)Report.GetDefaultPageSettings().PaperSize.Height / 100 + @"in</PageHeight>
+                        <MarginTop>" + (double)Report.GetDefaultPageSettings().Margins.Top / 100 + @"in</MarginTop>
+                        <MarginLeft>" + (double)Report.GetDefaultPageSettings().Margins.Left / 100 + @"in</MarginLeft>
+                        <MarginRight>" + (double)Report.GetDefaultPageSettings().Margins.Right / 100 + @"in</MarginRight>
+                        <MarginBottom>" + (double)Report.GetDefaultPageSettings().Margins.Bottom / 100 + @"in</MarginBottom>
                     </DeviceInfo>";
             }
             else
@@ -304,13 +245,14 @@ namespace DSoft
         #endregion
 
         #region Method Print Page
-        private void PrintPage(object sender, PrintPageEventArgs ev)
+
+        private void printDoc_PrintPage(object sender, PrintPageEventArgs ev)
         {
-            
+
             _pageImage = new Metafile(_streams[_currentPageIndex]);
 
             // Ajuster le rectangle au marge de la page
-            _adjustedRect = new System.Drawing.Rectangle(
+            _adjustedRect = new Rectangle(
                 ev.PageBounds.Left - (int)ev.PageSettings.HardMarginX,
                 ev.PageBounds.Top - (int)ev.PageSettings.HardMarginY,
                 ev.PageBounds.Width,
@@ -321,67 +263,69 @@ namespace DSoft
 
             // Dessiner le rapport
             ev.Graphics.DrawImage(_pageImage, _adjustedRect);
-            
+
             // Prepare la prochaine page.
             _currentPageIndex++;
-            ev.HasMorePages = (_currentPageIndex < _streams.Count);
+            ev.HasMorePages = _currentPageIndex < _streams.Count;
         }
+
         #endregion
 
         #region Method Print Now
+
         private void PrintNow()
         {
 
             if (_streams == null || _streams.Count == 0)
                 return;
 
-                     
             if (!_printDoc.PrinterSettings.IsValid)
             {
-                MessageBox.Show("Error: cannot find the default printer", "Print Error" );                
+                MessageBox.Show(@"Error: cannot find the default printer", @"Print Error");
                 return;
             }
 
-            _printDoc.PrintPage += new PrintPageEventHandler(PrintPage);
+            _printDoc.PrintPage += printDoc_PrintPage;
             _printDoc.EndPrint += printDoc_EndPrint;
 
             _printDoc.Print();
         }
-        
+
         private void printDoc_EndPrint(object sender, PrintEventArgs e)
         {
             _currentPageIndex = 0;
-            _streams = null;            
-            
+            _streams = null;
+
             _pageImage = null;
             _adjustedRect = new Rectangle();
             _warnings = null;
             _streamids = null;
-            _mimeType = String.Empty;
-            _encoding = String.Empty;
-            _extension = String.Empty;            
-            _printDoc = null;            
+            _mimeType = string.Empty;
+            _encoding = string.Empty;
+            _extension = string.Empty;
+            _printDoc = null;
         }
 
         /// <summary>
         /// Get the default printer
         /// </summary>
         /// <returns></returns>
-        public PrintDocument GetDefaultPrinter()
+        public PrintDocument GetDefaultPrinter() => new PrintDocument
         {
-            //obtien le nombre de page du rapport
-            BitmapDecoder dec = GetImage();
+            DefaultPageSettings =
+            {
+                Landscape = Report.GetDefaultPageSettings().IsLandscape,
+                PaperSize = new PaperSize(Report.GetDefaultPageSettings().PaperSize.PaperName,
+                    Report.GetDefaultPageSettings().PaperSize.Width,
+                    Report.GetDefaultPageSettings().PaperSize.Height)
+            },
 
-            PrintDocument pDoc = new PrintDocument();
-            
-            pDoc.DefaultPageSettings.Landscape = _report.GetDefaultPageSettings().IsLandscape;
-            pDoc.DefaultPageSettings.PaperSize = new PaperSize(_report.GetDefaultPageSettings().PaperSize.PaperName, _report.GetDefaultPageSettings().PaperSize.Width, _report.GetDefaultPageSettings().PaperSize.Height);
-            
-            //par default ont imprime toute les pages
-            pDoc.PrinterSettings.FromPage = 1;
-            pDoc.PrinterSettings.ToPage = dec.Frames.Count;
-            return pDoc;
-        }
+            PrinterSettings =
+            {
+                FromPage = 1,
+                ToPage = GetImage().Frames.Count
+            }
+        };
 
 
         /// <summary>
@@ -389,24 +333,25 @@ namespace DSoft
         /// </summary>
         /// <returns></returns>
         public BitmapDecoder GetImage()
-        {            
+        {
             Stream mStream = new MemoryStream(GetImageArray());
 
-            return BitmapDecoder.Create(mStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);            
+            return BitmapDecoder.Create(mStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
         }
 
         #endregion
 
         #region method to Print / export to various file format
+
         /// <summary>
         /// Launch printing
         /// </summary>
         public void Print()
         {
-            switch (_ReportType)
+            switch (Reporttype)
             {
                 case ReportType.Printer:
-                    Export(_report);
+                    Export(Report);
                     PrintNow();
                     break;
                 case ReportType.Word:
@@ -416,17 +361,17 @@ namespace DSoft
                     SaveAsPDF();
                     break;
                 case ReportType.Excel:
-                    SaveAsExcel(); 
+                    SaveAsExcel();
                     break;
                 case ReportType.Image:
                     SaveAsImage();
                     break;
             }
         }
+
         #endregion
 
         #region Some export method
-
 
         /// <summary>
         /// Save as PNG image to the specified path
@@ -434,32 +379,24 @@ namespace DSoft
         /// <returns>Return true if the export as completed successfuly</returns>
         public bool SaveAsImage()
         {
-            byte[] byteViewer = GetImageArray();
+            var byteViewer = GetImageArray();
 
-            if (byteViewer != null)
-            {
-                if (System.IO.Path.GetFileName(_path).Contains(".png"))
-                    _filename = _path;
-                else
-                    _filename = _path + ".png";
+            if (byteViewer == null) return false;
 
-                if (FileSaving != null)
-                    FileSaving(this, new EventArgs());
+            _filename = System.IO.Path.GetFileName(Path).Contains(".png") ? Path : Path + ".png";
 
-                FileStream newFile = new FileStream(_filename, FileMode.Create);
-                
-                newFile.Write(byteViewer, 0, byteViewer.Length);
-                newFile.Close();
+            FileSaving?.Invoke(this, new EventArgs());
 
-                if (FileSaved != null)
-                    FileSaved(this, new EventArgs());
+            var newFile = new FileStream(_filename, FileMode.Create);
 
-                return true;
-            }
-            else
-                return false;
+            newFile.Write(byteViewer, 0, byteViewer.Length);
+            newFile.Close();
+
+            FileSaved?.Invoke(this, new EventArgs());
+
+            return true;
+
         }
-
 
         /// <summary>
         /// Get bitmap image bytes array
@@ -467,17 +404,16 @@ namespace DSoft
         /// <returns></returns>
         public byte[] GetImageArray()
         {
-            if (_report != null)
-                try
-                {
-                    return _report.Render("Image");
-                }
-                catch
-                {
-                    throw new Exception("Error in the render Image method. ");
-                }
-            else
-                return null;
+            if (Report == null) return null;
+
+            try
+            {
+                return Report.Render("Image");
+            }
+            catch
+            {
+                throw new Exception("Error in the render Image method. ");
+            }
         }
 
 
@@ -489,11 +425,11 @@ namespace DSoft
         {
             try
             {
-                byte[] img = GetImageArray();
+                var img = GetImageArray();
 
-                MemoryStream mStream = new MemoryStream(img);
+                var mStream = new MemoryStream(img);
 
-                BitmapImage reportBitmap = new BitmapImage();
+                var reportBitmap = new BitmapImage();
                 reportBitmap.BeginInit();
                 reportBitmap.StreamSource = mStream;
                 reportBitmap.EndInit();
@@ -503,152 +439,107 @@ namespace DSoft
             {
                 return null;
             }
-
         }
-               
+
 
         /// <summary>
         /// Save as PDF file to the specified path
         /// </summary>
         /// <returns>Return true if the export as completed successfuly</returns>
-        public bool SaveAsPDF()
+        public void SaveAsPDF()
         {
-            byte[] byteViewer = GetPDFArray();
+            var byteViewer = GetPDFArray();
 
-            if (byteViewer != null)
-            {
-                if (System.IO.Path.GetFileName(_path).Contains(".pdf"))
-                    _filename = _path;
-                else
-                    _filename = _path + ".pdf";
+            if (byteViewer == null) return;
 
-                if (FileSaving != null)
-                    FileSaving(this, new EventArgs());
+            _filename = System.IO.Path.GetFileName(Path).Contains(".pdf") ? Path : Path + ".pdf";
 
-                FileStream newFile = new FileStream(_filename, FileMode.Create);
-                newFile.Write(byteViewer, 0, byteViewer.Length);
-                newFile.Close();
+            FileSaving?.Invoke(this, new EventArgs());
 
-                if (FileSaved != null)
-                    FileSaved(this, new EventArgs());
+            var newFile = new FileStream(_filename, FileMode.Create);
+            newFile.Write(byteViewer, 0, byteViewer.Length);
+            newFile.Close();
 
-                return true;
-            }
-            else
-                return false;
+            FileSaved?.Invoke(this, new EventArgs());
         }
 
         /// <summary>
         /// Get the pdf bytes array
         /// </summary>
         /// <returns></returns>
-        public byte[] GetPDFArray()
-        {
-            if (_report != null)
-                return _report.Render("PDF");
-            else
-                return null;
-        }
+        public byte[] GetPDFArray() => Report?.Render("PDF");
 
         /// <summary>
         /// Save as Microsoft Excel file format to the specified path
         /// </summary>
         /// <returns>Return true if the export as completed successfuly</returns>
-        public bool SaveAsExcel()
+        public void SaveAsExcel()
         {
-            byte[] bytesViewer = GetExcelArray();
-            
-            if (bytesViewer != null)  
-            {
-                if (System.IO.Path.GetFileName(_path).Contains(".xls"))
-                    _filename = _path;
-                else
-                    _filename = _path + ".xls";
+            var bytesViewer = GetExcelArray();
 
-                if (FileSaving != null)
-                    FileSaving(this, new EventArgs());
+            if (bytesViewer == null) return;
 
-                FileStream newFile = new FileStream(_filename, FileMode.Create);
-                newFile.Write(bytesViewer, 0, bytesViewer.Length);
-                newFile.Close();
+            _filename = System.IO.Path.GetFileName(Path).Contains(".xls") ? Path : Path + ".xls";
 
-                if (FileSaved != null)
-                    FileSaved(this, new EventArgs());
+            FileSaving?.Invoke(this, new EventArgs());
 
-                return true;
-            }
-            else
-                return false;
+            var newFile = new FileStream(_filename, FileMode.Create);
+            newFile.Write(bytesViewer, 0, bytesViewer.Length);
+            newFile.Close();
+
+            FileSaved?.Invoke(this, new EventArgs());
         }
 
         /// <summary>
         /// Get the Microsoft Excel byte Array
         /// </summary>        
-        public byte[] GetExcelArray()
-        {
-            if (_report != null)
-                return _report.Render("Excel", null, out _mimeType, out _encoding,out _extension,out _streamids, out _warnings);
-            else
-                return null;
-        }
+        public byte[] GetExcelArray() =>
+            Report?.Render("Excel", null, out _mimeType, out _encoding, out _extension, out _streamids, out _warnings);
 
         /// <summary>
         /// Save as Microsoft Word file format to the specified path
         /// </summary>
         /// <returns>Return true if the export as completed successfuly</returns>
-        public bool SaveAsWord()
+        public void SaveAsWord()
         {
-            byte[] bytesViewer = GetWordArray();
+            var bytesViewer = GetWordArray();
 
-            if (bytesViewer != null)
-            {
-                if (System.IO.Path.GetFileName(_path).Contains(".doc"))
-                    _filename = _path;
-                else
-                    _filename = _path + ".doc";
+            if (bytesViewer == null) return;
 
-                if (FileSaving != null)
-                    FileSaving(this, new EventArgs());
-           
-                FileStream newFile = new FileStream(_filename, FileMode.Create);
-                newFile.Write(bytesViewer, 0, bytesViewer.Length);
-                newFile.Close();
+            _filename = System.IO.Path.GetFileName(Path).Contains(".doc") ? Path : Path + ".doc";
 
-                if (FileSaved != null)
-                    FileSaved(this, new EventArgs());
+            FileSaving?.Invoke(this, new EventArgs());
 
-                return true;
-            }
-            else
-                return false;
+            var newFile = new FileStream(_filename, FileMode.Create);
+            newFile.Write(bytesViewer, 0, bytesViewer.Length);
+            newFile.Close();
+
+            FileSaved?.Invoke(this, new EventArgs());
         }
 
         /// <summary>
         /// Get the Microsoft Word byte Array
         /// </summary>        
-        public byte[] GetWordArray()
-        {
-            if (_report != null)
-                return _report.Render("Word", null, out _mimeType, out _encoding, out _extension, out _streamids, out _warnings);
-            else
-                return null;
-        }
+        public byte[] GetWordArray() =>
+            Report?.Render("Word", null, out _mimeType, out _encoding, out _extension, out _streamids, out _warnings);
 
         #endregion
 
         #region Dipose des Streams
+
         /// <summary>
         /// Dispose all stream
         /// </summary>
         public void Dispose()
         {
-            if (_streams != null)
-            {
-                foreach (Stream stream in _streams)
-                    stream.Close();
-                _streams = null;
-            }
+            if (_streams == null) return;
+
+            foreach (var stream in _streams)
+                stream.Close();
+
+            _streams = null;
         }
+
         #endregion
     }
 }
