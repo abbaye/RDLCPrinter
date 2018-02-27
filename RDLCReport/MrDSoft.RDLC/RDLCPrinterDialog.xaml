@@ -48,7 +48,7 @@
             <Label Content="Copy settings" FontWeight="Bold" Height="26" Style="{StaticResource TitleLabelStyle}" Margin="1,0,0,0" VerticalAlignment="Top"/>
             <Label  Content="Number of copy" FontSize="12" Margin="10,42,0,0" HorizontalAlignment="Left"  VerticalAlignment="Top" />
             
-            <RDLCReport:LightIntergerSpinner x:Name="NumberOfCopySpinner" HorizontalAlignment="Left" Margin="125,38,0,0" VerticalAlignment="Top" Width="54" Height="37" Minimum="1" Maximum="500" Value="1"/>
+            <RDLCReport:LightIntegerSpinner x:Name="NumberOfCopySpinner" HorizontalAlignment="Left" Margin="125,38,0,0" VerticalAlignment="Top" Width="54" Height="37" Minimum="1" Maximum="500" Value="1"/>
         </Grid>
         <Grid Margin="11,244,9,0" Background="{StaticResource LightGradientPanelBrush}" Height="120" VerticalAlignment="Top">
             <Label Content="Page range settings" FontWeight="Bold" Height="26" Style="{StaticResource TitleLabelStyle}" VerticalAlignment="Top"/>
@@ -56,9 +56,9 @@
             <Label Content="All page" Margin="10,38,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
             <StackPanel x:Name="PageChoiceStackPanel" Margin="125,79,0,0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" IsEnabled="False">
                 
-                <RDLCReport:LightIntergerSpinner x:Name="FirstPageSpinner" HorizontalAlignment="Left" Width="54" Height="32" Minimum="1" Maximum="10" Value="1"/>
+                <RDLCReport:LightIntegerSpinner x:Name="FirstPageSpinner" HorizontalAlignment="Left" Width="54" Height="32" Minimum="1" Maximum="10" Value="1"/>
                 <Label  Content="To page" FontSize="12" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="32" VerticalAlignment="Top" HorizontalAlignment="Left" Width="65"/>                
-                <RDLCReport:LightIntergerSpinner x:Name="LastPageSpinner" HorizontalAlignment="Left" Width="54" Height="32" Minimum="1" Maximum="10" Value="1"/>
+                <RDLCReport:LightIntegerSpinner x:Name="LastPageSpinner" HorizontalAlignment="Left" Width="54" Height="32" Minimum="1" Maximum="10" Value="1"/>
             </StackPanel>
             <ToggleButton x:Name="cmdAllPageButton" Margin="125,31,0,0" Click="cmdAllPageButton_Click" IsChecked="True" HorizontalAlignment="Left" Width="53" Height="40" VerticalAlignment="Top">
                 <Image Source="Resources/AllPage.ico" Height="30" Width="30" Stretch="Uniform" ToolTip="All Page" RenderOptions.BitmapScalingMode="HighQuality"/>

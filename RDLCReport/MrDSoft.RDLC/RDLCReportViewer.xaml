@@ -105,7 +105,7 @@
                     <Image Source="Resources/move-previous.ico" ToolTip="Previous" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Button>
                 
-                <RDLCReport:LightIntergerSpinner x:Name="PageSpinner" Width="67" IsShowCurrentToMaximumValue="True" Minimum="1" Visibility="Hidden" IsShowSpinnerButton="False"/>
+                <RDLCReport:LightIntegerSpinner x:Name="PageSpinner" Width="67" IsShowCurrentToMaximumValue="True" Minimum="1" Visibility="Hidden" IsShowSpinnerButton="False"/>
                 
                 <Button x:Name="NextImage" Click="NextImage_Click" IsEnabled="true" Visibility="Hidden" >
                     <Image Source="Resources/move-next.ico" ToolTip="Suivant" RenderOptions.BitmapScalingMode="HighQuality"/>

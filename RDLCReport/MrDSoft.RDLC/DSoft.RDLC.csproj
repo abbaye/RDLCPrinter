@@ -74,7 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SqlServerTypes\Loader.cs" />
-    <Page Include="LightIntergerSpinner.xaml">
+    <Page Include="LightIntegerSpinner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -92,8 +92,8 @@
     </Page>
     <Compile Include="DispatcherHelper.cs" />
     <Compile Include="enumeration.cs" />
-    <Compile Include="LightIntergerSpinner.xaml.cs">
-      <DependentUpon>LightIntergerSpinner.xaml</DependentUpon>
+    <Compile Include="LightIntegerSpinner.xaml.cs">
+      <DependentUpon>LightIntegerSpinner.xaml</DependentUpon>
     </Compile>
     <Compile Include="MethodExtension\BitmapExtention.cs" />
     <Compile Include="MethodExtension\ButtonExtention.cs" />
