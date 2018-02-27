@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace DSoft.MethodExtension
 {
     /// <remarks>
-    /// CREDIT : 2013-2016 Derek Tremblay (abbaye), 2013 Martin Savard
+    /// CREDIT : 2013-2018 Derek Tremblay (abbaye), 2013 Martin Savard
     /// https://github.com/abbaye/RDLCPrinter
     /// </remarks>
     public static class ButtonExtention
@@ -35,9 +31,9 @@ namespace DSoft.MethodExtension
         }
 
 
-        public static void PerformClick(this System.Windows.Controls.Button btn)
+        public static void PerformClick(this Button btn)
         {
-            btn.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Button.ClickEvent));
+            btn.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
         }
         
     }

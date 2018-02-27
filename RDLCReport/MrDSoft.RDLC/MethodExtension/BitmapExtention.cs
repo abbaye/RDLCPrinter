@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
+﻿using System.Drawing;
 
 namespace DSoft.MethodExtension
 {
@@ -20,11 +14,11 @@ namespace DSoft.MethodExtension
 
         public static System.Windows.Media.Color GetColor(this Bitmap b)
         {
-            Bitmap myBitmap = new Bitmap(b);
+            var myBitmap = new Bitmap(b);
 
-            Color pixelColor = myBitmap.GetPixel(1, 1);
+            var pixelColor = myBitmap.GetPixel(1, 1);
 
-            System.Drawing.Color drawingColor = pixelColor;
+            var drawingColor = pixelColor;
 
             var colorBrush = System.Windows.Media.Color.FromArgb(drawingColor.A, drawingColor.R, drawingColor.G, drawingColor.B);
 

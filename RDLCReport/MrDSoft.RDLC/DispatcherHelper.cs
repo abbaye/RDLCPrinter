@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Threading;
 
 namespace DSoft.RDLCReport
@@ -24,9 +20,9 @@ namespace DSoft.RDLCReport
         /// </summary>
         public static void DoEvents()
         {            
-            DispatcherFrame nestedFrame = new DispatcherFrame();
+            var nestedFrame = new DispatcherFrame();
             
-            DispatcherOperation exitOperation = Dispatcher.CurrentDispatcher.BeginInvoke( DispatcherPriority.Background, exitFrameCallback, nestedFrame);
+            var exitOperation = Dispatcher.CurrentDispatcher.BeginInvoke( DispatcherPriority.Background, exitFrameCallback, nestedFrame);
 
             //execute all next message
             Dispatcher.PushFrame(nestedFrame);
@@ -39,7 +35,7 @@ namespace DSoft.RDLCReport
 
         private static Object ExitFrame(Object state)
         {
-            DispatcherFrame frame = state as DispatcherFrame;
+            var frame = state as DispatcherFrame;
 
             // exit the message loop
             frame.Continue = false;

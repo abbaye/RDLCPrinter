@@ -1,18 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using DSoft.MethodExtension;
 
 namespace DSoft.RDLC
@@ -20,19 +9,19 @@ namespace DSoft.RDLC
     /// <summary>
     /// RDLCSlider
     /// <remarks>
-    /// CREDIT : 2013-2016 Derek Tremblay (abbaye), 2013 Martin Savard
+    /// CREDIT : 2013-2018 Derek Tremblay (abbaye), 2013 Martin Savard
     /// https://github.com/abbaye/RDLCPrinter
     /// </remarks>
     /// </summary>
     public partial class LightDoubleSlider : UserControl
     {
-        private double _sliderMinimum = 0;
+        private double _sliderMinimum;
         private double _sliderMaximum = 1;
         private double _sliderSmallChange = 1;
         private int _sliderInterval = 1;
         private double _sliderTickFrequency = 1;
         private bool _slideIsSnapToTickEnabled = true;
-        private double _sliderValue = 0;
+        private double _sliderValue;
         public event EventHandler FirstButtonClick;
         public event EventHandler PrevioustButtonClick;
         public event EventHandler NextButtonClick;
