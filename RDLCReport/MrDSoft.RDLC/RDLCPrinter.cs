@@ -9,7 +9,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using Microsoft.Reporting.WinForms;
-
+ 
 namespace DSoft
 {
     /// <summary>
