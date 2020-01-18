@@ -178,7 +178,7 @@ namespace DSoft.RDLC
         private void FirstButton_Click(object sender, RoutedEventArgs e)
         {
             UpdateButton();
-            
+
             if (FirstButtonClick != null)
                 FirstButtonClick(this, new EventArgs());
         }
@@ -243,7 +243,7 @@ namespace DSoft.RDLC
             else
             {
                 NextButton.EnableButton();
-                LastButton.EnableButton(); 
+                LastButton.EnableButton();
             }
         }
         #endregion //Methode

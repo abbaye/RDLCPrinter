@@ -15,7 +15,7 @@ namespace DSoft
     /// <summary>
     /// This class allow to Print and export RDLC Report. 
     /// <remarks>
-    /// CREDIT : 2013-2018 Derek Tremblay (abbaye), 2013 Martin Savard
+    /// CREDIT : 2013-2019 Derek Tremblay (abbaye), 2013 Martin Savard
     /// https://github.com/abbaye/RDLCPrinter
     /// </remarks>
     /// </summary>
@@ -96,8 +96,7 @@ namespace DSoft
             get => _printDoc ?? GetDefaultPrinter();
             set => _printDoc = value;
         }
-
-
+        
         /// <summary>
         /// get or set the type of report
         /// </summary>
@@ -107,7 +106,7 @@ namespace DSoft
         /// <summary>
         /// Get the default orientation of report
         /// </summary>
-        public bool? isDefaultLandscape => Report?.GetDefaultPageSettings().IsLandscape;
+        public bool? IsDefaultLandscape => Report?.GetDefaultPageSettings().IsLandscape;
 
         /// <summary>
         /// Get the number of pages in the report
@@ -246,9 +245,8 @@ namespace DSoft
 
         #region Method Print Page
 
-        private void printDoc_PrintPage(object sender, PrintPageEventArgs ev)
+        private void PrintDoc_PrintPage(object sender, PrintPageEventArgs ev)
         {
-
             _pageImage = new Metafile(_streams[_currentPageIndex]);
 
             // Ajuster le rectangle au marge de la page
@@ -275,7 +273,6 @@ namespace DSoft
 
         private void PrintNow()
         {
-
             if (_streams == null || _streams.Count == 0)
                 return;
 
@@ -285,7 +282,7 @@ namespace DSoft
                 return;
             }
 
-            _printDoc.PrintPage += printDoc_PrintPage;
+            _printDoc.PrintPage += PrintDoc_PrintPage;
             _printDoc.EndPrint += printDoc_EndPrint;
 
             _printDoc.Print();
@@ -341,7 +338,7 @@ namespace DSoft
 
         #endregion
 
-        #region method to Print / export to various file format
+        #region Method to Print / export to various file format
 
         /// <summary>
         /// Launch printing
@@ -525,21 +522,32 @@ namespace DSoft
 
         #endregion
 
-        #region Dipose des Streams
+        #region IDisposable Support
+        private bool disposedValue = false; // for detect redondant call
 
-        /// <summary>
-        /// Dispose all stream
-        /// </summary>
-        public void Dispose()
+        protected virtual void Dispose(bool disposing)
         {
-            if (_streams == null) return;
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    if (_streams == null) return;
 
-            foreach (var stream in _streams)
-                stream.Close();
+                    foreach (var stream in _streams)
+                        stream.Close();
 
-            _streams = null;
+                    _streams = null;
+                }
+
+                disposedValue = true;
+            }
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            // GC.SuppressFinalize(this);
+        }
         #endregion
     }
 }

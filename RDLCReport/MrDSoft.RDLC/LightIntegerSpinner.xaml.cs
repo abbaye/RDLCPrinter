@@ -34,10 +34,10 @@ namespace DSoft.RDLCReport
             {
                 try
                 {
-                    if (_IsShowCurrentToMaximumValue)                    
-                        return Convert.ToInt32(NumPager.Text.Split('/')[0].Trim());                    
-                    else                    
-                        return Convert.ToInt32(NumPager.Text);                    
+                    if (_IsShowCurrentToMaximumValue)
+                        return Convert.ToInt32(NumPager.Text.Split('/')[0].Trim());
+                    else
+                        return Convert.ToInt32(NumPager.Text);
                 }
                 catch
                 {
@@ -49,7 +49,8 @@ namespace DSoft.RDLCReport
                 if (_IsShowCurrentToMaximumValue)
                 {
                     NumPager.Text = value + " / " + _maximum;
-                }else
+                }
+                else
                     NumPager.Text = value.ToString();
 
                 CheckRange();
@@ -132,10 +133,10 @@ namespace DSoft.RDLCReport
                 Value = Value;
             }
         }
-        
+
 
         private void CheckRange()
-        { 
+        {
 
             if (Value > _maximum)
             {

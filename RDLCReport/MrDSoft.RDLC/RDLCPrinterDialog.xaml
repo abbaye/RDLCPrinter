@@ -37,7 +37,7 @@
         <Grid Margin="10,10,10,0" Height="138" VerticalAlignment="Top" Background="{StaticResource LightGradientPanelBrush}">
             <Label Content="Printer settings" FontWeight="Bold" Height="26" Style="{StaticResource TitleLabelStyle}" VerticalAlignment="Top"/>
             <Label x:Name="lblImprimanteNom" Content="Printer name" FontSize="12" Margin="10,41,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <ComboBox x:Name="cboImprimanteNom"  SelectionChanged="cboImprimanetNom_SelectionChanged" Margin="108,41,10,0" Height="26" VerticalAlignment="Top" />
+            <ComboBox x:Name="cboImprimanteNom"  SelectionChanged="CboImprimanetNom_SelectionChanged" Margin="108,41,10,0" Height="26" VerticalAlignment="Top" />
             <Label  Content="Status" Margin="10,72,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <Image x:Name="ReadyImage" Margin="108,75,0,0" HorizontalAlignment="Left" Width="20" Height="20" VerticalAlignment="Top" />
             <Label x:Name="lblImprimanteStatus" Content="" FontSize="12" Margin="133,72,0,0" HorizontalAlignment="Left" Width="234" Height="26" VerticalAlignment="Top" />

@@ -35,6 +35,6 @@ namespace DSoft.MethodExtension
         {
             btn.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
         }
-        
+
     }
 }

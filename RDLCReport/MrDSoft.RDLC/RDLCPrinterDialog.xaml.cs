@@ -1,16 +1,16 @@
 ﻿using System;
+using System.Drawing.Printing;
+using System.Printing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using System.Printing;
-using System.Drawing.Printing;
 
 namespace DSoft.RDLC
 {
     /// <summary>
     /// RDLCPrinterDialog
     /// <remarks>
-    /// CREDIT : 2013-2018 Derek Tremblay (abbaye), 2013 Martin Savard
+    /// CREDIT : 2013-2019 Derek Tremblay (abbaye), 2013 Martin Savard
     /// https://github.com/abbaye/RDLCPrinter
     /// </remarks>
     /// </summary>
@@ -21,7 +21,7 @@ namespace DSoft.RDLC
         private PrintQueue _currentPrinter;
         private readonly LocalPrintServer _printServer = new LocalPrintServer();
         //private List<PrintQueue> _printerList = new List<PrintQueue>();
-        private string ImgSource; 
+        private string ImgSource;
 
         public RDLCPrinter Report
         {
@@ -31,8 +31,8 @@ namespace DSoft.RDLC
             {
                 _report = value;
 
-                if (_report.isDefaultLandscape == true)                
-                    _printer.DefaultPageSettings.Landscape = true;   
+                if (_report.IsDefaultLandscape == true)
+                    _printer.DefaultPageSettings.Landscape = true;
             }
         }
 
@@ -87,7 +87,7 @@ namespace DSoft.RDLC
         /// <summary>
         /// Select user printer
         /// </summary>
-        private void cboImprimanetNom_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void CboImprimanetNom_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             lblImprimanteStatus.Content = "";
 
@@ -95,7 +95,7 @@ namespace DSoft.RDLC
 
             if (_currentPrinter.IsNotAvailable == false)
             {
-                lblImprimanteStatus.Content = "Ready";                
+                lblImprimanteStatus.Content = "Ready";
                 _printer.PrinterSettings.PrinterName = _currentPrinter.FullName;
                 lblEmplacementImprimante.Content = _currentPrinter.QueuePort.Name;
                 ImgSource = @"pack://application:,,,/RDLCPrinter;component/Resources/Button-Blank-Green.ico";
@@ -113,11 +113,11 @@ namespace DSoft.RDLC
         /// Launch print
         /// </summary>
         private void OK_Click(object sender, RoutedEventArgs e)
-        {            
+        {
             PreparePrint();
             Report.PrintDoc = _printer;
 
-            Report.CopyNumber = NumberOfCopySpinner.Value.HasValue ? NumberOfCopySpinner.Value.Value : 1;
+            Report.CopyNumber = NumberOfCopySpinner.Value ?? 1;
 
             Report.Print();
             Close();
@@ -139,15 +139,7 @@ namespace DSoft.RDLC
         /// Close window 
         /// </summary>        
         private void Annuler_Click(object sender, RoutedEventArgs e) => Close();
-
-        /////// <summary>
-        /////// Cancel ctrl-v (paste)
-        /////// </summary>        
-        ////private void OnCancelCommand(object sender, DataObjectEventArgs e)
-        ////{
-        ////    e.CancelCommand();
-        ////}
-
+        
         private void cmdAllPageButton_Click(object sender, RoutedEventArgs e)
         {
             if (cmdAllPageButton.IsChecked == true)
