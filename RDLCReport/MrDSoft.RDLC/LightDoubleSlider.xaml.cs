@@ -167,8 +167,7 @@ namespace DSoft.RDLC
                 _sliderValue = value;
                 ChartSlider.Value = _sliderValue;
 
-                if (ValueChanged != null)
-                    ValueChanged(this, new EventArgs());
+                ValueChanged?.Invoke(this, new EventArgs());
             }
         }
         #endregion //Properties
@@ -179,32 +178,28 @@ namespace DSoft.RDLC
         {
             UpdateButton();
 
-            if (FirstButtonClick != null)
-                FirstButtonClick(this, new EventArgs());
+            FirstButtonClick?.Invoke(this, new EventArgs());
         }
 
         private void PreviousButton_Click(object sender, RoutedEventArgs e)
         {
             UpdateButton();
 
-            if (PrevioustButtonClick != null)
-                PrevioustButtonClick(this, new EventArgs());
+            PrevioustButtonClick?.Invoke(this, new EventArgs());
         }
 
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
             UpdateButton();
 
-            if (NextButtonClick != null)
-                NextButtonClick(this, new EventArgs());
+            NextButtonClick?.Invoke(this, new EventArgs());
         }
 
         private void LastButton_Click(object sender, RoutedEventArgs e)
         {
             UpdateButton();
 
-            if (LastButtonClick != null)
-                LastButtonClick(this, new EventArgs());
+            LastButtonClick?.Invoke(this, new EventArgs());
         }
 
         private void ChartSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -213,8 +208,7 @@ namespace DSoft.RDLC
 
             UpdateButton();
 
-            if (ValueChanged != null)
-                ValueChanged(this, new EventArgs());
+            ValueChanged?.Invoke(this, new EventArgs());
         }
 
         #endregion //Events.

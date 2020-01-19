@@ -7,7 +7,7 @@
         Title="RDLC WPF UserControl Demo" Height="800" Width="1024" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Grid>
 
-        <RDLC:RDLCReportViewer x:Name="ReportViewer" Margin="10" Width="Auto" Height="Auto"/>
+        <RDLC:RDLCReportViewer x:Name="RDLCReportViewer" Margin="10" Width="Auto" Height="Auto"/>
         
     </Grid>
 </Window>

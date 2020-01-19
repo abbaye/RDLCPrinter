@@ -56,8 +56,7 @@ namespace DSoft.RDLCReport
                 CheckRange();
                 UpdateButton();
 
-                if (ValueChanged != null)
-                    ValueChanged(this, new EventArgs());
+                ValueChanged?.Invoke(this, new EventArgs());
             }
         }
 
@@ -142,16 +141,14 @@ namespace DSoft.RDLCReport
             {
                 Value = _maximum;
 
-                if (ValueChanged != null)
-                    ValueChanged(this, new EventArgs());
+                ValueChanged?.Invoke(this, new EventArgs());
             }
 
             if (Value < _minimum)
             {
                 Value = _minimum;
 
-                if (ValueChanged != null)
-                    ValueChanged(this, new EventArgs());
+                ValueChanged?.Invoke(this, new EventArgs());
             }
         }
 
@@ -163,8 +160,7 @@ namespace DSoft.RDLCReport
             CheckRange();
             UpdateButton();
 
-            if (UpButtonClick != null)
-                UpButtonClick(this, new EventArgs());
+            UpButtonClick?.Invoke(this, new EventArgs());
         }
 
         private void SpinnerDown_Click(object sender, RoutedEventArgs e)
@@ -175,8 +171,7 @@ namespace DSoft.RDLCReport
             CheckRange();
             UpdateButton();
 
-            if (DownButtonClick != null)
-                DownButtonClick(this, new EventArgs());
+            DownButtonClick?.Invoke(this, new EventArgs());
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)

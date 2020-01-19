@@ -166,7 +166,10 @@
       <Version>140.1000.523</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.SqlServer.Types">
-      <Version>14.0.314.76</Version>
+      <Version>14.0.1016.290</Version>
+    </PackageReference>
+    <PackageReference Include="System.Data.SqlServerCe_unofficial">
+      <Version>4.0.8482.1</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

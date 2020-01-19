@@ -163,17 +163,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.ReportingServices.ReportViewerControl.Winforms">
-      <Version>140.1000.523</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.SqlServer.Types">
-      <Version>14.0.314.76</Version>
-    </PackageReference>
-    <PackageReference Include="System.Data.SqlServerCe_unofficial">
-      <Version>4.0.8482.1</Version>
-    </PackageReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

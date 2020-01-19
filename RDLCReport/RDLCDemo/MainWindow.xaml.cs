@@ -58,7 +58,7 @@ namespace RDLCDemo
             rdlcPrinter.BeforeRefresh += rdlcPrinter_BeforeRefresh;
 
             //Load in report viewer
-            ReportViewer.Report = rdlcPrinter;
+            RDLCReportViewer.Report = rdlcPrinter;
         }
 
         private void rdlcPrinter_BeforeRefresh(object sender, EventArgs e)
