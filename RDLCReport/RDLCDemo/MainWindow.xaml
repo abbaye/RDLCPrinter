@@ -1,13 +1,21 @@
 ﻿<Window
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        
-        xmlns:RDLC="clr-namespace:DSoft.RDLC;assembly=RDLCPrinter"
-        x:Class="RDLCDemo.MainWindow" 
-        Loaded="Window_Loaded"
-        Title="RDLC WPF UserControl Demo" Height="800" Width="1024" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+    x:Class="RDLCDemo.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:RDLC="clr-namespace:DSoft.RDLC;assembly=RDLCPrinter"
+    Title="RDLC WPF UserControl Demo"
+    Width="1024"
+    Height="800"
+    Loaded="Window_Loaded"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized">
     <Grid>
 
-        <RDLC:RDLCReportViewer x:Name="RDLCReportViewer" Margin="10" Width="Auto" Height="Auto"/>
-        
+        <RDLC:RDLCReportViewer
+            x:Name="RDLCReportViewer"
+            Width="Auto"
+            Height="Auto"
+            Margin="10" />
+
     </Grid>
 </Window>
