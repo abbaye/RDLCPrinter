@@ -9,7 +9,7 @@ namespace DSoft.RDLC
     /// <summary>
     /// RDLCSlider
     /// <remarks>
-    /// CREDIT : 2013-2018 Derek Tremblay (abbaye), 2013 Martin Savard
+    /// CREDIT : 2013-2020 Derek Tremblay (abbaye), 2013 Martin Savard
     /// https://github.com/abbaye/RDLCPrinter
     /// </remarks>
     /// </summary>
@@ -30,10 +30,7 @@ namespace DSoft.RDLC
 
 
 
-        public LightDoubleSlider()
-        {
-            InitializeComponent();
-        }
+        public LightDoubleSlider() => InitializeComponent();
 
 
         #region Properties
@@ -68,7 +65,6 @@ namespace DSoft.RDLC
             {
                 _sliderMaximum = value;
                 ChartSlider.Maximum = _sliderMaximum;
-
             }
         }
 
@@ -212,9 +208,8 @@ namespace DSoft.RDLC
         }
 
         #endregion //Events.
-
-
-        #region Methode
+        
+        #region Method
 
         public void UpdateButton()
         {

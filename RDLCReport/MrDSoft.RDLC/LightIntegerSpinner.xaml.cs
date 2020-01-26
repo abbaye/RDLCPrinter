@@ -7,7 +7,7 @@ namespace DSoft.RDLCReport
     /// <summary>
     /// LightIntegerSpinner
     /// <remarks>
-    /// CREDIT : 2013-2014 Derek Tremblay (abbaye)
+    /// CREDIT : 2013-2020 Derek Tremblay (abbaye)
     /// https://github.com/abbaye/RDLCPrinter
     /// </remarks>
     /// </summary>
@@ -23,10 +23,7 @@ namespace DSoft.RDLCReport
         private bool _IsShowCurrentToMaximumValue;
 
 
-        public LightIntegerSpinner()
-        {
-            InitializeComponent();
-        }
+        public LightIntegerSpinner() => InitializeComponent();
 
         public int? Value
         {
@@ -34,10 +31,9 @@ namespace DSoft.RDLCReport
             {
                 try
                 {
-                    if (_IsShowCurrentToMaximumValue)
-                        return Convert.ToInt32(NumPager.Text.Split('/')[0].Trim());
-                    else
-                        return Convert.ToInt32(NumPager.Text);
+                    return _IsShowCurrentToMaximumValue 
+                        ? Convert.ToInt32(NumPager.Text.Split('/')[0].Trim()) 
+                        : Convert.ToInt32(NumPager.Text);
                 }
                 catch
                 {
@@ -46,12 +42,7 @@ namespace DSoft.RDLCReport
             }
             set
             {
-                if (_IsShowCurrentToMaximumValue)
-                {
-                    NumPager.Text = value + " / " + _maximum;
-                }
-                else
-                    NumPager.Text = value.ToString();
+                NumPager.Text = _IsShowCurrentToMaximumValue ? value + " / " + _maximum : value.ToString();
 
                 CheckRange();
                 UpdateButton();
@@ -70,10 +61,7 @@ namespace DSoft.RDLCReport
             {
                 _isShowSpinnerButton = value;
 
-                if (value)
-                    ButtonColumn.Width = new GridLength(20);
-                else
-                    ButtonColumn.Width = new GridLength(0);
+                ButtonColumn.Width = value ? new GridLength(20) : new GridLength(0);
             }
         }
 
@@ -140,14 +128,12 @@ namespace DSoft.RDLCReport
             if (Value > _maximum)
             {
                 Value = _maximum;
-
                 ValueChanged?.Invoke(this, new EventArgs());
             }
 
             if (Value < _minimum)
             {
                 Value = _minimum;
-
                 ValueChanged?.Invoke(this, new EventArgs());
             }
         }
