@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Forms;
 using DSoft;
 using Microsoft.Reporting.WinForms;
+using RDLCDemo.NorthwindDataSetTableAdapters;
 
 namespace RDLCDemo
 {
@@ -10,61 +12,51 @@ namespace RDLCDemo
     /// </summary>
     public partial class MainWindow : Window
     {
-        NorthwindDataSetTableAdapters.ProductsByCategoriesTableAdapter _dataAdapter;
-        NorthwindDataSet _northWindDataSet;
+        public MainWindow() => InitializeComponent();
 
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            LoadDataReport();
-        }
+        private void Window_Loaded(object sender, RoutedEventArgs e) => LoadDataReport();
 
         private void LoadDataReport()
         {
             //Create the local report
-            var report = new LocalReport();
-            report.ReportEmbeddedResource = "RDLCDemo.ReportTest.rdlc";
+            var report = new LocalReport
+            {
+                ReportEmbeddedResource = "RDLCDemo.ReportTest.rdlc"
+            };
 
+            //Create object
+            var northWindDataSet = new NorthwindDataSet
+            {
+                DataSetName = nameof(NorthwindDataSet),
+                SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
+            };
 
-            //Create the dataset            
-            _northWindDataSet = new NorthwindDataSet();
-            _dataAdapter = new NorthwindDataSetTableAdapters.ProductsByCategoriesTableAdapter();
+            var dataAdapter = new ProductsByCategoriesTableAdapter
+            {
+                ClearBeforeFill = true
+            };
 
-            _northWindDataSet.DataSetName = "NorthwindDataSet";
-            _northWindDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            _dataAdapter.ClearBeforeFill = true;
+            var source = new BindingSource
+            {
+                DataMember = nameof(northWindDataSet.ProductsByCategories),
+                DataSource = northWindDataSet
+            };
 
             //Created datasource and binding source
-            var dataSource = new ReportDataSource();
-            var source = new System.Windows.Forms.BindingSource();
+            var dataSource = new ReportDataSource
+            {
+                Name = "ProductsDataSources",  //the datasource name in the RDLC report
+                Value = source
+            };
 
-            dataSource.Name = "ProductsDataSources";  //the datasource name in the RDLC report
-            dataSource.Value = source;
-            source.DataMember = "ProductsByCategories";
-            source.DataSource = _northWindDataSet;
+            //Add data source
             report.DataSources.Add(dataSource);
-
-
+            
             //Fill Data in the dataset
-            _dataAdapter.Fill(_northWindDataSet.ProductsByCategories);
-
-            //Create the printer/export rdlc printer
-            var rdlcPrinter = new RDLCPrinter(report);
-
-            rdlcPrinter.BeforeRefresh += rdlcPrinter_BeforeRefresh;
+            dataAdapter.Fill(northWindDataSet.ProductsByCategories);
 
             //Load in report viewer
-            RDLCReportViewer.Report = rdlcPrinter;
-        }
-
-        private void rdlcPrinter_BeforeRefresh(object sender, EventArgs e)
-        {
-            //Fill Data in the dataset            
-            _dataAdapter.Fill(_northWindDataSet.ProductsByCategories);
+            RDLCReportViewer.Report = new RDLCPrinter(report);
         }
     }
 }

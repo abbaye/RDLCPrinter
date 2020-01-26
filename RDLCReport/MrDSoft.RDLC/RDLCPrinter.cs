@@ -42,10 +42,7 @@ namespace DSoft
         /// <summary>
         /// Initialize an empty report object
         /// </summary>
-        public RDLCPrinter()
-        {
-
-        }
+        public RDLCPrinter() { }
 
         /// <summary>
         /// Initialize report object with default setting
@@ -535,6 +532,9 @@ namespace DSoft
 
                     foreach (var stream in _streams)
                         stream.Close();
+
+                    _pageImage.Dispose();
+                    _printDoc.Dispose();
 
                     _streams = null;
                 }
