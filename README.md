@@ -1,4 +1,4 @@
-![example](Logo.png?raw=true)
+<img src="Logo.png?raw=true" width="420" height="100" />
 
 ## Summary
 
@@ -7,6 +7,8 @@ RDLCPrinter is a library for RDLC LocalReport. You can use by exemple with SQL S
 With RDLCPrinter class, you can export your report to PDF, Word or PNG Image... A WPF Preview control is include in this package and some usefull control!
 
 ONLY IN ENGLISH NEED TO BE LOCALISED IN OTHER LANGUAGE... (WHEN I WILL HAVE SOMES FREE TIMES)
+
+⚠ ATTENTION ! For use the sample demo, you need to download SQL compact 4.0 (https://www.microsoft.com/en-us/download/details.aspx?id=17876)
 
 ## NUGET LINK (Older version, will be updated soon)
 https://www.nuget.org/packages/RDLCPrinter/
