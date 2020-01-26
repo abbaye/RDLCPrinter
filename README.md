@@ -1,4 +1,4 @@
-![example](Logo.png?raw=true)
+<img src="Logo.png?raw=true" width="420" height="100" />
 
 ## Summary
 
