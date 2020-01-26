@@ -15,7 +15,7 @@ namespace DSoft
     /// <summary>
     /// This class allow to Print and export RDLC Report. 
     /// <remarks>
-    /// CREDIT : 2013-2019 Derek Tremblay (abbaye), 2013 Martin Savard
+    /// CREDIT : 2013-2020 Derek Tremblay (abbaye), 2013 Martin Savard
     /// https://github.com/abbaye/RDLCPrinter
     /// </remarks>
     /// </summary>

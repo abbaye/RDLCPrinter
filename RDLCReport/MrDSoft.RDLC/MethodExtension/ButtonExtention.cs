@@ -13,7 +13,6 @@ namespace DSoft.MethodExtension
         /// <summary>
         /// Desactive un boutton et baisse son opacité a 50%
         /// </summary>
-        /// <param name="button"></param>
         public static void DisableButton(this Button button)
         {
             button.Opacity = 0.5;
@@ -23,18 +22,13 @@ namespace DSoft.MethodExtension
         /// <summary>
         /// Active un boutton et ajuste son opacité a 100%
         /// </summary>
-        /// <param name="button"></param>
         public static void EnableButton(this Button button)
         {
             button.Opacity = 1;
             button.IsEnabled = true;
         }
-
-
-        public static void PerformClick(this Button btn)
-        {
+        
+        public static void PerformClick(this Button btn) => 
             btn.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
-        }
-
     }
 }
