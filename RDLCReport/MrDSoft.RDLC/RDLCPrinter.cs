@@ -280,12 +280,12 @@ namespace DSoft
             }
 
             _printDoc.PrintPage += PrintDoc_PrintPage;
-            _printDoc.EndPrint += printDoc_EndPrint;
+            _printDoc.EndPrint += PrintDoc_EndPrint;
 
             _printDoc.Print();
         }
 
-        private void printDoc_EndPrint(object sender, PrintEventArgs e)
+        private void PrintDoc_EndPrint(object sender, PrintEventArgs e)
         {
             _currentPageIndex = 0;
             _streams = null;

@@ -39,7 +39,7 @@ namespace DSoft.RDLCReport
 
         }
 
-        private static Object ExitFrame(Object state)
+        private static object ExitFrame(object state)
         {
             // exit the message loop
             if (state is DispatcherFrame frame)

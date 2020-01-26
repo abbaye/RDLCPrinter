@@ -39,11 +39,11 @@
         </Grid.RowDefinitions>
         <Border BorderThickness="0,0,0,1" BorderBrush="Black">
             <ToolBar x:Name="ToolBarRow" Grid.Row="0" Height="36" Loaded="ToolBarRow_Loaded">
-                <Button x:Name="TBBRefresh" Click="cmdRefresh_Click" IsEnabled="False" Opacity="0.5">
+                <Button x:Name="TBBRefresh" Click="CmdRefresh_Click" IsEnabled="False" Opacity="0.5">
                     <Image Source="Resources/Refresh.ico" ToolTip="Refresh" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Button>
                 <Separator Margin="5"/>
-                <Button x:Name="TBBPrint" Click="cmdPrint_Click" IsEnabled="False" Opacity="0.5">
+                <Button x:Name="TBBPrint" Click="CmdPrint_Click" IsEnabled="False" Opacity="0.5">
                     <Image Source="Resources/Print.ico" ToolTip="Direct print with default printer" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Button>
                 <Button x:Name="TBBPrintWithProperties" Click="TBBPrintWithProperties_Click"  IsEnabled="False" Opacity="0.5" ToolTip="Open print properties dialog.">
