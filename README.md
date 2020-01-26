@@ -8,6 +8,8 @@ With RDLCPrinter class, you can export your report to PDF, Word or PNG Image... 
 
 ONLY IN ENGLISH NEED TO BE LOCALISED IN OTHER LANGUAGE... (WHEN I WILL HAVE SOMES FREE TIMES)
 
+⚠ ATTENTION ! For use the sample demo, you need to download SQL compact 4.0 (https://www.microsoft.com/en-us/download/details.aspx?id=17876)
+
 ## NUGET LINK (Older version, will be updated soon)
 https://www.nuget.org/packages/RDLCPrinter/
 
