@@ -1,4 +1,11 @@
-﻿using System;
+﻿//////////////////////////////////////////////
+// MIT - 2012-2020
+// Author : Derek Tremblay (derektremblay666@gmail.com)
+// Contributor : Martin Savard (2013)
+// https://github.com/abbaye/RDLCPrinter
+//////////////////////////////////////////////
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -15,10 +22,6 @@ namespace DSoft
     /// <summary>
     /// This class allow to Print and export RDLC Report. 
     /// <remarks>
-    /// CREDIT : 2013-2020 Derek Tremblay (abbaye), 2013 Martin Savard
-    /// https://github.com/abbaye/RDLCPrinter
-    /// </remarks>
-    /// </summary>
     public class RDLCPrinter : IDisposable
     {
         private int _currentPageIndex;
@@ -74,13 +77,12 @@ namespace DSoft
         /// </summary>
         public void Refresh()
         {
-            if (Report != null)
-            {
-                BeforeRefresh?.Invoke(this, new EventArgs());
+            if (Report == null) return;
+            
+            BeforeRefresh?.Invoke(this, new EventArgs());
 
-                Report.Refresh();
-                _dec = null;
-            }
+            Report.Refresh();
+            _dec = null;
         }
 
         #region Properties
@@ -109,21 +111,7 @@ namespace DSoft
         /// Get the number of pages in the report
         /// Return -1 if an error occurs
         /// </summary>
-        public int PagesCount
-        {
-            get
-            {
-                try
-                {
-                    return GetBitmapDecoder().Frames.Count;
-                }
-                catch
-                {
-                    return -1;
-                }
-
-            }
-        }
+        public int PagesCount => GetBitmapDecoder()?.Frames.Count ?? -1;
 
         /// <summary>
         /// Get a BitmapDecoder of this report 
@@ -133,14 +121,10 @@ namespace DSoft
         {
             try
             {
-                if (_dec == null)
-                {
-                    Stream mStream = new MemoryStream(GetImageArray());
-                    _dec = BitmapDecoder.Create(mStream, BitmapCreateOptions.PreservePixelFormat,
-                        BitmapCacheOption.Default);
-                    return _dec;
-                }
+                if (_dec != null) return _dec;
 
+                Stream mStream = new MemoryStream(GetImageArray());
+                _dec = BitmapDecoder.Create(mStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
                 return _dec;
             }
             catch
@@ -173,8 +157,7 @@ namespace DSoft
         /// <summary>
         /// Create a stream user for each raport page...
         /// </summary>
-        private Stream CreateStream(string name, string fileNameExtension, Encoding encoding, string mimeType,
-            bool willSeek)
+        private Stream CreateStream(string name, string fileNameExtension, Encoding encoding, string mimeType, bool willSeek)
         {
             Stream stream = new MemoryStream();
             _streams.Add(stream);
@@ -208,28 +191,28 @@ namespace DSoft
             if (Report != null)
             {
                 if (Report.GetDefaultPageSettings().IsLandscape)
-                    deviceinfo = @"<DeviceInfo>
+                    deviceinfo = $@"<DeviceInfo>
                         <OutputFormat>EMF</OutputFormat>
-                        <StartPage>" + _printDoc.PrinterSettings.FromPage + @"</StartPage>
-                        <EndPage>" + _printDoc.PrinterSettings.ToPage + @"</EndPage>
-                        <PageWidth>" + (double)Report.GetDefaultPageSettings().PaperSize.Height / 100 + @"in</PageWidth>
-                        <PageHeight>" + (double)Report.GetDefaultPageSettings().PaperSize.Width / 100 + @"in</PageHeight>
-                        <MarginTop>" + (double)Report.GetDefaultPageSettings().Margins.Top / 100 + @"in</MarginTop>
-                        <MarginLeft>" + (double)Report.GetDefaultPageSettings().Margins.Left / 100 + @"in</MarginLeft>
-                        <MarginRight>" + (double)Report.GetDefaultPageSettings().Margins.Right / 100 + @"in</MarginRight>
-                        <MarginBottom>" + (double)Report.GetDefaultPageSettings().Margins.Bottom / 100 + @"in</MarginBottom>
+                        <StartPage>{_printDoc.PrinterSettings.FromPage}</StartPage>
+                        <EndPage>{_printDoc.PrinterSettings.ToPage}</EndPage>
+                        <PageWidth>{(double)Report.GetDefaultPageSettings().PaperSize.Height / 100}in</PageWidth>
+                        <PageHeight>{(double)Report.GetDefaultPageSettings().PaperSize.Width / 100}in</PageHeight>
+                        <MarginTop>{(double)Report.GetDefaultPageSettings().Margins.Top / 100}in</MarginTop>
+                        <MarginLeft>{(double)Report.GetDefaultPageSettings().Margins.Left / 100}in</MarginLeft>
+                        <MarginRight>{(double)Report.GetDefaultPageSettings().Margins.Right / 100}in</MarginRight>
+                        <MarginBottom>{(double)Report.GetDefaultPageSettings().Margins.Bottom / 100}in</MarginBottom>
                     </DeviceInfo>";
                 else
-                    deviceinfo = @"<DeviceInfo>
+                    deviceinfo = $@"<DeviceInfo>
                         <OutputFormat>EMF</OutputFormat>
-                        <StartPage>" + _printDoc.PrinterSettings.FromPage + @"</StartPage>
-                        <EndPage>" + _printDoc.PrinterSettings.ToPage + @"</EndPage>
-                        <PageWidth>" + (double)Report.GetDefaultPageSettings().PaperSize.Width / 100 + @"in</PageWidth>
-                        <PageHeight>" + (double)Report.GetDefaultPageSettings().PaperSize.Height / 100 + @"in</PageHeight>
-                        <MarginTop>" + (double)Report.GetDefaultPageSettings().Margins.Top / 100 + @"in</MarginTop>
-                        <MarginLeft>" + (double)Report.GetDefaultPageSettings().Margins.Left / 100 + @"in</MarginLeft>
-                        <MarginRight>" + (double)Report.GetDefaultPageSettings().Margins.Right / 100 + @"in</MarginRight>
-                        <MarginBottom>" + (double)Report.GetDefaultPageSettings().Margins.Bottom / 100 + @"in</MarginBottom>
+                        <StartPage>{_printDoc.PrinterSettings.FromPage}</StartPage>
+                        <EndPage>{_printDoc.PrinterSettings.ToPage}</EndPage>
+                        <PageWidth>{(double)Report.GetDefaultPageSettings().PaperSize.Width / 100}in</PageWidth>
+                        <PageHeight>{(double)Report.GetDefaultPageSettings().PaperSize.Height / 100}in</PageHeight>
+                        <MarginTop>{(double)Report.GetDefaultPageSettings().Margins.Top / 100}in</MarginTop>
+                        <MarginLeft>{(double)Report.GetDefaultPageSettings().Margins.Left / 100}in</MarginLeft>
+                        <MarginRight>{(double)Report.GetDefaultPageSettings().Margins.Right / 100}in</MarginRight>
+                        <MarginBottom>{(double)Report.GetDefaultPageSettings().Margins.Bottom / 100}in</MarginBottom>
                     </DeviceInfo>";
             }
             else
@@ -325,7 +308,6 @@ namespace DSoft
         /// <summary>
         /// Retourne un tableau (Array) d'image sous forme de BitmapDecoder
         /// </summary>
-        /// <returns></returns>
         public BitmapDecoder GetImage()
         {
             Stream mStream = new MemoryStream(GetImageArray());
@@ -389,13 +371,11 @@ namespace DSoft
             FileSaved?.Invoke(this, new EventArgs());
 
             return true;
-
         }
 
         /// <summary>
         /// Get bitmap image bytes array
         /// </summary>
-        /// <returns></returns>
         public byte[] GetImageArray()
         {
             if (Report == null) return null;
@@ -414,7 +394,6 @@ namespace DSoft
         /// <summary>
         /// Return a BitmapImage that contains report
         /// </summary>
-        /// <returns></returns>
         public BitmapImage GetBitmapImage()
         {
             try
@@ -460,7 +439,6 @@ namespace DSoft
         /// <summary>
         /// Get the pdf bytes array
         /// </summary>
-        /// <returns></returns>
         public byte[] GetPDFArray() => Report?.Render("PDF");
 
         /// <summary>
@@ -546,7 +524,7 @@ namespace DSoft
         public void Dispose()
         {
             Dispose(true);
-            // GC.SuppressFinalize(this);
+            GC.SuppressFinalize(this);
         }
         #endregion
     }

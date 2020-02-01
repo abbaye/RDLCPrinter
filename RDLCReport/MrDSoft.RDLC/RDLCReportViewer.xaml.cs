@@ -1,4 +1,11 @@
-﻿using System.Linq;
+﻿//////////////////////////////////////////////
+// MIT - 2012-2020
+// Author : Derek Tremblay (derektremblay666@gmail.com)
+// Contributor : Martin Savard (2013)
+// https://github.com/abbaye/RDLCPrinter
+//////////////////////////////////////////////
+
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -9,11 +16,7 @@ using DSoft.RDLCReport;
 namespace DSoft.RDLC
 {
     /// <summary>
-    /// RDLCPreviewControl
-    /// <remarks>
-    /// CREDIT : 2013-2018 Derek Tremblay (abbaye), 2013 Martin Savard
-    /// https://github.com/abbaye/RDLCPrinter
-    /// </remarks>
+    /// RDLC Preview user control
     /// </summary>
     public partial class RDLCReportViewer
     {

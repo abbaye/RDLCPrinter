@@ -1,4 +1,11 @@
-﻿using System;
+﻿//////////////////////////////////////////////
+// MIT - 2012-2020
+// Author : Derek Tremblay (derektremblay666@gmail.com)
+// Contributor : Martin Savard (2013)
+// https://github.com/abbaye/RDLCPrinter
+//////////////////////////////////////////////
+
+using System;
 using System.Drawing.Printing;
 using System.Printing;
 using System.Windows;
@@ -8,11 +15,7 @@ using System.Windows.Media.Imaging;
 namespace DSoft.RDLC
 {
     /// <summary>
-    /// RDLCPrinterDialog
-    /// <remarks>
-    /// CREDIT : 2013-2019 Derek Tremblay (abbaye), 2013 Martin Savard
-    /// https://github.com/abbaye/RDLCPrinter
-    /// </remarks>
+    /// RDLC Printer settings Dialog
     /// </summary>
     public partial class RDLCPrinterDialog
     {

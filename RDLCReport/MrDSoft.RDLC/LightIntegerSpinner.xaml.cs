@@ -1,4 +1,11 @@
-﻿using System;
+﻿//////////////////////////////////////////////
+// MIT - 2012-2020
+// Author : Derek Tremblay (derektremblay666@gmail.com)
+// Contributor : Martin Savard (2013)
+// https://github.com/abbaye/RDLCPrinter
+//////////////////////////////////////////////
+
+using System;
 using System.Windows;
 using DSoft.MethodExtension;
 
@@ -6,10 +13,6 @@ namespace DSoft.RDLCReport
 {
     /// <summary>
     /// LightIntegerSpinner
-    /// <remarks>
-    /// CREDIT : 2013-2020 Derek Tremblay (abbaye)
-    /// https://github.com/abbaye/RDLCPrinter
-    /// </remarks>
     /// </summary>
     public partial class LightIntegerSpinner
     {
