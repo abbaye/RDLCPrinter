@@ -10,23 +10,22 @@ using System.Drawing.Printing;
 using System.Printing;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Imaging;
+using ModernWpf.Controls;
 
-namespace DSoft.RDLC
+namespace TimePunch.Rdlc
 {
     /// <summary>
     /// RDLC Printer settings Dialog
     /// </summary>
-    public partial class RDLCPrinterDialog
+    public partial class RdlcPrinterDialog
     {
-        private readonly PrintDocument _printer = new PrintDocument();
-        private RDLCPrinter _report;
+        private RdlcPrinter _report;
         private PrintQueue _currentPrinter;
-        private readonly LocalPrintServer _printServer = new LocalPrintServer();
-        //private List<PrintQueue> _printerList = new List<PrintQueue>();
-        private string ImgSource;
 
-        public RDLCPrinter Report
+        private readonly PrintDocument _printer = new();
+        private readonly LocalPrintServer _printServer = new();
+
+        public RdlcPrinter Report
         {
             get => _report;
 
@@ -39,13 +38,14 @@ namespace DSoft.RDLC
             }
         }
 
-        public RDLCPrinterDialog() => InitializeComponent();
+        public RdlcPrinterDialog() => InitializeComponent();
 
         private void Window_Loaded(object sender, RoutedEventArgs e) => RefreshWindow();
 
         private void RefreshWindow()
         {
-            if (_report == null) return;
+            if (_report == null) 
+                return;
 
             if (_report.CopyNumber >= 1)
                 NumberOfCopySpinner.Value = _report.CopyNumber;
@@ -71,20 +71,7 @@ namespace DSoft.RDLC
                     cboImprimanteNom.SelectedIndex = i;
             }
 
-            //Check if printer is ready
-            if (_currentPrinter.IsNotAvailable == false)
-            {
-                lblImprimanteStatus.Content = "Ready";
-                ImgSource = @"pack://application:,,,/RDLCPrinter;component/Resources/Button-Blank-Green.ico";
-
-            }
-            else
-            {
-                lblImprimanteStatus.Content = "Offline";
-                ImgSource = @"pack://application:,,,/RDLCPrinter;component/Resources/Button-Blank-Red.ico";
-
-            }
-            ReadyImage.Source = new BitmapImage(new Uri(ImgSource));
+            UpdatePrinterState();
         }
 
         /// <summary>
@@ -92,67 +79,38 @@ namespace DSoft.RDLC
         /// </summary>
         private void CboImprimanetNom_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            lblImprimanteStatus.Content = "";
-
+            ImprimanteStatus.Content = "";
             _currentPrinter = (PrintQueue)cboImprimanteNom.SelectedItem;
-
-            if (_currentPrinter.IsNotAvailable == false)
-            {
-                lblImprimanteStatus.Content = "Ready";
-                _printer.PrinterSettings.PrinterName = _currentPrinter.FullName;
-                lblEmplacementImprimante.Content = _currentPrinter.QueuePort.Name;
-                ImgSource = @"pack://application:,,,/RDLCPrinter;component/Resources/Button-Blank-Green.ico";
-            }
-            else
-            {
-                lblImprimanteStatus.Content = "Offline";
-                ImgSource = @"pack://application:,,,/RDLCPrinter;component/Resources/Button-Blank-Red.ico";
-            }
-
-            ReadyImage.Source = new BitmapImage(new Uri(ImgSource));
+            UpdatePrinterState();
         }
 
         /// <summary>
         /// Launch print
         /// </summary>
-        private void OK_Click(object sender, RoutedEventArgs e)
+        private void OK_Click(ContentDialog contentDialog, ContentDialogButtonClickEventArgs args)
         {
-            PreparePrint();
-            Report.PrintDoc = _printer;
-
-            Report.CopyNumber = NumberOfCopySpinner.Value ?? 1;
-
-            Report.Print();
-            Close();
-        }
-
-        /// <summary>
-        /// Page to page for printing
-        /// </summary>
-        private void PreparePrint()
-        {
-            if (cmdAllPageButton.IsChecked != false) return;
-
-            _printer.PrinterSettings.FromPage = FirstPageSpinner.Value.Value;
-            _printer.PrinterSettings.ToPage = LastPageSpinner.Value.Value;
-        }
-
-
-        /// <summary>
-        /// Close window 
-        /// </summary>        
-        private void Annuler_Click(object sender, RoutedEventArgs e) => Close();
-        
-        private void cmdAllPageButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (cmdAllPageButton.IsChecked == true)
-            {
-                PageChoiceStackPanel.IsEnabled = false;
-                FirstPageSpinner.Value = 1;
-                LastPageSpinner.Value = _report.PagesCount;
-            }
+            _printer.PrinterSettings.PrinterName = _currentPrinter.FullName;
+            if (AllPages.IsChecked == true)
+                _printer.PrinterSettings.PrintRange = PrintRange.AllPages;
             else
-                PageChoiceStackPanel.IsEnabled = true;
+            {
+                _printer.PrinterSettings.PrintRange = PrintRange.Selection;
+                _printer.PrinterSettings.FromPage = (int)FirstPageSpinner.Value;
+                _printer.PrinterSettings.ToPage = (int)LastPageSpinner.Value;
+            }
+
+            Report.PrintDoc = _printer;
+            Report.CopyNumber = Math.Max(0, (int)NumberOfCopySpinner.Value);
+            Report.Print();
         }
+
+        private void UpdatePrinterState()
+        {
+            if (_currentPrinter.IsNotAvailable == false)
+                ImprimanteStatus.Content = "Ready";
+            else
+                ImprimanteStatus.Content = "Offline";
+        }
+
     }
 }

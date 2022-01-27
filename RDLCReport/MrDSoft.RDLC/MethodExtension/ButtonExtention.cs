@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
-namespace DSoft.MethodExtension
+namespace TimePunch.Rdlc.MethodExtension
 {
     /// <remarks>
     /// CREDIT : 2013-2018 Derek Tremblay (abbaye), 2013 Martin Savard

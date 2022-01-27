@@ -5,77 +5,26 @@
 // https://github.com/abbaye/RDLCPrinter
 //////////////////////////////////////////////
 
-using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using DSoft.MethodExtension;
-using DSoft.RDLCReport;
+using ModernWpf.Controls;
+using TimePunch.Rdlc.MethodExtension;
 
-namespace DSoft.RDLC
+namespace TimePunch.Rdlc
 {
     /// <summary>
     /// RDLC Preview user control
     /// </summary>
-    public partial class RDLCReportViewer
+    public partial class RdlcReportViewer
     {
-        private RDLCPrinter _report;
+        private RdlcPrinter _report;
         private int _pos;
-        private bool _isShowToolBar = true;
-        private Point _origin;
-        private Point _start;
-        private TranslateTransform tt = new TranslateTransform();
-        private bool _fixedToWindowMode;
 
-        public RDLCReportViewer()
+        public RdlcReportViewer()
         {
             InitializeComponent();
-
-            // zoom initialization
-            CreateTransformGroup();
-            ZoomSlider.Value = 98;
-            ZoomValueTextBloc.Text = (ZoomSlider.Value + 2).ToString("##0");
+            UpdateToolBarButton();
         }
-
-        private void CreateTransformGroup()
-        {
-            if (ZoomGroup.Children.Count > 2)
-                ZoomGroup.Children.Remove(tt);
-
-            tt = new TranslateTransform();
-            ZoomGroup.Children.Add(tt);
-            
-            PreviewImage.RenderTransform = ZoomGroup;
-
-            PreviewImage.MouseLeftButtonDown += PreviewImage_MouseLeftButtonDown;
-            PreviewImage.MouseLeftButtonUp += PreviewImage_MouseLeftButtonUp;
-            PreviewImage.MouseMove += PreviewImage_MouseMove;
-
-            if (_fixedToWindowMode == false)
-                ZoomSlider.Value = 98;
-        }
-
-        /// <summary>
-        /// For move the report in usercontrol
-        /// </summary>
-        private void PreviewImage_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (!PreviewImage.IsMouseCaptured)
-                return;
-
-            var translateTransf = (TranslateTransform)((TransformGroup)PreviewImage.RenderTransform).Children.First(tr => tr is TranslateTransform);
-            var v = _start - e.GetPosition(ImgBorber);
-
-            translateTransf.Y = _origin.Y - v.Y;
-            translateTransf.X = _origin.X - v.X;
-        }
-
-        /// <summary>
-        /// Release mouse capture
-        /// </summary>
-        private void PreviewImage_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) => 
-            PreviewImage.ReleaseMouseCapture();
 
         /// <summary>
         /// Call refresh button
@@ -83,18 +32,9 @@ namespace DSoft.RDLC
         private void CmdRefresh_Click(object sender, RoutedEventArgs e) => RefreshControl();
 
         /// <summary>
-        /// Print report button
-        /// </summary>        
-        private void CmdPrint_Click(object sender, RoutedEventArgs e)
-        {
-            _report.Reporttype = ReportType.Printer;
-            _report.Print();
-        }
-
-        /// <summary>
         /// Get or Set the RDLC report
         /// </summary>
-        public RDLCPrinter Report
+        public RdlcPrinter Report
         {
             get
             {
@@ -103,9 +43,7 @@ namespace DSoft.RDLC
             set
             {
                 _report = value;
-
                 RefreshControl();
-
                 GiveFocus();
             }
         }
@@ -117,21 +55,6 @@ namespace DSoft.RDLC
         {
             FocusManager.SetFocusedElement(this, PreviewImage);
             Keyboard.Focus(PreviewImage);
-        }
-
-
-        /// <summary>
-        /// Display or not the toolbar
-        /// </summary>
-        public bool IsShowToolBar
-        {
-            get => _isShowToolBar;
-            set
-            {
-                _isShowToolBar = value;
-
-                ToolBarRow.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
-            }
         }
 
         /// <summary>
@@ -147,14 +70,10 @@ namespace DSoft.RDLC
 
             LoadImage();
 
-            _pos = 0;
-
+            _pos = 1;
             PageSpinner.Maximum = _report.PagesCount;
-            PageSpinner.Value = _pos + 1;
-
+            PageSpinner.Value = _pos;
             ChangeImage(_pos);
-
-            CreateTransformGroup();
         }
 
         /// <summary>
@@ -162,14 +81,15 @@ namespace DSoft.RDLC
         /// </summary>
         private void UpdateToolBarButton()
         {
+            if (_pos < 0) 
+                return;
+
             if (_report != null)
             {
-                TBBRefresh.EnableButton();
-                TBBPrint.EnableButton();
-                ExportDefault.EnableButton();
+                ButtonExtention.EnableButton(TBBRefresh);
                 ExportMenu.IsEnabled = true;
                 ExportMenu.Opacity = 1;
-                TBBPrintWithProperties.EnableButton();
+                ButtonExtention.EnableButton(TBBPrintWithProperties);
                 ZoomInfoStackPanel.Visibility = Visibility.Visible;
                 ZoomPopupButton.Visibility = Visibility.Visible;
                 ZoomPopupButton.IsEnabled = true;
@@ -177,45 +97,43 @@ namespace DSoft.RDLC
             }
             else
             {
-                TBBRefresh.DisableButton();
-                TBBPrint.DisableButton();
-                ExportDefault.DisableButton();
-                ExportMenu.IsEnabled = true;
-                ExportMenu.Opacity = 1;
-                TBBPrintWithProperties.DisableButton();
+                ButtonExtention.DisableButton(TBBRefresh);
+                ExportMenu.IsEnabled = false;
+                ExportMenu.Opacity = 0.5;
+                ButtonExtention.DisableButton(TBBPrintWithProperties);
                 ZoomInfoStackPanel.Visibility = Visibility.Collapsed;
                 ZoomPopupButton.Visibility = Visibility.Collapsed;
                 ZoomPopupButton.IsEnabled = false;
                 ZoomPopupButton.Opacity = 0.5;
             }
 
-            if (_pos == 0)
+            if (_pos == 1)
             {
                 PagerSeparator.Visibility = Visibility.Visible;
-                PreviousImage.DisableButton();
-                FirstImage.DisableButton();
-                NextImage.EnableButton();
-                LastImage.EnableButton();
+                ButtonExtention.DisableButton(PreviousImage);
+                ButtonExtention.DisableButton(FirstImage);
+                ButtonExtention.EnableButton(NextImage);
+                ButtonExtention.EnableButton(LastImage);
             }
             else
             {
-                if (_pos + 1 == _report.PagesCount)
+                if (_report != null && _pos == _report.PagesCount)
                 {
-                    NextImage.DisableButton();
-                    LastImage.DisableButton();
-                    PreviousImage.EnableButton();
-                    FirstImage.EnableButton();
+                    ButtonExtention.DisableButton(NextImage);
+                    ButtonExtention.DisableButton(LastImage);
+                    ButtonExtention.EnableButton(PreviousImage);
+                    ButtonExtention.EnableButton(FirstImage);
                 }
                 else
                 {
-                    PreviousImage.EnableButton();
-                    NextImage.EnableButton();
-                    FirstImage.EnableButton();
-                    LastImage.EnableButton();
+                    ButtonExtention.EnableButton(PreviousImage);
+                    ButtonExtention.EnableButton(NextImage);
+                    ButtonExtention.EnableButton(FirstImage);
+                    ButtonExtention.EnableButton(LastImage);
                 }
             }
 
-            if (_report.PagesCount > 1)
+            if (_report != null && _report.PagesCount > 1 && _pos>0)
             {
                 PagerSeparator.Visibility = Visibility.Visible;
                 PreviousImage.Visibility = Visibility.Visible;
@@ -246,8 +164,6 @@ namespace DSoft.RDLC
                 PreviousImage.IsEnabled = false;
                 PreviousImage.Opacity = 0.5;
             }
-
-            ChangeImage(_pos);
         }
 
         /// <summary>
@@ -255,49 +171,40 @@ namespace DSoft.RDLC
         /// </summary>
         private void ChangeImage(int position)
         {
-            var pagecount = _report.GetBitmapDecoder().Frames.Count;
+            if (_report == null || Application.Current.MainWindow == null)
+                return;
 
-            //Check interval
-            if (position < 0)
-                position = 0;
-            else if (position > pagecount)
-                position = pagecount;
+            try
+            {
+                Application.Current.MainWindow.Cursor = Cursors.Wait;
 
-            CreateTransformGroup();
+                var pagecount = _report.GetBitmapDecoder().Frames.Count;
 
-            PreviewImage.Source = _report.GetBitmapDecoder().Frames[position];
+                //Check interval
+                if (position <= 0)
+                    position = 1;
+                else if (position > pagecount)
+                    position = pagecount;
 
-            UpdateToolBarButton();
-        }
-
-        /// <summary>
-        /// Set the zoom to "Fit to Window" mode
-        /// </summary>
-        public void SetFitToWindowMode()
-        {
-            CreateTransformGroup();
-
-            if (_report == null) return;
-
-            _fixedToWindowMode = true;
-
-            ImageScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
-
-            PreviewImage.Stretch = Stretch.UniformToFill;
-
-            ZoomSlider.Value = 99;
+                PreviewImage.Source = _report.GetBitmapDecoder().Frames[position - 1];
+                UpdateToolBarButton();
+            }
+            finally
+            {
+                Application.Current.MainWindow.Cursor = null;
+            }
         }
 
         private void ExportMethod(ReportType rType)
         {
             using var saveFileDialog1 = new System.Windows.Forms.SaveFileDialog
             {
-                RestoreDirectory = true
+                RestoreDirectory = true,
             };
 
             switch (rType)
             {
-                case ReportType.PDF:
+                case ReportType.Pdf:
                     saveFileDialog1.Filter = @"Adobe PDF (*.pdf)|*.pdf";
                     saveFileDialog1.FileName = _report.Report.DisplayName + ".pdf";
                     break;
@@ -328,34 +235,17 @@ namespace DSoft.RDLC
         /// </summary>
         private void PreviousImage_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.MainWindow.Cursor = Cursors.Wait;
-
             if (_pos > 0)
-            {
-                _pos--;
-                PageSpinner.Value = _pos + 1;
-                ChangeImage(_pos);
-            }
-
-            Application.Current.MainWindow.Cursor = null;
+                PageSpinner.Value = _pos - 1;
         }
-
 
         /// <summary>
         /// Next page
         /// </summary>
         private void NextImage_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.MainWindow.Cursor = Cursors.Wait;
-
-            if (_pos + 1 < _report.PagesCount)
-            {
-                _pos++;
+            if (_pos < _report.PagesCount)
                 PageSpinner.Value = _pos + 1;
-                ChangeImage(_pos);
-            }
-
-            Application.Current.MainWindow.Cursor = null;
         }
 
         /// <summary>
@@ -363,13 +253,7 @@ namespace DSoft.RDLC
         /// </summary>
         private void FirstImage_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.MainWindow.Cursor = Cursors.Wait;
-
-            _pos = 0;
-            ChangeImage(_pos);
-            PageSpinner.Value = _pos + 1;
-
-            Application.Current.MainWindow.Cursor = null;
+            PageSpinner.Value = 0;
         }
 
         /// <summary>
@@ -377,13 +261,7 @@ namespace DSoft.RDLC
         /// </summary>        
         private void LastImage_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.MainWindow.Cursor = Cursors.Wait;
-
-            _pos = _report.PagesCount - 1;
-            PageSpinner.Value = _pos + 1;
-            ChangeImage(_pos);
-
-            Application.Current.MainWindow.Cursor = null;
+            PageSpinner.Value = _report.PagesCount;
         }
 
         /// <summary>
@@ -404,21 +282,7 @@ namespace DSoft.RDLC
         /// <summary>
         /// Export to PDF file format button
         /// </summary>        
-        private void ExportDefault_Click(object sender, RoutedEventArgs e) => ExportMethod(ReportType.PDF);
-
-        /// <summary>
-        /// Load toolbar logic
-        /// </summary>
-        private void ToolBarRow_Loaded(object sender, RoutedEventArgs e)
-        {
-            var toolBar = sender as ToolBar;
-
-            if (toolBar.Template.FindName("OverflowGrid", toolBar) is FrameworkElement overflowGrid)
-                overflowGrid.Visibility = Visibility.Collapsed;
-
-            if (toolBar.Template.FindName("MainPanelBorder", toolBar) is FrameworkElement mainPanelBorder)
-                mainPanelBorder.Margin = new Thickness(0);
-        }
+        private void ExportDefault_Click(object sender, RoutedEventArgs e) => ExportMethod(ReportType.Pdf);
 
         /// <summary>
         /// Call a RDLCPrintDialog
@@ -427,90 +291,63 @@ namespace DSoft.RDLC
         {
             if (_report == null) return;
 
-            var printerDialog = new RDLCPrinterDialog
+            var printerDialog = new RdlcPrinterDialog
             {
                 Report = _report
             };
 
-            printerDialog.ShowDialog();
+            printerDialog.ShowAsync();
         }
 
+        private void PerCent50Button_Click(object sender, RoutedEventArgs e) => ZoomSlider.Value = 50;
 
-        /// <summary>
-        /// Drag picture logic
-        /// </summary>        
-        private void PreviewImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (ZoomSlider.Value == 98 || ZoomSlider.Value == 99) return;
+        private void PerCent100Button_Click(object sender, RoutedEventArgs e) => ZoomSlider.Value = 100;
 
-            PreviewImage.CaptureMouse();
+        private void PerCent150Button_Click(object sender, RoutedEventArgs e) => ZoomSlider.Value = 150;
 
-            var translateTransf = (TranslateTransform)((TransformGroup)PreviewImage.RenderTransform).Children.First(tr => tr is TranslateTransform);
-            
-            _start = e.GetPosition(ImgBorber);
-            _origin = new Point(translateTransf.X, translateTransf.Y);
-        }
+        private void PerCent200Button_Click(object sender, RoutedEventArgs e) => ZoomSlider.Value = 200;
 
-        /// <summary>
-        /// Zoom slider logic
-        /// </summary>        
-        private void ZoomSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (ZoomSlider.Value != 98)
-            {
-                ActualSizeButton.IsEnabled = true;
-                ActualSizeButton.Opacity = 1;
-            }
-            else
-            {
-                ActualSizeButton.IsEnabled = false;
-                ActualSizeButton.Opacity = 0.5;
-            }
-            ZoomValueTextBloc.Text = (ZoomSlider.Value + 2).ToString("##0");
-        }
-
-        private void ZoomPopupButton_Click(object sender, RoutedEventArgs e) =>
-            ZoomPopup.IsOpen = ZoomPopupButton.IsChecked == true;
-
-        #region zoom button event
-        private void ActualSizeButton_Click(object sender, RoutedEventArgs e)
-        {
-            ImageScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
-            PreviewImage.Stretch = Stretch.Uniform;
-            _fixedToWindowMode = false;
-
-            CreateTransformGroup();
-            ZoomSlider.Value = 98;
-        }
-
-        private void ZoomPopup_Closed(object sender, System.EventArgs e) => ZoomPopupButton.IsChecked = false;
-        
-        private void PerCent50Button_Click(object sender, RoutedEventArgs e) => ZoomSlider.Value = 48;
-
-        private void PerCent100Button_Click(object sender, RoutedEventArgs e) => ActualSizeButton.PerformClick();
-
-        private void PerCent150Button_Click(object sender, RoutedEventArgs e) => ZoomSlider.Value = 148;
-
-        private void PerCent200Button_Click(object sender, RoutedEventArgs e) => ZoomSlider.Value = 198;
-
-        private void PerCent250Button_Click(object sender, RoutedEventArgs e) => ZoomSlider.Value = 248;
-        #endregion //différents click des boutons du zoom
-
-
-        private void ZoomSlider_MouseWheel(object sender, MouseWheelEventArgs e) => ZoomSlider.Value += e.Delta / 15;
-
-        private void FitToWindowButton_Click(object sender, RoutedEventArgs e) => SetFitToWindowMode();
+        private void PerCent250Button_Click(object sender, RoutedEventArgs e) => ZoomSlider.Value = 250;
 
         private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             if (_report == null) return;
+        }
 
-            var printerDialog = new RDLCPrinterDialog
-            {
-                Report = _report
-            };
+        private void OnSpinnerChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (_pos == (int)sender.Value || _report == null)
+                return;
 
-            printerDialog.ShowDialog();
+            _pos = (int)sender.Value;
+            ChangeImage(_pos);
+        }
+
+        private void ZoomPopupButton_Click(SplitButton sender, SplitButtonClickEventArgs args)
+        {
+            ZoomSlider.Value = 100;
+        }
+
+        private void UpdateZoomText(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            ZoomValueTextBloc.Text = $"{e.NewValue:N0}";
+        }
+
+        private void ZoomByMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (Keyboard.Modifiers != ModifierKeys.Control)
+                return;
+
+            if (e.Delta > 0)
+                ZoomSlider.Value += ZoomSlider.TickFrequency;
+
+            else if (e.Delta < 0)
+                ZoomSlider.Value -= ZoomSlider.TickFrequency;
+        }
+
+        private void ExportMenu_Click(SplitButton sender, SplitButtonClickEventArgs args)
+        {
+            ExportDefault_Click(sender, new RoutedEventArgs());
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Threading;
 
-namespace DSoft.RDLCReport
+namespace TimePunch.Rdlc
 {
     /// <summary>
     /// WPF UI Dispatcher

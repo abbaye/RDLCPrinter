@@ -17,22 +17,17 @@ using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using Microsoft.Reporting.WinForms;
 
-namespace DSoft
+namespace TimePunch.Rdlc
 {
     /// <summary>
     /// This class allow to Print and export RDLC Report. 
     /// <remarks>
-    public class RDLCPrinter : IDisposable
+    public class RdlcPrinter : IDisposable
     {
         private int _currentPageIndex;
         private IList<Stream> _streams;
         private Metafile _pageImage;
         private Rectangle _adjustedRect;
-        private Warning[] _warnings;
-        private string[] _streamids;
-        private string _mimeType = string.Empty;
-        private string _encoding = string.Empty;
-        private string _extension = string.Empty;
         private string _filename = "";
         private PrintDocument _printDoc;
         private BitmapDecoder _dec;
@@ -45,12 +40,12 @@ namespace DSoft
         /// <summary>
         /// Initialize an empty report object
         /// </summary>
-        public RDLCPrinter() { }
+        public RdlcPrinter() { }
 
         /// <summary>
         /// Initialize report object with default setting
         /// </summary>
-        public RDLCPrinter(LocalReport report, ReportType rtype, int nbrPage, string path)
+        public RdlcPrinter(LocalReport report, ReportType rtype, int nbrPage, string path)
         {
             Report = report;
             CopyNumber = nbrPage;
@@ -64,7 +59,7 @@ namespace DSoft
         /// ReportType = Printer
         /// Path = 0
         /// </summary>
-        public RDLCPrinter(LocalReport report)
+        public RdlcPrinter(LocalReport report)
         {
             Report = report;
             CopyNumber = 1;
@@ -275,11 +270,11 @@ namespace DSoft
 
             _pageImage = null;
             _adjustedRect = new Rectangle();
-            _warnings = null;
-            _streamids = null;
-            _mimeType = string.Empty;
-            _encoding = string.Empty;
-            _extension = string.Empty;
+            //_warnings = null;
+            //_streamids = null;
+            //_mimeType = string.Empty;
+            //_encoding = string.Empty;
+            //_extension = string.Empty;
             _printDoc = null;
         }
 
@@ -333,7 +328,7 @@ namespace DSoft
                 case ReportType.Word:
                     SaveAsWord();
                     break;
-                case ReportType.PDF:
+                case ReportType.Pdf:
                     SaveAsPDF();
                     break;
                 case ReportType.Excel:
@@ -390,31 +385,6 @@ namespace DSoft
             }
         }
 
-
-        /// <summary>
-        /// Return a BitmapImage that contains report
-        /// </summary>
-        public BitmapImage GetBitmapImage()
-        {
-            try
-            {
-                var img = GetImageArray();
-
-                var mStream = new MemoryStream(img);
-
-                var reportBitmap = new BitmapImage();
-                reportBitmap.BeginInit();
-                reportBitmap.StreamSource = mStream;
-                reportBitmap.EndInit();
-                return reportBitmap;
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-
         /// <summary>
         /// Save as PDF file to the specified path
         /// </summary>
@@ -465,8 +435,7 @@ namespace DSoft
         /// <summary>
         /// Get the Microsoft Excel byte Array
         /// </summary>        
-        public byte[] GetExcelArray() =>
-            Report?.Render("Excel", null, out _mimeType, out _encoding, out _extension, out _streamids, out _warnings);
+        public byte[] GetExcelArray() => Report?.Render("Excel", null, out _, out _, out _, out _, out _);
 
         /// <summary>
         /// Save as Microsoft Word file format to the specified path
@@ -492,8 +461,7 @@ namespace DSoft
         /// <summary>
         /// Get the Microsoft Word byte Array
         /// </summary>        
-        public byte[] GetWordArray() =>
-            Report?.Render("Word", null, out _mimeType, out _encoding, out _extension, out _streamids, out _warnings);
+        public byte[] GetWordArray() =>  Report?.Render("Word", null, out _, out _, out _, out _, out _);
 
         #endregion
 
