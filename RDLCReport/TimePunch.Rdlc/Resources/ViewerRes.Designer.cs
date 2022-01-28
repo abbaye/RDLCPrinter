@@ -133,7 +133,7 @@ namespace TimePunch.Rdlc.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Last page.
         /// </summary>
         public static string LastPage {
             get {

@@ -127,12 +127,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MrDSoft.RDLC\TimePunch.Rdlc.csproj">
-      <Project>{5578eecf-3252-44ef-897a-c991153ef2ae}</Project>
-      <Name>TimePunch.Rdlc</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.5 %28x86 et x64%29</ProductName>
@@ -166,6 +160,12 @@
     <PackageReference Include="System.Data.SqlServerCe_unofficial">
       <Version>4.0.8482.1</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TimePunch.Rdlc\TimePunch.Rdlc.csproj">
+      <Project>{5a659487-24d3-4c59-9122-00211f8b436d}</Project>
+      <Name>TimePunch.Rdlc</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
