@@ -5,6 +5,7 @@
 // https://github.com/abbaye/RDLCPrinter
 //////////////////////////////////////////////
 
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using ModernWpf.Controls;
@@ -17,8 +18,9 @@ namespace TimePunch.Rdlc
     /// </summary>
     public partial class RdlcReportViewer
     {
-        private RdlcPrinter _report;
-        private int _pos;
+        public static readonly DependencyProperty ReportProperty = DependencyProperty.Register("Report", typeof(RdlcPrinter), typeof(RdlcReportViewer), new PropertyMetadata(null, OnReportChanged));
+        public static readonly DependencyProperty PageProperty = DependencyProperty.Register("Page", typeof(int), typeof(RdlcReportViewer), new PropertyMetadata(0, OnPageChanged));
+        public static readonly DependencyProperty StartAfterExportProperty = DependencyProperty.Register("StartAfterExport", typeof(bool), typeof(RdlcReportViewer), new PropertyMetadata(true));
 
         public RdlcReportViewer()
         {
@@ -31,21 +33,39 @@ namespace TimePunch.Rdlc
         /// </summary>        
         private void CmdRefresh_Click(object sender, RoutedEventArgs e) => RefreshControl();
 
+        public bool StartAfterExport
+        {
+            get => (bool)GetValue(StartAfterExportProperty);
+            set => SetValue(StartAfterExportProperty, value);
+        }
+
         /// <summary>
         /// Get or Set the RDLC report
         /// </summary>
         public RdlcPrinter Report
         {
-            get
+            get => (RdlcPrinter)GetValue(ReportProperty);
+            set => SetValue(ReportProperty, value);
+        }
+        private static void OnReportChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            if (dependencyObject is RdlcReportViewer viewer)
             {
-                return _report;
+                viewer.RefreshControl();
+                viewer.GiveFocus();
             }
-            set
-            {
-                _report = value;
-                RefreshControl();
-                GiveFocus();
-            }
+        }
+
+        public int Page
+        {
+            get => (int)GetValue(PageProperty);
+            set => SetValue(PageProperty, value);
+        }
+
+        private static void OnPageChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        {
+            if (dependencyObject is RdlcReportViewer viewer)
+                viewer.UpdateImage();
         }
 
         /// <summary>
@@ -62,18 +82,18 @@ namespace TimePunch.Rdlc
         /// </summary>
         public void RefreshControl()
         {
-            if (_report == null) return;
+            if (Report == null) return;
 
-            _report.Refresh();
+            Report.Refresh();
 
             DispatcherHelper.DoEvents(); //Clear the ui message queud
 
             LoadImage();
 
-            _pos = 1;
-            PageSpinner.Maximum = _report.PagesCount;
-            PageSpinner.Value = _pos;
-            ChangeImage(_pos);
+            Page = 1;
+            PageSpinner.Maximum = Report.PagesCount;
+            PageSpinner.Value = Page;
+            UpdateImage();
         }
 
         /// <summary>
@@ -81,10 +101,10 @@ namespace TimePunch.Rdlc
         /// </summary>
         private void UpdateToolBarButton()
         {
-            if (_pos < 0) 
+            if (Page < 0) 
                 return;
 
-            if (_report != null)
+            if (Report != null)
             {
                 ButtonExtention.EnableButton(TBBRefresh);
                 ExportMenu.IsEnabled = true;
@@ -107,7 +127,7 @@ namespace TimePunch.Rdlc
                 ZoomPopupButton.Opacity = 0.5;
             }
 
-            if (_pos == 1)
+            if (Page == 1)
             {
                 PagerSeparator.Visibility = Visibility.Visible;
                 ButtonExtention.DisableButton(PreviousImage);
@@ -117,7 +137,7 @@ namespace TimePunch.Rdlc
             }
             else
             {
-                if (_report != null && _pos == _report.PagesCount)
+                if (Report != null && Page == Report.PagesCount)
                 {
                     ButtonExtention.DisableButton(NextImage);
                     ButtonExtention.DisableButton(LastImage);
@@ -133,7 +153,7 @@ namespace TimePunch.Rdlc
                 }
             }
 
-            if (_report != null && _report.PagesCount > 1 && _pos>0)
+            if (Report != null && Report.PagesCount > 1 && Page>0)
             {
                 PagerSeparator.Visibility = Visibility.Visible;
                 PreviousImage.Visibility = Visibility.Visible;
@@ -158,7 +178,7 @@ namespace TimePunch.Rdlc
         /// </summary>
         private void LoadImage()
         {
-            if (_pos == 0)
+            if (Page == 0)
             {
                 UpdateToolBarButton();
                 PreviousImage.IsEnabled = false;
@@ -169,16 +189,17 @@ namespace TimePunch.Rdlc
         /// <summary>
         /// Chage page to the position
         /// </summary>
-        private void ChangeImage(int position)
+        private void UpdateImage()
         {
-            if (_report == null || Application.Current.MainWindow == null)
+            if (Report == null || Application.Current.MainWindow == null)
                 return;
 
             try
             {
                 Application.Current.MainWindow.Cursor = Cursors.Wait;
 
-                var pagecount = _report.GetBitmapDecoder().Frames.Count;
+                int position = Page;
+                var pagecount = Report.GetBitmapDecoder().Frames.Count;
 
                 //Check interval
                 if (position <= 0)
@@ -186,7 +207,7 @@ namespace TimePunch.Rdlc
                 else if (position > pagecount)
                     position = pagecount;
 
-                PreviewImage.Source = _report.GetBitmapDecoder().Frames[position - 1];
+                PreviewImage.Source = Report.GetBitmapDecoder().Frames[position - 1];
                 UpdateToolBarButton();
             }
             finally
@@ -206,27 +227,33 @@ namespace TimePunch.Rdlc
             {
                 case ReportType.Pdf:
                     saveFileDialog1.Filter = @"Adobe PDF (*.pdf)|*.pdf";
-                    saveFileDialog1.FileName = _report.Report.DisplayName + ".pdf";
+                    saveFileDialog1.FileName = Report.Report.DisplayName + ".pdf";
                     break;
                 case ReportType.Excel:
                     saveFileDialog1.Filter = @"Microsoft Excel (*.xls)|*.xls";
-                    saveFileDialog1.FileName = _report.Report.DisplayName + ".xls";
+                    saveFileDialog1.FileName = Report.Report.DisplayName + ".xls";
                     break;
                 case ReportType.Word:
                     saveFileDialog1.Filter = @"Microsoft Word (*.doc)|*.doc";
-                    saveFileDialog1.FileName = _report.Report.DisplayName + ".doc";
+                    saveFileDialog1.FileName = Report.Report.DisplayName + ".doc";
                     break;
                 case ReportType.Image:
                     saveFileDialog1.Filter = @"Image PNG (*.png)|*.png";
-                    saveFileDialog1.FileName = _report.Report.DisplayName + ".png";
+                    saveFileDialog1.FileName = Report.Report.DisplayName + ".png";
                     break;
             }
 
             if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                _report.Path = saveFileDialog1.FileName;
-                _report.Reporttype = rType;
-                _report.Print();
+                Report.Path = saveFileDialog1.FileName;
+                Report.Reporttype = rType;
+                Report.Print();
+
+                if (StartAfterExport)
+                {
+                    var processStart = new ProcessStartInfo(saveFileDialog1.FileName);
+                    Process.Start(processStart);
+                }
             }
         }
 
@@ -235,8 +262,8 @@ namespace TimePunch.Rdlc
         /// </summary>
         private void PreviousImage_Click(object sender, RoutedEventArgs e)
         {
-            if (_pos > 0)
-                PageSpinner.Value = _pos - 1;
+            if (Page > 0)
+                PageSpinner.Value = Page - 1;
         }
 
         /// <summary>
@@ -244,8 +271,8 @@ namespace TimePunch.Rdlc
         /// </summary>
         private void NextImage_Click(object sender, RoutedEventArgs e)
         {
-            if (_pos < _report.PagesCount)
-                PageSpinner.Value = _pos + 1;
+            if (Page < Report.PagesCount)
+                PageSpinner.Value = Page + 1;
         }
 
         /// <summary>
@@ -261,7 +288,7 @@ namespace TimePunch.Rdlc
         /// </summary>        
         private void LastImage_Click(object sender, RoutedEventArgs e)
         {
-            PageSpinner.Value = _report.PagesCount;
+            PageSpinner.Value = Report.PagesCount;
         }
 
         /// <summary>
@@ -289,11 +316,11 @@ namespace TimePunch.Rdlc
         /// </summary>
         private void TBBPrintWithProperties_Click(object sender, RoutedEventArgs e)
         {
-            if (_report == null) return;
+            if (Report == null) return;
 
             var printerDialog = new RdlcPrinterDialog
             {
-                Report = _report
+                Report = Report
             };
 
             printerDialog.ShowAsync();
@@ -311,16 +338,16 @@ namespace TimePunch.Rdlc
 
         private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (_report == null) return;
+            if (Report == null) return;
         }
 
         private void OnSpinnerChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
         {
-            if (_pos == (int)sender.Value || _report == null)
+            if (Page == (int)sender.Value || Report == null)
                 return;
 
-            _pos = (int)sender.Value;
-            ChangeImage(_pos);
+            Page = (int)sender.Value;
+            UpdateImage();
         }
 
         private void ZoomPopupButton_Click(SplitButton sender, SplitButtonClickEventArgs args)
