@@ -58,17 +58,17 @@ namespace TimePunch.Rdlc
             LastPageSpinner.Value = _report.PagesCount;
 
             //Get all printer
-            cboImprimanteNom.ItemsSource = _printServer.GetPrintQueues(new[] { EnumeratedPrintQueueTypes.Local, EnumeratedPrintQueueTypes.Connections });
-            cboImprimanteNom.DisplayMemberPath = "FullName";
-            cboImprimanteNom.SelectedValue = "FullName";
+            PrinterName.ItemsSource = _printServer.GetPrintQueues(new[] { EnumeratedPrintQueueTypes.Local, EnumeratedPrintQueueTypes.Connections });
+            PrinterName.DisplayMemberPath = "FullName";
+            PrinterName.SelectedValue = "FullName";
 
             //Select Default printer
             _currentPrinter = LocalPrintServer.GetDefaultPrintQueue();
-            for (var i = 0; i < cboImprimanteNom.Items.Count; i++)
+            for (var i = 0; i < PrinterName.Items.Count; i++)
             {
-                var testPrint = (PrintQueue)cboImprimanteNom.Items[i];
+                var testPrint = (PrintQueue)PrinterName.Items[i];
                 if (testPrint.FullName == _currentPrinter.FullName)
-                    cboImprimanteNom.SelectedIndex = i;
+                    PrinterName.SelectedIndex = i;
             }
 
             UpdatePrinterState();
@@ -79,8 +79,8 @@ namespace TimePunch.Rdlc
         /// </summary>
         private void CboImprimanetNom_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ImprimanteStatus.Content = "";
-            _currentPrinter = (PrintQueue)cboImprimanteNom.SelectedItem;
+            PrinterState.Content = "";
+            _currentPrinter = (PrintQueue)PrinterName.SelectedItem;
             UpdatePrinterState();
         }
 
@@ -107,9 +107,9 @@ namespace TimePunch.Rdlc
         private void UpdatePrinterState()
         {
             if (_currentPrinter.IsNotAvailable == false)
-                ImprimanteStatus.Content = "Ready";
+                PrinterState.Content = "Ready";
             else
-                ImprimanteStatus.Content = "Offline";
+                PrinterState.Content = "Offline";
         }
 
     }
