@@ -164,4 +164,7 @@
   <data name="LastPage" xml:space="preserve">
     <value>Letzte Seite</value>
   </data>
+  <data name="OpenExcel" xml:space="preserve">
+    <value>In Excel öffnen</value>
+  </data>
 </root>

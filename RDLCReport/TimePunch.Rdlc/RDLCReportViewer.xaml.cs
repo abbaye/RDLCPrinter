@@ -6,6 +6,7 @@
 //////////////////////////////////////////////
 
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using ModernWpf.Controls;
@@ -324,6 +325,19 @@ namespace TimePunch.Rdlc
             };
 
             printerDialog.ShowAsync();
+        }
+
+        private void CmdExcel_Click(object sender, RoutedEventArgs e)
+        {
+            if (Report == null) return;
+
+            string fileName = Path.Combine(Path.GetTempPath(), Path.ChangeExtension(Path.GetRandomFileName(), ".xls"));
+            Report.Path = fileName;
+            Report.Reporttype = ReportType.Excel;
+            Report.Print();
+
+            var processStart = new ProcessStartInfo(fileName);
+            Process.Start(processStart);
         }
 
         private void PerCent50Button_Click(object sender, RoutedEventArgs e) => ZoomSlider.Value = 50;
