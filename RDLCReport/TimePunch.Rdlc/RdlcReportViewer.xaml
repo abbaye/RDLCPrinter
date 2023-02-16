@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.modernwpf.com/2019"
     xmlns:resources="clr-namespace:TimePunch.Rdlc.Resources"
-    Width="800"
+    Width="800" d:DesignWidth="1024"
     Height="500"
     Background="{DynamicResource SystemControlBackgroundAltHighBrush}"
     BorderThickness="1"
@@ -41,8 +41,9 @@
         </Grid.RowDefinitions>
 
         <Border BorderBrush="Black" BorderThickness="0,0,0,1">
-            <ui:CommandBar DefaultLabelPosition="Collapsed" HorizontalAlignment="Stretch" x:Name="ToolBarRow">
-                <ui:CommandBar.PrimaryCommands>
+            <StackPanel Orientation="Horizontal" Background="{Binding ElementName=ToolBarRow, Path=Background}">
+                <ui:CommandBar DefaultLabelPosition="Collapsed" x:Name="ToolBarRow">
+                  <ui:CommandBar.PrimaryCommands>
 
                     <!-- refresh 
                     <ui:AppBarButton 
@@ -296,7 +297,8 @@
                                      IsEnabled="true"/>
 
                 </ui:CommandBar.PrimaryCommands>
-            </ui:CommandBar>
+                </ui:CommandBar>
+            </StackPanel>
         </Border>
 
         <!-- Image -->
