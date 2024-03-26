@@ -183,6 +183,9 @@ namespace TimePunch.Rdlc
         /// <returns></returns>
         private string GetDeviceInfo()
         {
+            if (_printDoc == null)
+                return string.Empty;
+
             string deviceInfo;
 
             if (Report.GetDefaultPageSettings().IsLandscape)
@@ -396,7 +399,7 @@ namespace TimePunch.Rdlc
         public void SaveAsExcel()
         {
             var bytesViewer = GetExcelArray();
-            _filename = System.IO.Path.GetFileName(Path).Contains(".xls") ? Path : Path + ".xls";
+            _filename = System.IO.Path.GetFileName(Path).Contains(".xlsx") ? Path : Path + ".xlsx";
 
             FileSaving?.Invoke(this, EventArgs.Empty);
 
@@ -410,7 +413,7 @@ namespace TimePunch.Rdlc
         /// <summary>
         /// Get the Microsoft Excel byte Array
         /// </summary>        
-        public byte[] GetExcelArray() => Report.Render("Excel", null, out _, out _, out _, out _, out _);
+        public byte[] GetExcelArray() => Report.Render("EXCELOPENXML", null, out _, out _, out _, out _, out _);
 
         /// <summary>
         /// Save as Microsoft Word file format to the specified path
@@ -419,7 +422,7 @@ namespace TimePunch.Rdlc
         public void SaveAsWord()
         {
             var bytesViewer = GetWordArray();
-            _filename = System.IO.Path.GetFileName(Path).Contains(".doc") ? Path : Path + ".doc";
+            _filename = System.IO.Path.GetFileName(Path).Contains(".docx") ? Path : Path + ".docx";
 
             FileSaving?.Invoke(this, EventArgs.Empty);
 
@@ -433,7 +436,7 @@ namespace TimePunch.Rdlc
         /// <summary>
         /// Get the Microsoft Word byte Array
         /// </summary>        
-        public byte[] GetWordArray() =>  Report.Render("Word", null, out _, out _, out _, out _, out _);
+        public byte[] GetWordArray() =>  Report.Render("WORDOPENXML", null, out _, out _, out _, out _, out _);
 
         #endregion
 

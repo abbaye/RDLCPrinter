@@ -123,43 +123,46 @@
   <data name="CopySettings" xml:space="preserve">
     <value>Einstellungen</value>
   </data>
-  <data name="ExportExcel" xml:space="preserve">
+  <data name="ExportExcel.Text" xml:space="preserve">
     <value>Als Excel Datei speichern ...</value>
   </data>
-  <data name="ExportPdf" xml:space="preserve">
+  <data name="ExportMenu.ToolTipService.ToolTip" xml:space="preserve">
     <value>Als PDF Datei speichern ...</value>
   </data>
-  <data name="ExportPng" xml:space="preserve">
+  <data name="ExportPdf.Text" xml:space="preserve">
+    <value>Als PDF Datei speichern ...</value>
+  </data>
+  <data name="ExportPng.Text" xml:space="preserve">
     <value>Als Bild Datei speichern ...</value>
   </data>
-  <data name="ExportWord" xml:space="preserve">
+  <data name="ExportWord.Text" xml:space="preserve">
     <value>Als Word Datei speichern ...</value>
   </data>
-  <data name="FirstPage" xml:space="preserve">
+  <data name="FirstPage.ToolTipService.ToolTip" xml:space="preserve">
     <value>Erste Seite</value>
   </data>
   <data name="FromPage" xml:space="preserve">
     <value>Von Seite</value>
   </data>
-  <data name="LastPage" xml:space="preserve">
+  <data name="LastPage.ToolTipService.ToolTip" xml:space="preserve">
     <value>Letzte Seite</value>
   </data>
-  <data name="NextPage" xml:space="preserve">
+  <data name="NextPage.ToolTipService.ToolTip" xml:space="preserve">
     <value>Nächste Seite</value>
   </data>
   <data name="NumberOfCopies" xml:space="preserve">
     <value>Exemplare</value>
   </data>
-  <data name="OpenExcel" xml:space="preserve">
+  <data name="OpenExcel.ToolTipService.ToolTip" xml:space="preserve">
     <value>In Excel öffnen</value>
   </data>
   <data name="PageRange" xml:space="preserve">
     <value>Ausgabe</value>
   </data>
-  <data name="PreviousPage" xml:space="preserve">
+  <data name="PreviousPage.ToolTipService.ToolTip" xml:space="preserve">
     <value>Vorherige Seite</value>
   </data>
-  <data name="Print" xml:space="preserve">
+  <data name="Print.ToolTipService.ToolTip" xml:space="preserve">
     <value>Drucken</value>
   </data>
   <data name="PrintAll" xml:space="preserve">
@@ -183,7 +186,7 @@
   <data name="ToPage" xml:space="preserve">
     <value>bis</value>
   </data>
-  <data name="Zoom" xml:space="preserve">
+  <data name="Zoom.Text" xml:space="preserve">
     <value>Zoom</value>
   </data>
 </root>

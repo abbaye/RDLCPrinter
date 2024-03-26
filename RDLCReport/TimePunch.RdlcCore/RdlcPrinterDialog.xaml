@@ -39,7 +39,7 @@
         <!-- Printer Settings -->
         <TextBlock
             Grid.Row="0" Grid.Column="0"
-            x:Uid="/Resources/PrinterSettings"
+            x:Uid="PrinterSettings"
             Margin="6"
             FontSize="20"/>
 
@@ -48,7 +48,7 @@
             Grid.Row="1" Grid.Column="0"
             VerticalAlignment="Center"
             Margin="6"
-            x:Uid="/Resources/PrinterName" />
+            x:Uid="PrinterName" />
 
         <ComboBox
             Grid.Row="1" Grid.Column="1"
@@ -62,7 +62,7 @@
             Grid.Row="2" Grid.Column="0"
             VerticalAlignment="Center"
             Margin="6"
-            x:Uid="/Resources/PrinterState" />
+            x:Uid="PrinterState" />
 
         <TextBlock
             x:Name="PrinterState"
@@ -74,7 +74,7 @@
         <!-- Copy Settings -->
         <TextBlock
             Grid.Row="5" Grid.Column="0"
-            x:Uid="/Resources/CopySettings"
+            x:Uid="CopySettings"
             Margin="6"
             FontSize="20"/>
 
@@ -83,7 +83,7 @@
             Grid.Row="6" Grid.Column="0"
             VerticalAlignment="Center"
             Margin="6"
-            x:Uid="/Resources/NumberOfCopies"/>
+            x:Uid="NumberOfCopies"/>
 
         <NumberBox
             Grid.Row="6" Grid.Column="1"
@@ -99,7 +99,7 @@
         <!-- Page Range Settings -->
         <TextBlock
             Grid.Row="7" Grid.Column="0"
-            x:Uid="/Resources/PageRange"
+            x:Uid="PageRange"
             Margin="6"
             FontSize="20"/>
 
@@ -109,12 +109,12 @@
                 VerticalAlignment="Center"
                 IsChecked="True"
                 Margin="6"
-                x:Uid="/Resources/PrintAll"/>
+                x:Uid="PrintAll"/>
             <RadioButton
                 x:Name="PageRange"
                 VerticalAlignment="Center"
                 Margin="6"
-                x:Uid="/Resources/PrintPageRange"/>
+                x:Uid="PrintPageRange"/>
         </StackPanel>
 
         <!-- First page -->
@@ -122,7 +122,7 @@
             <StackPanel Orientation="Horizontal" x:Name="PageChoiceStackPanel">
 
                 <TextBlock
-                    x:Uid="/Resources/FromPage"
+                    x:Uid="FromPage"
                     VerticalAlignment="Center"
                     Margin="6"/>
 
@@ -135,7 +135,7 @@
                     Margin="6"/>
 
                 <TextBlock
-                    x:Uid="/Resources/ToPage"
+                    x:Uid="ToPage"
                     VerticalAlignment="Center"
                     Margin="6"/>
 

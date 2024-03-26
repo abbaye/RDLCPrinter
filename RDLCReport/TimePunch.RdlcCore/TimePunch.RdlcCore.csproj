@@ -30,6 +30,7 @@
     <PackageReference Include="CommunityToolkit.WinUI.UI.Media" Version="7.1.2" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240311000" />
     <PackageReference Include="ReportViewerCore.NETCore" Version="15.1.19" />
+    <PackageReference Include="System.Threading.AccessControl" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,12 +42,6 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="System.Printing">
-      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Printing.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
   <ItemGroup>

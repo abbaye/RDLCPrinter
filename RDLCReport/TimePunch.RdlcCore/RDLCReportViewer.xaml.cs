@@ -19,6 +19,7 @@ using SplitButtonClickEventArgs = Microsoft.UI.Xaml.Controls.SplitButtonClickEve
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using TimePunch.Rdlc.MethodExtension;
+using WinRT.Interop;
 
 namespace TimePunch.Rdlc
 {
@@ -30,11 +31,16 @@ namespace TimePunch.Rdlc
         public static readonly DependencyProperty ReportProperty = DependencyProperty.Register("Report", typeof(RdlcPrinter), typeof(RdlcReportViewer), new PropertyMetadata(null, OnReportChanged));
         public static readonly DependencyProperty PageProperty = DependencyProperty.Register("Page", typeof(int), typeof(RdlcReportViewer), new PropertyMetadata(0, OnPageChanged));
         public static readonly DependencyProperty StartAfterExportProperty = DependencyProperty.Register("StartAfterExport", typeof(bool), typeof(RdlcReportViewer), new PropertyMetadata(true));
-
+       
+        private Mutex? _onlyRefreshOnce;
+        private readonly string _rdlcReportMutexName = Guid.NewGuid().ToString();
+        
         public RdlcReportViewer()
         {
             InitializeComponent();
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             UpdateToolBarButton();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         }
 
         /// <summary>
@@ -92,14 +98,24 @@ namespace TimePunch.Rdlc
         {
             if (Report == null) return;
 
-            Report.Refresh();
+            _onlyRefreshOnce = MutexAcl.Create(true, $"RDLCReport: {_rdlcReportMutexName}", out var lockWasTaken, null);
+            if (!lockWasTaken)
+                return;
 
-            await LoadImage();
+            try
+            {
+                Report.Refresh();
 
-            Page = 1;
-            PageSpinner.Maximum = await Report.GetPagesCountAsync();
-            PageSpinner.Value = Page;
-            await UpdateImage();
+                await LoadImage();
+
+                Page = 1;
+                PageSpinner.Maximum = await Report.GetPagesCountAsync();
+                PageSpinner.Value = Page;
+            }
+            finally
+            {
+                _onlyRefreshOnce.ReleaseMutex();
+            }
         }
 
         /// <summary>
@@ -112,10 +128,10 @@ namespace TimePunch.Rdlc
 
             if (Report != null)
             {
-                ButtonExtention.EnableButton(TBBOpenInExcel);
+                ButtonExtention.EnableButton(TbbOpenInExcel);
                 ExportMenu.IsEnabled = true;
                 ExportMenu.Opacity = 1;
-                ButtonExtention.EnableButton(TBBPrintWithProperties);
+                ButtonExtention.EnableButton(TbbPrintWithProperties);
                 ZoomInfoStackPanel.Visibility = Visibility.Visible;
                 ZoomPopupButton.Visibility = Visibility.Visible;
                 ZoomPopupButton.IsEnabled = true;
@@ -123,10 +139,10 @@ namespace TimePunch.Rdlc
             }
             else
             {
-                ButtonExtention.DisableButton(TBBOpenInExcel);
+                ButtonExtention.DisableButton(TbbOpenInExcel);
                 ExportMenu.IsEnabled = false;
                 ExportMenu.Opacity = 0.5;
-                ButtonExtention.DisableButton(TBBPrintWithProperties);
+                ButtonExtention.DisableButton(TbbPrintWithProperties);
                 ZoomInfoStackPanel.Visibility = Visibility.Collapsed;
                 ZoomPopupButton.Visibility = Visibility.Collapsed;
                 ZoomPopupButton.IsEnabled = false;
@@ -199,8 +215,7 @@ namespace TimePunch.Rdlc
         {
             if (Report == null)
                 return;
-
-            var storedProtectedCursor = ProtectedCursor;
+            
             try
             {
                 ProtectedCursor = InputCursor.CreateFromCoreCursor(new CoreCursor(CoreCursorType.Wait, 0));
@@ -225,7 +240,7 @@ namespace TimePunch.Rdlc
             }
             finally
             {
-                ProtectedCursor = storedProtectedCursor;
+                ProtectedCursor = null;
             }
         }
 
@@ -236,8 +251,9 @@ namespace TimePunch.Rdlc
 
             var saveFileDialog1 = new Windows.Storage.Pickers.FileSavePicker()
             {
-                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary
+                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary,
             };
+            InitializeWithWindow.Initialize(saveFileDialog1, Process.GetCurrentProcess().MainWindowHandle);
 
             switch (rType)
             {
@@ -246,12 +262,12 @@ namespace TimePunch.Rdlc
                     saveFileDialog1.SuggestedFileName = Report.Report.DisplayName + ".pdf";
                     break;
                 case ReportType.Excel:
-                    saveFileDialog1.FileTypeChoices.Add("Microsoft Excel (*.xls)", [".xls" ]);
-                    saveFileDialog1.SuggestedFileName = Report.Report.DisplayName + ".xls";
+                    saveFileDialog1.FileTypeChoices.Add("Microsoft Excel (*.xlsx)", [".xlsx" ]);
+                    saveFileDialog1.SuggestedFileName = Report.Report.DisplayName + ".xlsx";
                     break;
                 case ReportType.Word:
-                    saveFileDialog1.FileTypeChoices.Add("Microsoft Word (*.doc)", [".doc"]);
-                    saveFileDialog1.SuggestedFileName = Report.Report.DisplayName + ".doc";
+                    saveFileDialog1.FileTypeChoices.Add("Microsoft Word (*.docx)", [".docx"]);
+                    saveFileDialog1.SuggestedFileName = Report.Report.DisplayName + ".docx";
                     break;
                 case ReportType.Image:
                     saveFileDialog1.FileTypeChoices.Add("Image PNG (*.png)", [".png"]);
@@ -269,7 +285,7 @@ namespace TimePunch.Rdlc
 
                 if (StartAfterExport)
                 {
-                    var processStart = new ProcessStartInfo(Path.Combine(result.Path, result.Name));
+                    var processStart = new ProcessStartInfo(result.Path){ UseShellExecute = true };
                     Process.Start(processStart);
                 }
             }
@@ -354,12 +370,12 @@ namespace TimePunch.Rdlc
         {
             if (Report == null) return;
 
-            var fileName = Path.Combine(Path.GetTempPath(), Path.ChangeExtension(Path.GetRandomFileName(), ".xls"));
+            var fileName = Path.Combine(Path.GetTempPath(), Path.ChangeExtension(Path.GetRandomFileName(), ".xlsx"));
             Report.Path = fileName;
             Report.ReportType = ReportType.Excel;
             await Report.Print();
 
-            var processStart = new ProcessStartInfo(fileName);
+            var processStart = new ProcessStartInfo(fileName){ UseShellExecute = true };
             Process.Start(processStart);
         }
 
@@ -378,13 +394,12 @@ namespace TimePunch.Rdlc
             if (Report == null) return;
         }
 
-        private async void OnSpinnerChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        private void OnSpinnerChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
         {
             if (Page == (int)sender.Value || Report == null)
                 return;
 
             Page = (int)sender.Value;
-            await UpdateImage();
         }
 
         private void ZoomPopupButton_Click(SplitButton splitButton, SplitButtonClickEventArgs splitButtonClickEventArgs)
@@ -394,7 +409,16 @@ namespace TimePunch.Rdlc
 
         private void UpdateZoomText(object sender, RangeBaseValueChangedEventArgs rangeBaseValueChangedEventArgs)
         {
+            if (ScrollViewerControl is null)
+                return;
+
             ZoomValueTextBloc.Text = $"{rangeBaseValueChangedEventArgs.NewValue:N0}";
+
+            double zoomFactor = rangeBaseValueChangedEventArgs.NewValue / 100.0;
+            ScrollViewerControl.ChangeView(
+                horizontalOffset: null,
+                verticalOffset: null,
+                zoomFactor: (float?)zoomFactor, false);
         }
 
         private void ZoomByMouseWheel(object sender, PointerRoutedEventArgs pointerRoutedEventArgs)
@@ -407,11 +431,11 @@ namespace TimePunch.Rdlc
             switch (delta)
             {
                 case > 0:
-                    ZoomSlider.Value += ZoomSlider.TickFrequency;
+                    ZoomSlider.Value += delta/10.0;
                     break;
                 
                 case < 0:
-                    ZoomSlider.Value -= ZoomSlider.TickFrequency;
+                    ZoomSlider.Value += delta/10.0;
                     break;
             }
         }
