@@ -6,12 +6,9 @@
 //////////////////////////////////////////////
 
 using System.Drawing.Printing;
-using System.Printing;
-using System.Windows.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Controls_ContentDialog = Microsoft.UI.Xaml.Controls.ContentDialog;
-using Controls_ContentDialogButtonClickEventArgs = Microsoft.UI.Xaml.Controls.ContentDialogButtonClickEventArgs;
+using ResourceLoader = Microsoft.Windows.ApplicationModel.Resources.ResourceLoader;
 
 namespace TimePunch.Rdlc
 {
@@ -21,10 +18,9 @@ namespace TimePunch.Rdlc
     public partial class RdlcPrinterDialog
     {
         private RdlcPrinter? _report;
-        private PrintQueue _currentPrinter = LocalPrintServer.GetDefaultPrintQueue();
-
         private readonly PrintDocument _printer = new();
-        private readonly LocalPrintServer _printServer = new();
+        private string _currentPrinter;
+        private readonly ResourceLoader _resourceLoader = new(ResourceLoader.GetDefaultResourceFilePath(), "TimePunch.RdlcCore/Resources");
 
         public RdlcPrinter? Report
         {
@@ -39,22 +35,9 @@ namespace TimePunch.Rdlc
             }
         }
 
-        public string PrintText 
-        {
-            get
-            {
-                var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView("Resources");
-                return resourceLoader.GetString("Print");
-            }
-        }
-        public string CloseText 
-        {
-            get
-            {
-                var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView("Resources");
-                return resourceLoader.GetString("Close");
-            }
-        }
+        public string PrintText => _resourceLoader.GetString("Print/ToolTipService/ToolTip");
+
+        public string CloseText => _resourceLoader.GetString("Close");
 
         public RdlcPrinterDialog() => InitializeComponent();
 
@@ -77,15 +60,15 @@ namespace TimePunch.Rdlc
             LastPageSpinner.Value = pageCount;
 
             //Get all printer
-            PrinterName.ItemsSource = _printServer.GetPrintQueues(new[] { EnumeratedPrintQueueTypes.Local, EnumeratedPrintQueueTypes.Connections });
-            PrinterName.DisplayMemberPath = "FullName";
-            PrinterName.SelectedValue = "FullName";
+            _currentPrinter = new PrinterSettings().PrinterName;
+            PrinterName.ItemsSource = PrinterSettings.InstalledPrinters; //_printServer.GetPrintQueues(new[] { EnumeratedPrintQueueTypes.Local, EnumeratedPrintQueueTypes.Connections });
+            //PrinterName.DisplayMemberPath = "FullName";
+            //PrinterName.SelectedValue = "FullName";
 
             //Select Default printer
             for (var i = 0; i < PrinterName.Items.Count; i++)
             {
-                var testPrint = (PrintQueue)PrinterName.Items[i];
-                if (testPrint.FullName == _currentPrinter.FullName)
+                if (_currentPrinter.Equals(PrinterName.Items[i]))
                     PrinterName.SelectedIndex = i;
             }
 
@@ -98,7 +81,7 @@ namespace TimePunch.Rdlc
         private void CboImprimanetNom_SelectionChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
         {
             PrinterState.Text = "";
-            _currentPrinter = (PrintQueue)PrinterName.SelectedItem;
+            _currentPrinter = (string)PrinterName.SelectedItem;
             UpdatePrinterState();
         }
 
@@ -107,7 +90,7 @@ namespace TimePunch.Rdlc
         /// </summary>
         private async void OK_Click(ContentDialog sender, ContentDialogButtonClickEventArgs contentDialogButtonClickEventArgs)
         {
-            _printer.PrinterSettings.PrinterName = _currentPrinter.FullName;
+            _printer.PrinterSettings.PrinterName = _currentPrinter;
             if (AllPages.IsChecked == true)
                 _printer.PrinterSettings.PrintRange = PrintRange.AllPages;
             else
@@ -127,7 +110,7 @@ namespace TimePunch.Rdlc
 
         private void UpdatePrinterState()
         {
-            PrinterState.Text = _currentPrinter.IsNotAvailable == false ? "Ready" : "Offline";
+            PrinterState.Text = "Ready"; //_currentPrinter.IsNotAvailable == false ? "Ready" : "Offline";
         }
     }
 }

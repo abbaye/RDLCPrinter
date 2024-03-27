@@ -120,7 +120,7 @@
   <data name="Close" xml:space="preserve">
     <value>Schließen</value>
   </data>
-  <data name="CopySettings" xml:space="preserve">
+  <data name="CopySettings.Text" xml:space="preserve">
     <value>Einstellungen</value>
   </data>
   <data name="ExportExcel.Text" xml:space="preserve">
@@ -141,7 +141,7 @@
   <data name="FirstPage.ToolTipService.ToolTip" xml:space="preserve">
     <value>Erste Seite</value>
   </data>
-  <data name="FromPage" xml:space="preserve">
+  <data name="FromPage.Text" xml:space="preserve">
     <value>Von Seite</value>
   </data>
   <data name="LastPage.ToolTipService.ToolTip" xml:space="preserve">
@@ -150,13 +150,13 @@
   <data name="NextPage.ToolTipService.ToolTip" xml:space="preserve">
     <value>Nächste Seite</value>
   </data>
-  <data name="NumberOfCopies" xml:space="preserve">
+  <data name="NumberOfCopies.Text" xml:space="preserve">
     <value>Exemplare</value>
   </data>
   <data name="OpenExcel.ToolTipService.ToolTip" xml:space="preserve">
     <value>In Excel öffnen</value>
   </data>
-  <data name="PageRange" xml:space="preserve">
+  <data name="PageRange.Text" xml:space="preserve">
     <value>Ausgabe</value>
   </data>
   <data name="PreviousPage.ToolTipService.ToolTip" xml:space="preserve">
@@ -165,25 +165,22 @@
   <data name="Print.ToolTipService.ToolTip" xml:space="preserve">
     <value>Drucken</value>
   </data>
-  <data name="PrintAll" xml:space="preserve">
+  <data name="PrintAll.Content" xml:space="preserve">
     <value>Alle Seiten</value>
   </data>
-  <data name="PrinterName" xml:space="preserve">
+  <data name="PrinterName.Text" xml:space="preserve">
     <value>Name</value>
   </data>
-  <data name="PrinterSettings" xml:space="preserve">
+  <data name="PrinterSettings.Text" xml:space="preserve">
     <value>Drucker</value>
   </data>
-  <data name="PrinterState" xml:space="preserve">
+  <data name="PrinterState.Text" xml:space="preserve">
     <value>Status</value>
   </data>
-  <data name="PrintPageRange" xml:space="preserve">
+  <data name="PrintPageRange.Content" xml:space="preserve">
     <value>Ausgewählte Seiten</value>
   </data>
-  <data name="Refresh" xml:space="preserve">
-    <value>Aktualisieren</value>
-  </data>
-  <data name="ToPage" xml:space="preserve">
+  <data name="ToPage.Text" xml:space="preserve">
     <value>bis</value>
   </data>
   <data name="Zoom.Text" xml:space="preserve">

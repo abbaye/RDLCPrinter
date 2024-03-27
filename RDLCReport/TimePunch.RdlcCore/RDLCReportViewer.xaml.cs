@@ -360,7 +360,8 @@ namespace TimePunch.Rdlc
 
             var printerDialog = new RdlcPrinterDialog
             {
-                Report = Report
+                Report = Report,
+                XamlRoot = XamlRoot
             };
 
             await printerDialog.ShowAsync();
