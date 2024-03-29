@@ -1,0 +1,2 @@
+rem NupkgMerge.exe -p ..\RDLCReport\TimePunch.Rdlc\bin\Release\TpRdlcViewer.3.0.0.nupkg -s ..\RDLCReport\TimePunch.RdlcCore\bin\Release\TpRdlcViewer.3.0.0.nupkg -o TpRdlcViewer.3.0.0.nupkg
+NupkgMerge3.exe -p ..\RDLCReport\TimePunch.Rdlc\bin\Release\TpRdlcViewer.3.0.0.nupkg -s ..\RDLCReport\TimePunch.RdlcCore\bin\Release\TpRdlcViewer.3.0.0.nupkg -o TpRdlcViewer.3.0.0.nupkg

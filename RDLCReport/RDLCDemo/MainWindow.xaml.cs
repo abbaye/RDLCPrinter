@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Forms;
-using DSoft;
 using Microsoft.Reporting.WinForms;
 using RDLCDemo.NorthwindDataSetTableAdapters;
+using TimePunch.Rdlc;
 
 namespace RDLCDemo
 {
@@ -55,7 +55,7 @@ namespace RDLCDemo
             dataAdapter.Fill(northWindDataSet.ProductsByCategories);
 
             //Load in report viewer
-            RDLCReportViewer.Report = new RDLCPrinter(report);
+            RDLCReportViewer.Report = new RdlcPrinter(report);
         }
     }
 }
