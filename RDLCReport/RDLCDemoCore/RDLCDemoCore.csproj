@@ -15,7 +15,7 @@
     <SelfContained>true</SelfContained>
     <!-- This bundles the WinUI3 components -->
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
-    <Platforms>AnyCPU;x86</Platforms>
+    <Platforms>x86</Platforms>
   </PropertyGroup>
 
   <ItemGroup>

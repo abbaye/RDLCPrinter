@@ -10,11 +10,6 @@
     CloseButtonText="{x:Bind CloseText}"
     Loaded="Window_Loaded">
 
-    <!--
-        CREDIT : 2013-2018 Derek Tremblay (abbaye), 2013 Martin Savard
-        https://github.com/abbaye/RDLCPrinter
-    -->
-
     <Grid>
 
         <Grid.ColumnDefinitions>

@@ -20,7 +20,7 @@ namespace TimePunch.Rdlc
         private RdlcPrinter? _report;
         private readonly PrintDocument _printer = new();
         private string _currentPrinter;
-        private readonly ResourceLoader _resourceLoader = new(ResourceLoader.GetDefaultResourceFilePath(), "TimePunch.RdlcCore/Resources");
+        private readonly ResourceLoader _resourceLoader = new(ResourceLoader.GetDefaultResourceFilePath(), "TpRdlcViewer/Resources");
 
         public RdlcPrinter? Report
         {

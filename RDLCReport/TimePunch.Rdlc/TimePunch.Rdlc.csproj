@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
-    <Version>2.3.0</Version>
+    <Version>3.0.0</Version>
     <LangVersion>latest</LangVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <AssemblyName>TpRdlcViewer</AssemblyName>
@@ -25,9 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\Icon.png">
-      <Pack>True</Pack>
+    <None Include="..\..\Icon.png" Link="Icon.png">
       <PackagePath>\</PackagePath>
+      <Pack>True</Pack>
     </None>
   </ItemGroup>
 
